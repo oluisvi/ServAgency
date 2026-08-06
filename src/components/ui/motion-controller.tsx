@@ -27,9 +27,15 @@ export function MotionController() {
       return;
     }
 
+    const groupOrders = new Map<Element | null, number>();
+
     elements.forEach((element, index) => {
+      const group = element.parentElement;
+      const order = groupOrders.get(group) ?? 0;
+      groupOrders.set(group, order + 1);
       element.classList.add("reveal-item");
-      element.style.setProperty("--reveal-order", String(index % 6));
+      element.dataset.revealDirection = index % 2 === 0 ? "left" : "right";
+      element.style.setProperty("--reveal-order", String(Math.min(order, 4)));
     });
     document.documentElement.classList.add("motion-ready");
 
@@ -48,6 +54,11 @@ export function MotionController() {
 
     return () => {
       observer.disconnect();
+      elements.forEach((element) => {
+        element.classList.remove("reveal-item", "is-revealed");
+        delete element.dataset.revealDirection;
+        element.style.removeProperty("--reveal-order");
+      });
       document.documentElement.classList.remove("motion-ready");
     };
   }, []);
