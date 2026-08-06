@@ -11,6 +11,8 @@
   --dark: #090c11;
   --shell: min(1440px, calc(100% - clamp(2rem, 8vw, 8rem)));
   --section: clamp(5rem, 10vw, 10rem);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {
@@ -29,6 +31,11 @@ body {
   font-family: var(--font-geist), Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
+}
+main > section:not(.hero),
+.footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
 }
 a {
   color: inherit;
@@ -113,6 +120,8 @@ p {
   color: var(--muted);
 }
 .button {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   min-height: 3.35rem;
   align-items: center;
@@ -127,14 +136,40 @@ p {
   transition:
     background 0.2s,
     color 0.2s,
-    transform 0.2s;
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s var(--ease-out);
+}
+.button::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgb(255 255 255 / 24%),
+    transparent 65%
+  );
+  content: "";
+  transform: translateX(-120%);
+  transition: transform 0.55s var(--ease-out);
 }
 .button:hover {
   background: #0048db;
-  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgb(7 87 248 / 20%);
+  transform: translateY(-3px);
+}
+.button:hover::after {
+  transform: translateX(120%);
+}
+.button svg {
+  transition: transform 0.3s var(--ease-spring);
+}
+.button:hover svg {
+  transform: translate(2px, -2px);
 }
 .button:active {
-  transform: translateY(0);
+  box-shadow: 0 4px 10px rgb(7 87 248 / 16%);
+  transform: translateY(-1px) scale(0.985);
 }
 .button:disabled {
   cursor: wait;
@@ -169,6 +204,24 @@ p {
   background: color-mix(in srgb, white 92%, transparent);
   backdrop-filter: blur(16px);
 }
+.site-header::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--blue);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: reading-progress linear both;
+  animation-timeline: scroll(root block);
+}
+@keyframes reading-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
 .brand-link {
   display: inline-flex;
   width: fit-content;
@@ -192,6 +245,17 @@ p {
 .brand-mark i {
   display: block;
   background: var(--blue);
+  transform-origin: bottom;
+  transition: transform 0.35s var(--ease-spring);
+}
+.brand-link:hover .brand-mark i:nth-child(1) {
+  transform: scaleY(1.35);
+}
+.brand-link:hover .brand-mark i:nth-child(2) {
+  transform: scaleY(0.72);
+}
+.brand-link:hover .brand-mark i:nth-child(3) {
+  transform: scaleY(1.2);
 }
 .brand-mark i:nth-child(1) {
   height: 45%;
@@ -221,7 +285,7 @@ p {
   content: "";
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.2s;
+  transition: transform 0.3s var(--ease-out);
 }
 .desktop-nav a:hover::after {
   transform: scaleX(1);
@@ -268,6 +332,57 @@ p {
   position: relative;
   min-height: 31rem;
   overflow: hidden;
+}
+.route-visual::after {
+  position: absolute;
+  inset: 14% 8%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(7 87 248 / 9%), transparent 68%);
+  content: "";
+  animation: route-glow 5s ease-in-out infinite alternate;
+}
+.route,
+.route-output {
+  animation: route-enter 0.9s var(--ease-out) both;
+}
+.route-two {
+  animation-delay: 0.12s;
+}
+.route-three {
+  animation-delay: 0.24s;
+}
+.route-output {
+  animation-delay: 0.4s;
+}
+.route::after,
+.route-output i {
+  animation: node-pulse 2.4s ease-in-out infinite;
+}
+@keyframes route-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes route-glow {
+  from {
+    opacity: 0.45;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@keyframes node-pulse {
+  50% {
+    box-shadow: 0 0 0 7px rgb(7 87 248 / 10%);
+  }
 }
 .route {
   position: absolute;
@@ -415,11 +530,18 @@ p {
   border-bottom: 1px solid var(--line);
   transition:
     background 0.2s,
-    padding 0.2s;
+    padding 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
 }
 .service-list article:hover {
   padding-inline: 1rem;
   background: var(--soft);
+}
+.service-list article:hover > a {
+  transform: translate(3px, -3px);
+}
+.service-list article > a {
+  transition: transform 0.3s var(--ease-spring);
 }
 .service-list article > svg,
 .service-list article > span,
@@ -538,6 +660,17 @@ p {
   border-radius: 50%;
   background: var(--dark);
 }
+.process-route li:hover > i {
+  background: var(--blue);
+  box-shadow: 0 0 0 7px rgb(7 87 248 / 18%);
+  transform: scale(1.15);
+}
+.process-route li > i {
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s var(--ease-spring);
+}
 .process-route h3 {
   font-size: 1.1rem;
 }
@@ -556,6 +689,19 @@ p {
   grid-template-columns: 1.1fr 0.9fr;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  transition:
+    border-color 0.3s ease,
+    transform 0.35s var(--ease-out);
+}
+.project-list article:hover {
+  border-color: var(--blue);
+  transform: translateY(-6px);
+}
+.project-list article > div:last-child > svg {
+  transition: transform 0.3s var(--ease-spring);
+}
+.project-list article:hover > div:last-child > svg {
+  transform: translate(3px, -3px);
 }
 .project-list article > div:last-child {
   position: relative;
@@ -602,6 +748,19 @@ p {
   height: 4rem;
   background: #d9dce2;
 }
+.project-list article:hover .website-art b {
+  transform: scaleX(1.08);
+}
+.website-art b,
+.website-art span {
+  transform-origin: left;
+  transition:
+    transform 0.45s var(--ease-out),
+    background 0.3s ease;
+}
+.project-list article:hover .website-art span {
+  background: color-mix(in srgb, var(--blue) 25%, #c4c8cf);
+}
 .website-art span {
   display: block;
   width: 90%;
@@ -623,6 +782,15 @@ p {
   padding: 0.8rem;
   border: 1px solid #bdc3cf;
   background: white;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s var(--ease-spring);
+}
+.project-list article:hover .automation-art span {
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-3px);
 }
 .automation-art i {
   color: var(--blue);
@@ -725,6 +893,9 @@ p {
   font-weight: 650;
   cursor: pointer;
 }
+.faq-list button:hover {
+  color: var(--blue);
+}
 .faq-list button svg {
   color: var(--blue);
   transition: transform 0.25s;
@@ -735,7 +906,10 @@ p {
 .faq-list article > div {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.25s;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.35s var(--ease-out),
+    opacity 0.3s ease;
 }
 .faq-list article > div p {
   overflow: hidden;
@@ -743,6 +917,7 @@ p {
 }
 .faq-list article > div.is-open {
   grid-template-rows: 1fr;
+  opacity: 1;
 }
 .faq-list article > div.is-open p {
   padding-bottom: 1.5rem;
@@ -790,6 +965,10 @@ p {
   background: #10141b;
   color: white;
   padding: 0.85rem;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 .contact textarea {
   resize: vertical;
@@ -799,6 +978,8 @@ p {
 .contact textarea:focus {
   border-color: var(--blue);
   outline: 1px solid var(--blue);
+  box-shadow: 0 0 0 4px rgb(7 87 248 / 14%);
+  background: #121a28;
 }
 .contact label > span {
   color: #ff8f8f;
@@ -856,6 +1037,21 @@ p {
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.motion-ready .reveal-item {
+  opacity: 0;
+  transform: translateY(2.25rem);
+  transition:
+    opacity 0.65s ease,
+    transform 0.75s var(--ease-out);
+  transition-delay: calc(var(--reveal-order, 0) * 45ms);
+  will-change: opacity, transform;
+}
+.motion-ready .reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
 }
 
 @media (max-width: 1024px) {
@@ -1137,5 +1333,17 @@ p {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+  .site-header::after,
+  .route,
+  .route-output,
+  .route-visual::after,
+  .route::after,
+  .route-output i {
+    animation: none !important;
+  }
+  .motion-ready .reveal-item {
+    opacity: 1;
+    transform: none;
   }
 }
