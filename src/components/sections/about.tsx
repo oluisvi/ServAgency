@@ -19,6 +19,11 @@ export function About() {
           Combinamos desenvolvimento, design, marketing e automação para
           construir uma presença mais profissional e processos mais eficientes.
         </p>
+        <p>
+          Estamos tirando a ServAgency do papel em Jacareí, no Vale do Paraíba.
+          Atendemos presencialmente na região e trabalhamos remotamente com
+          empresas de todo o Brasil.
+        </p>
       </div>
       <div
         className="founder-placeholders"

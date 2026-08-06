@@ -25,9 +25,10 @@ export default function PrivacyPage() {
         <section>
           <h2>1. Quem controla os dados</h2>
           <p>
-            A ServAgency é responsável pelas decisões sobre os dados pessoais
-            coletados neste website. Dúvidas e solicitações relacionadas à
-            privacidade podem ser enviadas pelo WhatsApp{" "}
+            A ServAgency, marca em processo de formação e ainda sem CNPJ, é
+            responsável pelas decisões sobre os dados pessoais coletados neste
+            website. Dúvidas e solicitações relacionadas à privacidade podem ser
+            enviadas pelo WhatsApp{" "}
             <a href="https://wa.me/5512992568583">(12) 99256-8583</a>.
           </p>
         </section>
@@ -117,8 +118,8 @@ export default function PrivacyPage() {
 
         <aside className="legal-note">
           Este documento descreve a operação atual do website e deverá ser
-          revisado com assessoria jurídica quando a estrutura societária e os
-          dados cadastrais definitivos da ServAgency forem formalizados.
+          revisado com assessoria jurídica quando a estrutura societária, o CNPJ
+          e os dados cadastrais definitivos da ServAgency forem formalizados.
         </aside>
       </article>
     </main>

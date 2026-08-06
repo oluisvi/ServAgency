@@ -35,7 +35,7 @@ export function Footer() {
           >
             WhatsApp: (12) 99256-8583
           </a>
-          <span>[Cidade e região a definir]</span>
+          <span>Jacareí · Vale do Paraíba · Atendimento em todo o Brasil</span>
         </div>
       </div>
       <div className="footer-bottom page-shell">

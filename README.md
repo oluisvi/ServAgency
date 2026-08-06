@@ -227,11 +227,11 @@ pull request ──→ build ──→ preview isolado
 - [x] Formulário com validação acessível
 - [x] Deploy contínuo na Vercel
 - [ ] Conectar envio transacional do formulário
-- [ ] Preencher canais oficiais e dados dos fundadores
+- [ ] Preencher e-mail oficial e dados dos fundadores
 - [ ] Publicar projetos e estudos de caso reais
-- [ ] Adicionar política de privacidade e dados legais
-- [ ] Configurar analytics e eventos de conversão
-- [ ] Conectar domínio próprio e Search Console
+- [x] Adicionar política de privacidade inicial
+- [x] Configurar analytics, performance e eventos de conversão
+- [ ] Futuro: conectar domínio próprio e Search Console
 
 ## Compromissos
 
