@@ -1,26 +1,15 @@
 # ServAgency
 
-Agência de tecnologia e soluções digitais voltada a pequenas e médias empresas. O projeto combina estratégia, desenvolvimento, design, marketing e automação para transformar problemas de negócio em soluções digitais claras, proporcionais e sustentáveis.
+Website institucional da **ServAgency**, uma agência de tecnologia e soluções digitais para pequenas e médias empresas.
 
-## Sobre o projeto
-
-A ServAgency nasce com a proposta de atuar como parceira digital, indo além da entrega isolada de sites ou conteúdo. O trabalho começa pelo entendimento do negócio, passa pela definição de prioridades e termina na implementação e evolução da solução adequada.
-
-O website institucional será também uma demonstração da qualidade oferecida pela agência: visualmente marcante, comercialmente claro, tecnicamente sólido, acessível e rápido.
-
-## Proposta de valor
+A proposta é unir estratégia, desenvolvimento, design, marketing e automação para transformar problemas de negócio em soluções digitais claras, proporcionais e sustentáveis.
 
 > Tecnologia, design e estratégia para resolver problemas reais de empresas.
 
-A agência ajudará empresas que desejam:
+## Website
 
-- construir ou modernizar sua presença digital;
-- transmitir mais confiança e profissionalismo;
-- facilitar a descoberta da marca no Google;
-- melhorar a geração e a organização de contatos;
-- reduzir atividades manuais e repetitivas;
-- integrar ferramentas e processos;
-- tomar decisões digitais com mais clareza.
+- Produção: [oluisvi.github.io/ServAgency](https://oluisvi.github.io/ServAgency/)
+- Repositório: [github.com/oluisvi/ServAgency](https://github.com/oluisvi/ServAgency)
 
 ## Áreas de atuação
 
@@ -28,57 +17,93 @@ A agência ajudará empresas que desejam:
 - Presença digital e marketing
 - Google e SEO
 - Auditoria digital
-- Automações e inteligência artificial
+- Automações e integrações
+- Inteligência artificial
 - Soluções digitais sob demanda
 
-## Website institucional
+## Stack
 
-O primeiro produto deste repositório será um website institucional one-page de alta profundidade, orientado à geração de contatos comerciais qualificados.
-
-O MVP deverá incluir:
-
-- apresentação da agência e de sua proposta;
-- problemas atendidos e soluções oferecidas;
-- processo de trabalho;
-- projetos e estudos de caso;
-- diferenciais e apresentação dos fundadores;
-- perguntas frequentes;
-- formulário de contato e integração com WhatsApp;
-- SEO técnico e dados estruturados;
-- acessibilidade baseada na WCAG 2.2 AA;
-- responsividade e otimização de performance.
-
-## Direção técnica inicial
-
-A stack prevista para a implementação inclui:
-
-- Next.js com App Router
-- React e TypeScript
-- Tailwind CSS
-- Componentes próprios, com uso seletivo de shadcn/ui e Radix
+- Next.js 16 com App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
 - React Hook Form e Zod
-- Vercel para deploy e monitoramento
+- Lucide Icons
+- ESLint e Prettier
+- Exportação estática e deploy no GitHub Pages
 
-As decisões técnicas poderão evoluir conforme as necessidades reais do projeto.
+## Estrutura
 
-## Princípios
+```text
+ServAgency/
+├── .github/
+│   ├── copilot-instructions.md
+│   └── workflows/deploy.yml
+├── docs/
+│   └── PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── app/
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── sections/
+│   │   └── ui/
+│   ├── content/
+│   └── lib/
+├── .env.example
+├── next.config.ts
+└── package.json
+```
 
-- Estratégia antes da ferramenta
-- Clareza antes do jargão
-- Soluções proporcionais ao problema
-- Acessibilidade desde a estrutura
-- Performance como parte da experiência
-- Tecnologia aplicada a resultados concretos
-- Comunicação honesta, sem promessas irreais
+## Desenvolvimento local
+
+Requisitos: Node.js 22 ou superior e npm.
+
+```bash
+npm install
+npm run dev
+```
+
+Acesse `http://localhost:3000`.
+
+## Validação
+
+```bash
+npm run format:check
+npm run lint
+npm run typecheck
+npm run build
+```
+
+O build gera uma versão estática na pasta `out/`, compatível com o GitHub Pages.
+
+## Deploy
+
+Todo push na branch `main` executa o workflow de qualidade e, se todas as verificações passarem, publica a pasta `out/` no GitHub Pages.
+
+## Formulário
+
+O formulário possui validação acessível com React Hook Form e Zod. Como o GitHub Pages não executa código no servidor, o transporte final de mensagens deve ser conectado quando o canal oficial for definido. Em uma futura migração para Vercel ou outro host com runtime, essa camada pode usar Server Actions e um serviço transacional de e-mail.
+
+## Dados pendentes
+
+Antes do lançamento comercial, substituir os placeholders por informações reais:
+
+- nomes, fotos e especialidades dos fundadores;
+- WhatsApp e e-mail;
+- cidade e região atendida;
+- perfis oficiais nas redes sociais;
+- projetos e estudos de caso reais;
+- política de privacidade e dados legais;
+- domínio oficial.
+
+Nenhum cliente, depoimento, resultado, número ou parceria deve ser inventado.
 
 ## Documentação
 
-O documento completo de estratégia, produto e direção visual está disponível em [PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md](./PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md).
-
-## Estado atual
-
-O projeto está em sua etapa de fundação. A estratégia da agência e o PRD inicial do website já foram definidos; a identidade visual, os dados reais da empresa e a implementação serão desenvolvidos nas próximas etapas.
+A estratégia, o PRD e os princípios do projeto estão em [docs/PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md](docs/PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md).
 
 ## Licença
 
-Este é um projeto privado. Todos os direitos reservados.
+Todos os direitos reservados à ServAgency.
