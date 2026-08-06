@@ -17,6 +17,7 @@
   box-sizing: border-box;
 }
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
 }
@@ -886,12 +887,18 @@ p {
     overflow-y: auto;
     padding: 2rem;
     background: white;
-    transform: translateX(100%);
-    transition: transform 0.25s;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
     z-index: 60;
   }
   .mobile-nav.is-open {
-    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
   }
   .mobile-nav a:not(.button) {
     padding: 1rem 0;
