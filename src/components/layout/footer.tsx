@@ -28,13 +28,19 @@ export function Footer() {
         <div>
           <strong>Contato</strong>
           <span>[E-mail a definir]</span>
-          <span>[WhatsApp a definir]</span>
+          <a
+            href="https://wa.me/5512992568583"
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp: (12) 99256-8583
+          </a>
           <span>[Cidade e região a definir]</span>
         </div>
       </div>
       <div className="footer-bottom page-shell">
         <span>© 2026 ServAgency. Todos os direitos reservados.</span>
-        <span>Política de privacidade em preparação.</span>
+        <a href="/privacidade">Política de privacidade</a>
       </div>
     </footer>
   );

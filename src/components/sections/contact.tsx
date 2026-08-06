@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { track } from "@vercel/analytics";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,11 @@ const needs = [
   "Ainda não sei",
 ];
 
+const whatsappNumber = "5512992568583";
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+  "Olá! Conheci a ServAgency pelo site e gostaria de conversar sobre um projeto.",
+)}`;
+
 export function Contact() {
   const [sent, setSent] = useState(false);
   const {
@@ -24,8 +30,23 @@ export function Contact() {
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({ resolver: zodResolver(contactSchema) });
   const onSubmit = async (data: ContactFormData) => {
-    void data;
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    track("contact_form_validated", { need: data.need });
+    const message = [
+      "Olá! Enviei meus dados pelo site da ServAgency.",
+      `Nome: ${data.name}`,
+      data.company ? `Empresa: ${data.company}` : "",
+      `Contato: ${data.contact}`,
+      `Necessidade: ${data.need}`,
+      `Mensagem: ${data.message}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
     setSent(true);
   };
   return (
@@ -45,12 +66,16 @@ export function Contact() {
             Conte o que precisa, o que está incomodando ou o que deseja
             construir. Nós ajudamos a transformar isso em um plano claro.
           </p>
-          <a className="button" href="#contact-form">
-            <MessageCircle /> Enviar uma mensagem
+          <a
+            className="button"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => track("whatsapp_click", { location: "contact" })}
+          >
+            <MessageCircle /> Falar no WhatsApp
           </a>
-          <small>
-            WhatsApp será ativado quando o número oficial for informado.
-          </small>
+          <small>Atendimento direto pelo WhatsApp.</small>
         </div>
         <form id="contact-form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <label>
@@ -110,8 +135,8 @@ export function Contact() {
           </button>
           {sent && (
             <p className="form-success full" role="status">
-              Mensagem validada. O canal de envio será ativado quando os dados
-              oficiais da agência forem configurados.
+              Dados validados. Abrimos o WhatsApp com sua mensagem pronta para
+              envio.
             </p>
           )}
         </form>
