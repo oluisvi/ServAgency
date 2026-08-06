@@ -11,22 +11,25 @@ import { Projects } from "@/components/sections/projects";
 import { Services } from "@/components/sections/services";
 import { Technologies } from "@/components/sections/technologies";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://servagency.vercel.app";
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://oluisvi.github.io/ServAgency/#organization",
+      "@id": `${siteUrl}/#organization`,
       name: "ServAgency",
-      url: "https://oluisvi.github.io/ServAgency/",
+      url: siteUrl,
       description:
         "Agência de tecnologia e soluções digitais para pequenas e médias empresas.",
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://oluisvi.github.io/ServAgency/#service",
+      "@id": `${siteUrl}/#service`,
       name: "ServAgency",
-      url: "https://oluisvi.github.io/ServAgency/",
+      url: siteUrl,
       areaServed: "Brasil",
       serviceType: [
         "Desenvolvimento web",

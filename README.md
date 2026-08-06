@@ -8,7 +8,7 @@ A proposta é unir estratégia, desenvolvimento, design, marketing e automação
 
 ## Website
 
-- Produção: [oluisvi.github.io/ServAgency](https://oluisvi.github.io/ServAgency/)
+- Produção: [servagency.vercel.app](https://servagency.vercel.app/)
 - Repositório: [github.com/oluisvi/ServAgency](https://github.com/oluisvi/ServAgency)
 
 ## Áreas de atuação
@@ -30,15 +30,14 @@ A proposta é unir estratégia, desenvolvimento, design, marketing e automação
 - React Hook Form e Zod
 - Lucide Icons
 - ESLint e Prettier
-- Exportação estática e deploy no GitHub Pages
+- Deploy contínuo na Vercel
 
 ## Estrutura
 
 ```text
 ServAgency/
 ├── .github/
-│   ├── copilot-instructions.md
-│   └── workflows/deploy.yml
+│   └── copilot-instructions.md
 ├── docs/
 │   └── PROJECT_FOUNDATION_AGENCIA_TECNOLOGIA.md
 ├── public/
@@ -76,15 +75,15 @@ npm run typecheck
 npm run build
 ```
 
-O build gera uma versão estática na pasta `out/`, compatível com o GitHub Pages.
+O build gera a aplicação Next.js otimizada para produção.
 
 ## Deploy
 
-Todo push na branch `main` executa o workflow de qualidade e, se todas as verificações passarem, publica a pasta `out/` no GitHub Pages.
+O repositório está conectado à Vercel. Todo push na branch `main` gera automaticamente um novo deploy de produção, enquanto branches e pull requests recebem URLs de preview.
 
 ## Formulário
 
-O formulário possui validação acessível com React Hook Form e Zod. Como o GitHub Pages não executa código no servidor, o transporte final de mensagens deve ser conectado quando o canal oficial for definido. Em uma futura migração para Vercel ou outro host com runtime, essa camada pode usar Server Actions e um serviço transacional de e-mail.
+O formulário possui validação acessível com React Hook Form e Zod. O transporte final de mensagens ainda deve ser conectado quando o canal oficial for definido; na Vercel, essa camada pode usar Server Actions e um serviço transacional de e-mail.
 
 ## Dados pendentes
 
