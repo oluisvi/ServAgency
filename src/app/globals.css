@@ -1092,6 +1092,108 @@ p {
   will-change: auto;
 }
 
+@media (min-width: 1025px) {
+  .service-list article:hover {
+    transform: translateX(0.6rem);
+  }
+
+  .problem-list article,
+  .audit-route > div,
+  .technology-rail span,
+  .founder-placeholders article,
+  .footer-grid a {
+    transition:
+      border-color 0.3s ease,
+      color 0.3s ease,
+      background 0.3s ease,
+      transform 0.4s var(--ease-out);
+  }
+
+  .problem-list article:hover,
+  .audit-route > div:hover,
+  .founder-placeholders article:hover {
+    transform: translateY(-0.35rem);
+  }
+
+  .audit-route > div:hover {
+    background: color-mix(in srgb, white 94%, var(--blue));
+  }
+
+  .technology-rail span:hover {
+    color: var(--blue);
+    transform: translateY(-0.2rem);
+  }
+
+  .route-visual {
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .hero:hover .route-visual {
+    transform: translateY(-0.5rem) scale(1.01);
+  }
+}
+
+@media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .section-heading,
+    .split-layout > div,
+    .audit-grid > div,
+    .service-list article,
+    .process-route li,
+    .project-list article,
+    .technology-rail .page-shell > *,
+    .about > div,
+    .faq > div,
+    .contact-grid > div,
+    .footer-grid > div {
+      animation: desktop-section-reveal linear both;
+      animation-timeline: view(block);
+      animation-range: entry 4% cover 28%;
+    }
+
+    .service-list article:nth-child(even),
+    .process-route li:nth-child(even),
+    .project-list article:nth-child(even),
+    .about > div:nth-child(even),
+    .faq > div:nth-child(even),
+    .contact-grid > div:nth-child(even) {
+      --desktop-reveal-x: 1.2rem;
+    }
+
+    .project-art,
+    .audit-route {
+      animation: desktop-media-reveal linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% cover 35%;
+    }
+  }
+}
+
+@keyframes desktop-section-reveal {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translate3d(var(--desktop-reveal-x, -1.2rem), 2.5rem, 0)
+      scale(0.985);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes desktop-media-reveal {
+  from {
+    opacity: 0.65;
+    transform: translateY(2rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 1024px) {
   .desktop-nav,
   .header-cta {
@@ -1419,5 +1521,20 @@ p {
   }
   .hero-copy > * {
     animation: none;
+  }
+  .section-heading,
+  .split-layout > div,
+  .audit-grid > div,
+  .service-list article,
+  .process-route li,
+  .project-list article,
+  .technology-rail .page-shell > *,
+  .about > div,
+  .faq > div,
+  .contact-grid > div,
+  .footer-grid > div,
+  .project-art,
+  .audit-route {
+    animation: none !important;
   }
 }

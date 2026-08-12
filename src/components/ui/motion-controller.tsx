@@ -18,13 +18,26 @@ const revealSelector = [
 
 export function MotionController() {
   useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1025px)");
+    const syncViewport = () => {
+      document.documentElement.dataset.motionViewport = desktopQuery.matches
+        ? "desktop"
+        : "compact";
+    };
+
+    syncViewport();
+    desktopQuery.addEventListener("change", syncViewport);
+
     const elements = Array.from(
       document.querySelectorAll<HTMLElement>(revealSelector),
     );
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       elements.forEach((element) => element.classList.add("is-revealed"));
-      return;
+      return () => {
+        desktopQuery.removeEventListener("change", syncViewport);
+        delete document.documentElement.dataset.motionViewport;
+      };
     }
 
     const groupOrders = new Map<Element | null, number>();
@@ -59,6 +72,8 @@ export function MotionController() {
         delete element.dataset.revealDirection;
         element.style.removeProperty("--reveal-order");
       });
+      desktopQuery.removeEventListener("change", syncViewport);
+      delete document.documentElement.dataset.motionViewport;
       document.documentElement.classList.remove("motion-ready");
     };
   }, []);
