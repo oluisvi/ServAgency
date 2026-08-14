@@ -8,11 +8,11 @@
 
 ## Final asset verification
 
-| Asset | Dimensions | File size | Visual inspection |
-| --- | ---: | ---: | --- |
-| `public/projects/atlas-finance.webp` | 1600×900 | 46,574 bytes | Pass — meaningful finance dashboard, readable navigation/KPIs/chart, no browser chrome |
-| `public/projects/ecoeduca.webp` | 1600×900 | 58,604 bytes | Pass — “Trilhas educativas” heading and three learning-path cards are readable, no browser chrome |
-| `public/projects/urbanfarm.webp` | 1600×900 | 31,818 bytes | Pass — authenticated operational dashboard with KPIs and production chart, no browser chrome or private data |
+| Asset                                | Dimensions |    File size | Visual inspection                                                                                            |
+| ------------------------------------ | ---------: | -----------: | ------------------------------------------------------------------------------------------------------------ |
+| `public/projects/atlas-finance.webp` |   1600×900 | 46,574 bytes | Pass — meaningful finance dashboard, readable navigation/KPIs/chart, no browser chrome                       |
+| `public/projects/ecoeduca.webp`      |   1600×900 | 58,604 bytes | Pass — “Trilhas educativas” heading and three learning-path cards are readable, no browser chrome            |
+| `public/projects/urbanfarm.webp`     |   1600×900 | 31,818 bytes | Pass — authenticated operational dashboard with KPIs and production chart, no browser chrome or private data |
 
 All three files are valid, non-empty WebP images at exactly 1600×900 and are well below the 300 KB target. Each final asset was opened at original detail and visually inspected after encoding.
 
@@ -47,11 +47,11 @@ The primary verification table above has been reconciled to these corrected file
 
 ### Corrected asset verification
 
-| Asset | Dimensions | File size | SHA-256 | Original-detail inspection |
-| --- | ---: | ---: | --- | --- |
-| `public/projects/atlas-finance.webp` | 1600×900 | 46,574 bytes | `710eb37f0be71ca255c9d0fc8045273f380de43dfafabb3b23ae3af4d8c4ae89` | Pass — right edge is clean product canvas; no scrollbar/browser chrome; navigation, KPI row, and chart remain readable |
-| `public/projects/ecoeduca.webp` | 1600×900 | 58,604 bytes | `2bf4b359b0b34264157173494f18185cf4096310a116a959a9bf2af4909d3fc0` | Pass — right edge is clean page background; no scrollbar/browser chrome; heading and all three trail cards remain readable |
-| `public/projects/urbanfarm.webp` | 1600×900 | 31,818 bytes | `219a6ad235dacca5da3db4ae7f875c81aa1bde9e9892389fa577336f63b9583b` | Pass — right edge is clean dashboard canvas; no scrollbar/browser chrome; KPIs and production chart remain readable |
+| Asset                                | Dimensions |    File size | SHA-256                                                            | Original-detail inspection                                                                                                 |
+| ------------------------------------ | ---------: | -----------: | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `public/projects/atlas-finance.webp` |   1600×900 | 46,574 bytes | `710eb37f0be71ca255c9d0fc8045273f380de43dfafabb3b23ae3af4d8c4ae89` | Pass — right edge is clean product canvas; no scrollbar/browser chrome; navigation, KPI row, and chart remain readable     |
+| `public/projects/ecoeduca.webp`      |   1600×900 | 58,604 bytes | `2bf4b359b0b34264157173494f18185cf4096310a116a959a9bf2af4909d3fc0` | Pass — right edge is clean page background; no scrollbar/browser chrome; heading and all three trail cards remain readable |
+| `public/projects/urbanfarm.webp`     |   1600×900 | 31,818 bytes | `219a6ad235dacca5da3db4ae7f875c81aa1bde9e9892389fa577336f63b9583b` | Pass — right edge is clean dashboard canvas; no scrollbar/browser chrome; KPIs and production chart remain readable        |
 
 All corrected files are non-empty, exactly 1600×900, valid WebP, and below 300 KB. Each was opened with original-detail inspection after the final encode.
 

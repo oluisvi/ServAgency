@@ -68,4 +68,3 @@ The principles are static semantic list items, not interactive cards.
 - Add production-output integration tests for the three featured projects, the two complementary projects, truthful portfolio attribution, links, and absence of founder/conceptual placeholders.
 - Run Prettier, ESLint with zero warnings, TypeScript, tests, production build, and npm audit.
 - Inspect desktop and mobile renders in the in-app browser, including keyboard navigation, links, console output, and page overflow.
-

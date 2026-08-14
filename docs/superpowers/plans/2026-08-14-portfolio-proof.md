@@ -23,11 +23,13 @@
 ### Task 1: Define the portfolio content contract
 
 **Files:**
+
 - Modify: `tests/portfolio-proof.test.mjs`
 - Modify: `package.json`
 - Modify: `src/content/site.ts`
 
 **Interfaces:**
+
 - Produces: `PortfolioProject`, `featuredProjects`, `complementaryProjects`, and `aboutPrinciples` exports.
 - Consumes: the exact URLs supplied by the user and factual claims from public repository documentation.
 
@@ -56,11 +58,13 @@ Run: `git add tests/portfolio-proof.test.mjs src/content/site.ts package.json &&
 ### Task 2: Add verified local project screenshots
 
 **Files:**
+
 - Create: `public/projects/atlas-finance.webp`
 - Create: `public/projects/ecoeduca.webp`
 - Create: `public/projects/urbanfarm.webp`
 
 **Interfaces:**
+
 - Produces: three local WebP assets with the intrinsic dimensions referenced by `featuredProjects`.
 - Consumes: public live pages supplied by the user or repository-owned screenshots if a deployment cannot be captured reliably.
 
@@ -83,12 +87,14 @@ Run: `git add public/projects src/content/site.ts && git commit -m "feat: add re
 ### Task 3: Build the portfolio proof section
 
 **Files:**
+
 - Create: `src/components/ui/project-card.tsx`
 - Modify: `src/components/sections/projects.tsx`
 - Modify: `src/app/globals.css`
 - Test: `tests/portfolio-proof.test.mjs`
 
 **Interfaces:**
+
 - Consumes: `PortfolioProject`, `featuredProjects`, and `complementaryProjects` from `src/content/site.ts`.
 - Produces: semantic featured project articles and a complementary project list.
 
@@ -117,11 +123,13 @@ Run: `git add src/components/ui/project-card.tsx src/components/sections/project
 ### Task 4: Replace founder placeholders with institutional principles
 
 **Files:**
+
 - Modify: `src/components/sections/about.tsx`
 - Modify: `src/app/globals.css`
 - Test: `tests/portfolio-proof.test.mjs`
 
 **Interfaces:**
+
 - Consumes: `aboutPrinciples` from `src/content/site.ts`.
 - Produces: one semantic, static principles list beside the existing about copy.
 
@@ -146,9 +154,11 @@ Run: `git add src/components/sections/about.tsx src/app/globals.css tests/portfo
 ### Task 5: Visual, accessibility, and release verification
 
 **Files:**
+
 - Modify only if verification reveals a defect in files already listed above.
 
 **Interfaces:**
+
 - Consumes: completed local build.
 - Produces: evidence that the redesigned sections meet the spec.
 
@@ -177,4 +187,3 @@ Provide the reviewer the base and head SHAs, this plan, and the design spec. Res
 - [ ] **Step 6: Commit verification fixes if needed**
 
 Run: `git add <verified changed files> && git commit -m "fix: polish portfolio proof experience"`
-
