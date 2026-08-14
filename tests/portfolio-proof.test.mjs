@@ -56,8 +56,26 @@ test("renders truthful portfolio proof in the production HTML", () => {
     );
   }
 
+  assert.ok(
+    !homeHtml.includes("Projeto conceitual"),
+    "Projeto conceitual should not render",
+  );
+
+  for (const headingId of [
+    "projects-title",
+    "services-title",
+    "process-title",
+  ]) {
+    assert.match(
+      homeHtml,
+      new RegExp(`<h2[^>]*id=["']${headingId}["'][^>]*>`),
+      `${headingId} should identify a rendered h2`,
+    );
+  }
+});
+
+test("removes founder placeholders from the production HTML", () => {
   for (const placeholder of [
-    "Projeto conceitual",
     "Fundador 01",
     "Fundador 02",
     "[Foto, nome e especialidade]",

@@ -1,5 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { ProjectCard } from "@/components/ui/project-card";
+import { complementaryProjects, featuredProjects } from "@/content/site";
 
 export function Projects() {
   return (
@@ -9,50 +11,70 @@ export function Projects() {
       aria-labelledby="projects-title"
     >
       <SectionHeading
+        id="projects-title"
         number="05"
-        title="Necessidades transformadas em experiências digitais."
-        description="Estudos conceituais identificados com transparência, enquanto os primeiros projetos reais são preparados para publicação."
+        title="Produtos reais, experiência comprovada."
+        description="Projetos de produto, estudos acadêmicos e exercícios de interface construídos antes da ServAgency."
       />
+
+      <p className="projects-attribution">
+        Experiência construída pela equipe por trás da ServAgency
+      </p>
+
       <div className="project-list">
-        <article>
-          <div className="project-art website-art" aria-hidden="true">
-            <div>
-              <i />
-              <i />
-              <i />
-            </div>
-            <b />
-            <span />
-            <span />
-          </div>
-          <div>
-            <small>Projeto conceitual — Website institucional</small>
-            <h3>Presença profissional para negócios locais.</h3>
-            <p>
-              Estrutura de conteúdo, UX, SEO local e conversão para transformar
-              informação em contato.
-            </p>
-            <ArrowUpRight />
-          </div>
-        </article>
-        <article>
-          <div className="project-art automation-art" aria-hidden="true">
-            <span>Formulário</span>
-            <i>→</i>
-            <span>Organização</span>
-            <i>→</i>
-            <span>Atendimento</span>
-          </div>
-          <div>
-            <small>Projeto conceitual — Automação</small>
-            <h3>Fluxos mais rápidos e organizados.</h3>
-            <p>
-              Integrações que reduzem repetição e melhoram a passagem de
-              informações.
-            </p>
-            <ArrowUpRight />
-          </div>
-        </article>
+        {featuredProjects.map((project, index) => (
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            layout={index === 0 ? "lead" : "supporting"}
+          />
+        ))}
+      </div>
+
+      <div className="complementary-projects">
+        <div className="complementary-heading">
+          <p className="complementary-eyebrow">Outros trabalhos</p>
+          <h3>Estudos complementares de interface e design.</h3>
+        </div>
+        <div className="complementary-list">
+          {complementaryProjects.map((project) => {
+            const titleId = `project-${project.slug}-title`;
+
+            return (
+              <article
+                className="complementary-project"
+                key={project.slug}
+                aria-labelledby={titleId}
+              >
+                <div className="complementary-copy">
+                  <p className="complementary-category">{project.category}</p>
+                  <h4 id={titleId}>{project.name}</h4>
+                  <p>{project.summary}</p>
+                </div>
+                <div className="complementary-actions">
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Ver produto ${project.name}`}
+                  >
+                    <span>Ver produto</span>
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                  <a
+                    href={project.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Ver código de ${project.name}`}
+                  >
+                    <span>Ver código</span>
+                    <ArrowUpRight aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

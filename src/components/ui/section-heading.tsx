@@ -1,4 +1,5 @@
 type Props = {
+  id?: string;
   number: string;
   title: string;
   description?: string;
@@ -6,6 +7,7 @@ type Props = {
 };
 
 export function SectionHeading({
+  id,
   number,
   title,
   description,
@@ -15,7 +17,7 @@ export function SectionHeading({
     <div className={`section-heading ${dark ? "section-heading-dark" : ""}`}>
       <div>
         <span className="section-number">{number}</span>
-        <h2>{title}</h2>
+        <h2 id={id}>{title}</h2>
       </div>
       {description && <p>{description}</p>}
     </div>
