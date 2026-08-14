@@ -826,20 +826,72 @@ p {
   align-items: center;
   gap: 3rem;
 }
+.technology-rail .page-shell > * {
+  min-width: 0;
+}
 .technology-rail p {
   max-width: 20rem;
   margin: 0;
   color: var(--ink);
   font-weight: 650;
 }
-.technology-rail div div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1.5rem;
+.technology-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 7%,
+    black 93%,
+    transparent
+  );
 }
-.technology-rail span {
+.technology-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: technology-marquee-scroll 34s linear infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+.technology-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: clamp(2rem, 3vw, 3.25rem);
+  margin: 0;
+  padding: 0 clamp(2rem, 3vw, 3.25rem) 0 0;
+  list-style: none;
+}
+.technology-marquee-group li {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.65rem;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
   font-weight: 650;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+.technology-icon {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: 0 0 1.35rem;
+  background: currentColor;
+  mask: var(--technology-icon) center / contain no-repeat;
+  -webkit-mask: var(--technology-icon) center / contain no-repeat;
+}
+
+@keyframes technology-marquee-scroll {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 .about {
@@ -1099,7 +1151,6 @@ p {
 
   .problem-list article,
   .audit-route > div,
-  .technology-rail span,
   .founder-placeholders article,
   .footer-grid a {
     transition:
@@ -1119,9 +1170,8 @@ p {
     background: color-mix(in srgb, white 94%, var(--blue));
   }
 
-  .technology-rail span:hover {
+  .technology-marquee-group li:hover {
     color: var(--blue);
-    transform: translateY(-0.2rem);
   }
 
   .route-visual {
@@ -1141,7 +1191,6 @@ p {
     .service-list article,
     .process-route li,
     .project-list article,
-    .technology-rail .page-shell > *,
     .about > div,
     .faq > div,
     .contact-grid > div,
@@ -1334,6 +1383,9 @@ p {
   .technology-rail .page-shell {
     grid-template-columns: 1fr;
   }
+  .technology-marquee-track {
+    animation-duration: 40s;
+  }
   .founder-placeholders {
     max-width: 42rem;
   }
@@ -1411,8 +1463,9 @@ p {
   .project-art {
     min-height: 15rem;
   }
-  .technology-rail div div {
-    justify-content: flex-start;
+  .technology-marquee-group {
+    gap: 2rem;
+    padding-right: 2rem;
   }
   .founder-placeholders {
     grid-template-columns: 1fr;
@@ -1528,7 +1581,6 @@ p {
   .service-list article,
   .process-route li,
   .project-list article,
-  .technology-rail .page-shell > *,
   .about > div,
   .faq > div,
   .contact-grid > div,
@@ -1536,5 +1588,25 @@ p {
   .project-art,
   .audit-route {
     animation: none !important;
+  }
+  .technology-marquee {
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+  .technology-marquee-track {
+    display: block;
+    width: auto;
+    animation: none !important;
+    transform: none;
+    will-change: auto;
+  }
+  .technology-marquee-group {
+    flex-wrap: wrap;
+    gap: 1rem 1.75rem;
+    padding-right: 0;
+  }
+  .technology-marquee-group[aria-hidden="true"] {
+    display: none;
   }
 }

@@ -103,16 +103,29 @@ export const processSteps = [
   ],
 ] as const;
 
+export type TechnologyIconName =
+  | "react"
+  | "nextdotjs"
+  | "typescript"
+  | "nodedotjs"
+  | "n8n"
+  | "openai"
+  | "vercel"
+  | "google";
+
 export const technologies = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Node.js",
-  "n8n",
-  "OpenAI",
-  "Vercel",
-  "Google",
-];
+  { name: "React", icon: "react" },
+  { name: "Next.js", icon: "nextdotjs" },
+  { name: "TypeScript", icon: "typescript" },
+  { name: "Node.js", icon: "nodedotjs" },
+  { name: "n8n", icon: "n8n" },
+  { name: "OpenAI", icon: "openai" },
+  { name: "Vercel", icon: "vercel" },
+  { name: "Google", icon: "google" },
+] as const satisfies ReadonlyArray<{
+  name: string;
+  icon: TechnologyIconName;
+}>;
 
 export const faqs = [
   [
