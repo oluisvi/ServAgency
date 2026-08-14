@@ -118,4 +118,3 @@ Browser verification will cover the published baseline and local implementation 
 - Links on technology items.
 - Permanent official brand colors.
 - A new animation library or client-side carousel runtime.
-

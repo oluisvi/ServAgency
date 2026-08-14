@@ -19,23 +19,25 @@
 
 ---
 
-### Task 1: Add executable markup and motion contract tests
+### Task 1: Add executable production-output contract tests
 
 **Files:**
+
 - Create: `tests/technology-marquee.test.mjs`
 - Modify: `package.json`
 
 **Interfaces:**
+
 - Consumes: repository source files and Node.js `node:test`/`node:assert`.
-- Produces: `npm test`, a source-contract suite that prevents regressions in semantic duplication, CSS-only motion, reduced motion, and centralized data.
+- Produces: `npm test`, an integration suite that validates semantic duplication, SVG output, CSS-only motion, and reduced motion in the production build artifacts.
 
-- [ ] **Step 1: Add a failing source-contract test**
+- [ ] **Step 1: Add a failing production-output test**
 
-Create tests that read `src/content/site.ts`, `src/components/sections/technologies.tsx`, `src/components/ui/motion-controller.tsx`, and `src/app/globals.css`. Assert that the content exports objects with `name` and `icon`, the component renders a list, the duplicate group has `aria-hidden="true"`, icons have `aria-hidden="true"`, the CSS contains `translate3d`, `linear infinite`, a reduced-motion rule hiding `.technology-marquee-group[aria-hidden="true"]`, and the motion controller no longer selects `.technology-rail .page-shell > *`.
+Create tests that read the prerendered homepage HTML and emitted CSS under `.next`. Assert that the real production output contains a semantic list, exactly two marquee groups, one duplicate with `aria-hidden="true"`, eight accessible technology names, decorative SVGs, a transform-only infinite linear animation, and a reduced-motion rule that stops the track and hides the duplicate group.
 
 - [ ] **Step 2: Add the test command**
 
-Add `"test": "node --test tests/*.test.mjs"` to `package.json`.
+Add `"test": "next build && node --test tests/*.test.mjs"` to `package.json` so tests always inspect fresh production output.
 
 - [ ] **Step 3: Run the test and verify RED**
 
@@ -53,11 +55,13 @@ git commit -m "test: define technology marquee contract"
 ### Task 2: Implement typed technology data and local SVG marks
 
 **Files:**
+
 - Modify: `src/content/site.ts`
 - Create: `src/components/ui/technology-icon.tsx`
 - Modify: `src/components/sections/technologies.tsx`
 
 **Interfaces:**
+
 - Consumes: `TechnologyIconName` union from `technology-icon.tsx`.
 - Produces: `technologies: readonly { name: string; icon: TechnologyIconName }[]` and `TechnologyIcon({ name }: { name: TechnologyIconName })`.
 
@@ -89,10 +93,12 @@ git commit -m "feat: add semantic technology marquee markup"
 ### Task 3: Add seamless CSS motion and reduced-motion fallback
 
 **Files:**
+
 - Modify: `src/app/globals.css`
 - Modify: `src/components/ui/motion-controller.tsx`
 
 **Interfaces:**
+
 - Consumes: marquee class names produced by Task 2.
 - Produces: a continuous `technology-marquee-scroll` animation and a static reduced-motion layout.
 
@@ -132,10 +138,12 @@ git commit -m "feat: animate technology marquee"
 ### Task 4: Build and browser-verify the complete page
 
 **Files:**
+
 - Modify only if verification exposes an in-scope defect.
 - Keep temporary screenshots under `docs/audit/` during the audit; decide whether to retain them in the final report.
 
 **Interfaces:**
+
 - Consumes: completed markup and styles.
 - Produces: fresh build, responsive screenshots, motion measurements, console/error evidence, and final audit findings.
 
@@ -168,4 +176,3 @@ Scroll through hero, services, technology rail, FAQ, contact, and footer at desk
 - [ ] **Step 7: Review the final diff and commit any QA fixes**
 
 Run `git diff --check`, inspect `git diff`, and commit only scoped fixes with `git commit -m "fix: polish technology marquee responsiveness"` when needed.
-
