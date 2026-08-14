@@ -10,6 +10,7 @@ export function Process() {
     >
       <div className="page-shell">
         <SectionHeading
+          id="process-title"
           number="04"
           title="Do problema à solução, sem complicação."
           description="Um processo transparente para transformar uma necessidade em uma entrega funcional, clara e pronta para evoluir."

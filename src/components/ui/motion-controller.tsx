@@ -9,7 +9,6 @@ const revealSelector = [
   ".service-list article",
   ".process-route li",
   ".project-list article",
-  ".technology-rail .page-shell > *",
   ".about > div",
   ".faq > div",
   ".contact-grid > div",

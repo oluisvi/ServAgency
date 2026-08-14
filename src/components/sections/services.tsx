@@ -10,6 +10,7 @@ export function Services() {
       aria-labelledby="services-title"
     >
       <SectionHeading
+        id="services-title"
         number="02"
         title="Soluções construídas ao redor do seu negócio."
         description="Você não precisa descobrir sozinho qual ferramenta contratar. Entendemos o problema e recomendamos a combinação adequada."
