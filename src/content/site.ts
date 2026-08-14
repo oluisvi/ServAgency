@@ -161,3 +161,148 @@ export const faqs = [
     "Sim. O processo pode acontecer de forma remota, com encontros e acompanhamento online.",
   ],
 ] as const;
+
+type PortfolioProjectBase = {
+  slug: string;
+  name: string;
+  category: string;
+  summary: string;
+  capabilities: readonly string[];
+  liveUrl: string;
+  sourceUrl: string;
+};
+
+type PortfolioScreenshot = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+export type PortfolioProject = PortfolioProjectBase &
+  (
+    | {
+        featured: true;
+        screenshot: PortfolioScreenshot;
+      }
+    | {
+        featured: false;
+        screenshot?: never;
+      }
+  );
+
+export const featuredProjects = [
+  {
+    slug: "atlas-finance-ai",
+    name: "Atlas Finance AI",
+    category: "Produto de finan\u00e7as pessoais",
+    summary:
+      "Aplica\u00e7\u00e3o de finan\u00e7as pessoais para planejamento, m\u00faltiplas moedas e relat\u00f3rios, com insights determin\u00edsticos e explic\u00e1veis.",
+    capabilities: [
+      "Planejamento financeiro",
+      "M\u00faltiplas moedas",
+      "Relat\u00f3rios",
+      "Insights determin\u00edsticos e explic\u00e1veis",
+    ],
+    liveUrl: "https://atlas-finance-web.onrender.com/",
+    sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
+    featured: true,
+    screenshot: {
+      src: "/projects/atlas-finance.webp",
+      alt: "Painel financeiro do Atlas Finance AI",
+      width: 1600,
+      height: 900,
+    },
+  },
+  {
+    slug: "ecoeduca",
+    name: "EcoEduca",
+    category: "Projeto acad\u00eamico colaborativo",
+    summary:
+      "Plataforma de educa\u00e7\u00e3o ambiental com conte\u00fados, question\u00e1rios e navega\u00e7\u00e3o responsiva para dispositivos mais modestos.",
+    capabilities: [
+      "Conte\u00fado educacional",
+      "Question\u00e1rios",
+      "Acessibilidade",
+      "Design responsivo",
+    ],
+    liveUrl: "https://ecoeduca.onrender.com/",
+    sourceUrl: "https://github.com/oluisvi/EcoEduca",
+    featured: true,
+    screenshot: {
+      src: "/projects/ecoeduca.webp",
+      alt: "Tela de aprendizagem ambiental do EcoEduca",
+      width: 1600,
+      height: 900,
+    },
+  },
+  {
+    slug: "urbanfarm",
+    name: "UrbanFarm",
+    category: "Projeto acad\u00eamico",
+    summary:
+      "Sistema de gest\u00e3o de fazenda urbana com pain\u00e9is operacionais para produ\u00e7\u00e3o, clientes e fornecedores.",
+    capabilities: [
+      "Pain\u00e9is operacionais",
+      "Gest\u00e3o de produ\u00e7\u00e3o",
+      "Clientes",
+      "Fornecedores",
+    ],
+    liveUrl: "https://fazenda-urbana.onrender.com/",
+    sourceUrl: "https://github.com/oluisvi/fazenda_urbana",
+    featured: true,
+    screenshot: {
+      src: "/projects/urbanfarm.webp",
+      alt: "Painel de gest\u00e3o do UrbanFarm",
+      width: 1600,
+      height: 900,
+    },
+  },
+] as const satisfies readonly PortfolioProject[];
+
+export const complementaryProjects = [
+  {
+    slug: "shop-co",
+    name: "Shop.co",
+    category: "Estudo de interface",
+    summary: "Estudo de interface para uma experi\u00eancia de e-commerce.",
+    capabilities: [
+      "Interface de e-commerce",
+      "Navega\u00e7\u00e3o de cat\u00e1logo",
+    ],
+    liveUrl: "https://shop-co-ecommerce-three.vercel.app/",
+    sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
+    featured: false,
+  },
+  {
+    slug: "sanctuary-hotel",
+    name: "Sanctuary Hotel",
+    category: "Estudo de design",
+    summary: "Estudo de design para uma experi\u00eancia digital de hotel.",
+    capabilities: [
+      "Design de interface",
+      "Experi\u00eancia de navega\u00e7\u00e3o",
+    ],
+    liveUrl: "https://sanctuaryhotel.my.canva.site/",
+    sourceUrl: "https://github.com/oluisvi/Design-Sanctuary-Hotel",
+    featured: false,
+  },
+] as const satisfies readonly PortfolioProject[];
+
+export const aboutPrinciples = [
+  {
+    title: "Estrat\u00e9gia antes da ferramenta",
+    description:
+      "Entendemos o problema do neg\u00f3cio antes de selecionar a tecnologia.",
+  },
+  {
+    title: "Decis\u00f5es explic\u00e1veis",
+    description:
+      "Tornamos escopo, escolhas e andamento compreens\u00edveis para todos os envolvidos.",
+  },
+  {
+    title: "Parceria pr\u00f3xima",
+    description:
+      "Trabalhamos com comunica\u00e7\u00e3o direta e responsabilidade compartilhada.",
+  },
+] as const;
