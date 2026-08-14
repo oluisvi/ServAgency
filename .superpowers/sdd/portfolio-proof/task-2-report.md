@@ -10,9 +10,9 @@
 
 | Asset | Dimensions | File size | Visual inspection |
 | --- | ---: | ---: | --- |
-| `public/projects/atlas-finance.webp` | 1600×900 | 42,520 bytes | Pass — meaningful finance dashboard, readable navigation/KPIs/chart, no browser chrome |
-| `public/projects/ecoeduca.webp` | 1600×900 | 54,844 bytes | Pass — “Trilhas educativas” heading and three learning-path cards are readable, no browser chrome |
-| `public/projects/urbanfarm.webp` | 1600×900 | 29,564 bytes | Pass — authenticated operational dashboard with KPIs and production chart, no browser chrome or private data |
+| `public/projects/atlas-finance.webp` | 1600×900 | 46,574 bytes | Pass — meaningful finance dashboard, readable navigation/KPIs/chart, no browser chrome |
+| `public/projects/ecoeduca.webp` | 1600×900 | 58,604 bytes | Pass — “Trilhas educativas” heading and three learning-path cards are readable, no browser chrome |
+| `public/projects/urbanfarm.webp` | 1600×900 | 31,818 bytes | Pass — authenticated operational dashboard with KPIs and production chart, no browser chrome or private data |
 
 All three files are valid, non-empty WebP images at exactly 1600×900 and are well below the 300 KB target. Each final asset was opened at original detail and visually inspected after encoding.
 
@@ -31,7 +31,7 @@ All three files are valid, non-empty WebP images at exactly 1600×900 and are we
 - Used only repository-owned or live public project UI; no generated placeholders, CSS art, or invented screens.
 - Preserved each product’s natural palette and visible content.
 - Chose meaningful dashboard/learning states instead of loading, splash, or login screens.
-- Kept all assets below 55 KB without visible loss of UI readability.
+- Kept all assets below 59 KB without visible loss of UI readability.
 - Scoped the implementation commit to the three requested image files.
 
 ## Concerns
@@ -42,6 +42,8 @@ All three files are valid, non-empty WebP images at exactly 1600×900 and are we
 ## Review fix — round 1
 
 Reviewer finding P1 was confirmed: the repository/live source captures included a narrow user-agent scrollbar on the right edge. All three assets were regenerated from their original PNG sources, not from the previously encoded WebPs. The rightmost 18 source pixels containing the scrollbar were removed before a fresh top-aligned 1600×900 resize and quality-84 WebP encode. No product UI was painted over, generated, recolored, or composited.
+
+The primary verification table above has been reconciled to these corrected files; its dimensions and byte counts are the current authoritative values. The pre-fix byte counts (42,520, 54,844, and 29,564) are superseded and intentionally omitted from the current-state tables.
 
 ### Corrected asset verification
 
