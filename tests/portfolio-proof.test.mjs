@@ -85,4 +85,15 @@ test("removes founder placeholders from the production HTML", () => {
       `${placeholder} should not render`,
     );
   }
+
+  for (const principle of [
+    "Estrat\u00e9gia antes da ferramenta",
+    "Decis\u00f5es explic\u00e1veis",
+    "Parceria pr\u00f3xima",
+  ]) {
+    assert.ok(
+      homeHtml.includes(principle),
+      `${principle} should render as an institutional principle`,
+    );
+  }
 });

@@ -966,29 +966,38 @@ p {
   max-width: 48rem;
   font-size: 1.1rem;
 }
-.founder-placeholders {
+.about-principles {
+  align-self: start;
+  border-top: 1px solid var(--line);
+}
+.about-principles ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.about-principles li {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-items: end;
-  gap: 1.5rem;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
 }
-.founder-placeholders article div {
-  display: grid;
-  min-height: 16rem;
-  place-items: center;
-  margin-bottom: 1rem;
-  background: var(--soft);
-  color: #a3a8b2;
-  font-size: 4rem;
-  font-weight: 750;
+.about-principle-number {
+  color: var(--blue);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
-.founder-placeholders strong,
-.founder-placeholders span {
-  display: block;
+.about-principles h3 {
+  margin: 0;
+  font-size: 1.05rem;
 }
-.founder-placeholders span {
+.about-principles p {
+  margin: 0.55rem 0 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 .faq {
@@ -1211,7 +1220,6 @@ p {
 
   .problem-list article,
   .audit-route > div,
-  .founder-placeholders article,
   .footer-grid a {
     transition:
       border-color 0.3s ease,
@@ -1221,8 +1229,7 @@ p {
   }
 
   .problem-list article:hover,
-  .audit-route > div:hover,
-  .founder-placeholders article:hover {
+  .audit-route > div:hover {
     transform: translateY(-0.35rem);
   }
 
@@ -1455,9 +1462,6 @@ p {
   .technology-marquee-track {
     animation-duration: 40s;
   }
-  .founder-placeholders {
-    max-width: 42rem;
-  }
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1542,9 +1546,6 @@ p {
   .technology-marquee-group {
     gap: 2rem;
     padding-right: 2rem;
-  }
-  .founder-placeholders {
-    grid-template-columns: 1fr;
   }
   .contact form {
     grid-template-columns: 1fr;

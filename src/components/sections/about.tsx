@@ -1,3 +1,5 @@
+import { aboutPrinciples } from "@/content/site";
+
 export function About() {
   return (
     <section
@@ -25,20 +27,20 @@ export function About() {
           empresas de todo o Brasil.
         </p>
       </div>
-      <div
-        className="founder-placeholders"
-        aria-label="Informações dos fundadores a preencher"
-      >
-        <article>
-          <div aria-hidden="true">01</div>
-          <strong>Fundador 01</strong>
-          <span>[Foto, nome e especialidade]</span>
-        </article>
-        <article>
-          <div aria-hidden="true">02</div>
-          <strong>Fundador 02</strong>
-          <span>[Foto, nome e especialidade]</span>
-        </article>
+      <div className="about-principles">
+        <ol>
+          {aboutPrinciples.map((principle, index) => (
+            <li key={principle.title}>
+              <span className="about-principle-number">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3>{principle.title}</h3>
+                <p>{principle.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
