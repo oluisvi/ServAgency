@@ -38,3 +38,45 @@ All three files are valid, non-empty WebP images at exactly 1600×900 and are we
 
 - Atlas required a top-aligned 16:9 crop because the repository screenshot is 1425×891; the crop retains the complete navigation, KPI row, and primary chart while omitting only lower-page content.
 - The full test suite’s sole failure is the pre-existing/separate missing portfolio attribution assertion noted above; the production build and typecheck themselves pass.
+
+## Review fix — round 1
+
+Reviewer finding P1 was confirmed: the repository/live source captures included a narrow user-agent scrollbar on the right edge. All three assets were regenerated from their original PNG sources, not from the previously encoded WebPs. The rightmost 18 source pixels containing the scrollbar were removed before a fresh top-aligned 1600×900 resize and quality-84 WebP encode. No product UI was painted over, generated, recolored, or composited.
+
+### Corrected asset verification
+
+| Asset | Dimensions | File size | SHA-256 | Original-detail inspection |
+| --- | ---: | ---: | --- | --- |
+| `public/projects/atlas-finance.webp` | 1600×900 | 46,574 bytes | `710eb37f0be71ca255c9d0fc8045273f380de43dfafabb3b23ae3af4d8c4ae89` | Pass — right edge is clean product canvas; no scrollbar/browser chrome; navigation, KPI row, and chart remain readable |
+| `public/projects/ecoeduca.webp` | 1600×900 | 58,604 bytes | `2bf4b359b0b34264157173494f18185cf4096310a116a959a9bf2af4909d3fc0` | Pass — right edge is clean page background; no scrollbar/browser chrome; heading and all three trail cards remain readable |
+| `public/projects/urbanfarm.webp` | 1600×900 | 31,818 bytes | `219a6ad235dacca5da3db4ae7f875c81aa1bde9e9892389fa577336f63b9583b` | Pass — right edge is clean dashboard canvas; no scrollbar/browser chrome; KPIs and production chart remain readable |
+
+All corrected files are non-empty, exactly 1600×900, valid WebP, and below 300 KB. Each was opened with original-detail inspection after the final encode.
+
+### Verification commands and output
+
+Command:
+
+```powershell
+node -e "const sharp=require('sharp'),fs=require('fs'),crypto=require('crypto'),path=require('path'); (async()=>{for(const n of ['atlas-finance.webp','ecoeduca.webp','urbanfarm.webp']){const p=path.join('public','projects',n),b=fs.readFileSync(p),m=await sharp(b).metadata(); console.log(n+': '+m.width+'x'+m.height+', '+b.length+' bytes, '+m.format+', sha256='+crypto.createHash('sha256').update(b).digest('hex'))}})()"
+```
+
+Output:
+
+```text
+atlas-finance.webp: 1600x900, 46574 bytes, webp, sha256=710eb37f0be71ca255c9d0fc8045273f380de43dfafabb3b23ae3af4d8c4ae89
+ecoeduca.webp: 1600x900, 58604 bytes, webp, sha256=2bf4b359b0b34264157173494f18185cf4096310a116a959a9bf2af4909d3fc0
+urbanfarm.webp: 1600x900, 31818 bytes, webp, sha256=219a6ad235dacca5da3db4ae7f875c81aa1bde9e9892389fa577336f63b9583b
+```
+
+Commands and results:
+
+- `npm run typecheck` — pass.
+- `npm test` — production build and TypeScript pass; static generation completes. Test runner: 2 pass, 1 fail. The unchanged failure is `renders truthful portfolio proof in the production HTML` at the separate attribution assertion (`the portfolio attribution should render`); no image assertion fails.
+
+### Fix self-review
+
+- The scrollbar columns are absent from all three final images.
+- Product provenance and visible UI remain unchanged.
+- No browser chrome, loading/login state, credentials, or private data are visible.
+- The correction remains scoped to the three image binaries plus this appended verification record.
