@@ -36,12 +36,12 @@ export function Footer() {
 
           <a
             href={
-              "mailto:servagencyai@gmail.com" +
+              "mailto:oluisvipersonal@gmail.com" +
               "?subject=Quero%20falar%20sobre%20um%20projeto" +
               "&body=Olá%20ServAgency,%20gostaria%20de%20conversar%20sobre..."
             }
           >
-            servagencyai@gmail.com
+            oluisvipersonal@gmail.com
           </a>
 
           <a
