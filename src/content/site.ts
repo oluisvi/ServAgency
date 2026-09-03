@@ -230,7 +230,7 @@ export const featuredProjects = [
     sourceUrl: "https://github.com/oluisvi/FlowDesk",
     featured: true,
     screenshot: {
-      src: "/projects/flowdesk.webp",
+      src: "/projects/flowdesk.png",
       alt: "Dashboard operacional do FlowDesk",
       width: 1600,
       height: 900,
@@ -252,7 +252,7 @@ export const featuredProjects = [
     sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
     featured: true,
     screenshot: {
-      src: "/projects/shop-co.webp",
+      src: "/projects/shopco.png",
       alt: "Interface do e-commerce Shop.co",
       width: 1600,
       height: 900,
