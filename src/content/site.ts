@@ -215,40 +215,18 @@ export const featuredProjects = [
     },
   },
   {
-    slug: "ecoeduca",
-    name: "EcoEduca",
-    category: "Projeto acad\u00eamico colaborativo",
-    summary:
-      "Plataforma de educa\u00e7\u00e3o ambiental com conte\u00fados, question\u00e1rios e navega\u00e7\u00e3o responsiva para dispositivos mais modestos.",
-    capabilities: [
-      "Conte\u00fado educacional",
-      "Question\u00e1rios",
-      "Acessibilidade",
-      "Design responsivo",
-    ],
-    liveUrl: "https://ecoeduca.onrender.com/",
-    sourceUrl: "https://github.com/oluisvi/EcoEduca",
-    featured: true,
-    screenshot: {
-      src: "/projects/ecoeduca.webp",
-      alt: "Tela de aprendizagem ambiental do EcoEduca",
-      width: 1600,
-      height: 900,
-    },
-  },
-  {
     slug: "flowdesk",
     name: "FlowDesk",
-    category: "SaaS de gestão operacional",
+    category: "SaaS de gest\u00e3o operacional",
     summary:
-      "Plataforma para pequenas equipes centralizarem clientes, projetos e tarefas, com colaboração e automações visuais para processos repetitivos.",
+      "Plataforma para pequenas equipes centralizarem clientes, projetos e tarefas, com colabora\u00e7\u00e3o e automa\u00e7\u00f5es visuais para processos repetitivos.",
     capabilities: [
-      "Gestão de clientes e projetos",
-      "Kanban e colaboração",
+      "Gest\u00e3o de clientes e projetos",
+      "Kanban e colabora\u00e7\u00e3o",
       "Workflows visuais",
-      "Automação de processos",
+      "Automa\u00e7\u00e3o de processos",
     ],
-    liveUrl: "https://flowdeskwebapp.vercel.app/",
+    liveUrl: "https://flowdeskwebapp.vercel.app",
     sourceUrl: "https://github.com/oluisvi/FlowDesk",
     featured: true,
     screenshot: {
@@ -258,27 +236,53 @@ export const featuredProjects = [
       height: 900,
     },
   },
+  {
+    slug: "shop-co",
+    name: "Shop.co",
+    category: "E-commerce full-stack",
+    summary:
+      "E-commerce de moda com cat\u00e1logo, carrinho, pagamentos e gerenciamento de produtos, desenvolvido a partir de uma interface revitalizada para uma aplica\u00e7\u00e3o full-stack.",
+    capabilities: [
+      "E-commerce full-stack",
+      "Cat\u00e1logo e carrinho",
+      "Pagamentos",
+      "Gest\u00e3o de produtos",
+    ],
+    liveUrl: "https://shop-co-store.vercel.app/",
+    sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
+    featured: true,
+    screenshot: {
+      src: "/projects/shop-co.webp",
+      alt: "Interface do e-commerce Shop.co",
+      width: 1600,
+      height: 900,
+    },
+  },
 ] as const satisfies readonly PortfolioProject[];
 
 export const complementaryProjects = [
   {
-    slug: "shop-co",
-    name: "Shop.co",
-    category: "Estudo de interface",
-    summary: "Estudo de interface para uma experi\u00eancia de e-commerce.",
+    slug: "ecoeduca",
+    name: "EcoEduca",
+    category: "Projeto acad\u00eamico colaborativo",
+    summary:
+      "Plataforma de educa\u00e7\u00e3o ambiental com conte\u00fados, question\u00e1rios e navega\u00e7\u00e3o responsiva.",
     capabilities: [
-      "Interface de e-commerce",
-      "Navega\u00e7\u00e3o de cat\u00e1logo",
+      "Conte\u00fado educacional",
+      "Question\u00e1rios",
+      "Acessibilidade",
+      "Design responsivo",
     ],
-    liveUrl: "https://shop-co-ecommerce-three.vercel.app/",
-    sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
+    liveUrl: "https://ecoeduca.onrender.com/",
+    sourceUrl: "https://github.com/oluisvi/EcoEduca",
     featured: false,
   },
   {
     slug: "sanctuary-hotel",
     name: "Sanctuary Hotel",
     category: "Estudo de design",
-    summary: "Estudo de design para uma experi\u00eancia digital de hotel.",
+    summary:
+      "Estudo de design para uma experi\u00eancia digital de hotel.",
     capabilities: [
       "Design de interface",
       "Experi\u00eancia de navega\u00e7\u00e3o",
