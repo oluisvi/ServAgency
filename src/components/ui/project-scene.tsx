@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight, Braces } from "lucide-react";
 import type { PortfolioProject, ProjectTreatment } from "@/content/site";
 
 function ProjectVisual({ treatment, name }: { treatment: ProjectTreatment; name: string }) {
@@ -94,7 +94,7 @@ export function ProjectScene({ project, index }: { project: PortfolioProject; in
             </a>
             {project.sourceUrl && (
               <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-                <Github aria-hidden="true" /> Código
+                <Braces aria-hidden="true" /> Código
               </a>
             )}
           </div>
