@@ -2,18 +2,19 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { track } from "@vercel/analytics";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { contactSchema, type ContactFormData } from "@/lib/contact-schema";
 
 const needs = [
-  "Website",
-  "Presença digital",
+  "Website ou landing page",
+  "Presença digital / marca",
   "Google e SEO",
-  "Auditoria",
-  "Automação ou IA",
-  "Solução sob demanda",
+  "Automação ou integração",
+  "Inteligência artificial",
+  "Experiência interativa / 3D",
+  "Produto ou sistema web",
   "Ainda não sei",
 ];
 
@@ -29,6 +30,7 @@ export function Contact() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({ resolver: zodResolver(contactSchema) });
+
   const onSubmit = async (data: ContactFormData) => {
     track("contact_form_validated", { need: data.need });
     const message = [
@@ -49,94 +51,66 @@ export function Contact() {
     );
     setSent(true);
   };
+
   return (
-    <section
-      className="contact section-pad"
-      id="contato"
-      aria-labelledby="contact-title"
-    >
+    <section className="contact section-pad" id="contato" aria-labelledby="contact-title">
+      <div className="contact-route" aria-hidden="true"><i/><i/><i/><i/></div>
       <div className="page-shell contact-grid">
-        <div>
-          <span className="section-number">08</span>
-          <h2 id="contact-title">
-            Existe um próximo passo melhor para sua empresa. Vamos encontrá-lo
-            juntos.
-          </h2>
+        <div className="contact-copy scene-reveal">
+          <span className="section-index">07 / START A PROJECT</span>
+          <h2 id="contact-title">Tem um problema, uma ideia ou um processo travado?</h2>
+          <p className="contact-lead">Vamos definir a rota.</p>
           <p>
-            Conte o que precisa, o que está incomodando ou o que deseja
-            construir. Nós ajudamos a transformar isso em um plano claro.
+            Conte o cenário atual. A conversa começa pelo problema e termina com
+            próximos passos claros, mesmo quando a resposta não é uma solução
+            complexa.
           </p>
           <a
-            className="button"
+            className="button button-primary"
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
             onClick={() => track("whatsapp_click", { location: "contact" })}
           >
-            <MessageCircle /> Falar no WhatsApp
+            <MessageCircle aria-hidden="true" /> Falar no WhatsApp
           </a>
-          <small>Atendimento direto pelo WhatsApp.</small>
         </div>
-        <form id="contact-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+
+        <form className="contact-form scene-reveal" onSubmit={handleSubmit(onSubmit)} noValidate>
           <label>
-            Nome
-            <input
-              {...register("name")}
-              autoComplete="name"
-              aria-invalid={!!errors.name}
-            />
-            {errors.name && <span role="alert">{errors.name.message}</span>}
+            <span>Nome</span>
+            <input {...register("name")} autoComplete="name" aria-invalid={!!errors.name} />
+            {errors.name && <small role="alert">{errors.name.message}</small>}
           </label>
           <label>
-            Empresa
+            <span>Empresa</span>
             <input {...register("company")} autoComplete="organization" />
           </label>
           <label className="full">
-            WhatsApp ou e-mail
-            <input
-              {...register("contact")}
-              autoComplete="email"
-              aria-invalid={!!errors.contact}
-            />
-            {errors.contact && (
-              <span role="alert">{errors.contact.message}</span>
-            )}
+            <span>WhatsApp ou e-mail</span>
+            <input {...register("contact")} autoComplete="email" aria-invalid={!!errors.contact} />
+            {errors.contact && <small role="alert">{errors.contact.message}</small>}
           </label>
           <label className="full">
-            Necessidade
-            <select
-              {...register("need")}
-              defaultValue=""
-              aria-invalid={!!errors.need}
-            >
-              <option value="" disabled>
-                Selecione
-              </option>
-              {needs.map((need) => (
-                <option key={need}>{need}</option>
-              ))}
+            <span>O que você precisa?</span>
+            <select {...register("need")} defaultValue="" aria-invalid={!!errors.need}>
+              <option value="" disabled>Selecione uma frente</option>
+              {needs.map((need) => <option key={need}>{need}</option>)}
             </select>
-            {errors.need && <span role="alert">{errors.need.message}</span>}
+            {errors.need && <small role="alert">{errors.need.message}</small>}
           </label>
           <label className="full">
-            Mensagem
-            <textarea
-              {...register("message")}
-              rows={5}
-              aria-invalid={!!errors.message}
-            />
-            {errors.message && (
-              <span role="alert">{errors.message.message}</span>
-            )}
+            <span>Contexto</span>
+            <textarea {...register("message")} rows={5} aria-invalid={!!errors.message} placeholder="O que está acontecendo hoje e o que você gostaria de melhorar?" />
+            {errors.message && <small role="alert">{errors.message.message}</small>}
           </label>
-          <button className="button full" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Preparando…" : "Enviar mensagem"}
-            <ArrowRight />
+          <button className="form-submit full" type="submit" disabled={isSubmitting}>
+            <span>{isSubmitting ? "Preparando…" : "Preparar mensagem"}</span>
+            <ArrowUpRight aria-hidden="true" />
           </button>
           {sent && (
             <p className="form-success full" role="status">
-              Dados validados. Abrimos o WhatsApp com sua mensagem pronta para
-              envio.
+              Mensagem preparada. O WhatsApp foi aberto para você revisar e enviar.
             </p>
           )}
         </form>

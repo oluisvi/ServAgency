@@ -2,78 +2,64 @@
 
 import { useEffect } from "react";
 
-const revealSelector = [
-  ".section-heading",
-  ".split-layout > div",
-  ".audit-grid > div",
-  ".service-list article",
-  ".process-route li",
-  ".project-list article",
-  ".about > div",
-  ".faq > div",
-  ".contact-grid > div",
-  ".footer-grid > div",
-].join(",");
-
 export function MotionController() {
   useEffect(() => {
-    const desktopQuery = window.matchMedia("(min-width: 1025px)");
-    const syncViewport = () => {
-      document.documentElement.dataset.motionViewport = desktopQuery.matches
-        ? "desktop"
-        : "compact";
-    };
-
-    syncViewport();
-    desktopQuery.addEventListener("change", syncViewport);
-
-    const elements = Array.from(
-      document.querySelectorAll<HTMLElement>(revealSelector),
+    const root = document.documentElement;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const revealItems = Array.from(
+      document.querySelectorAll<HTMLElement>(".scene-reveal, .project-scene"),
     );
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      elements.forEach((element) => element.classList.add("is-revealed"));
-      return () => {
-        desktopQuery.removeEventListener("change", syncViewport);
-        delete document.documentElement.dataset.motionViewport;
-      };
+    const revealAll = () => {
+      revealItems.forEach((item) => item.classList.add("is-active"));
+      root.dataset.motion = "reduced";
+    };
+
+    if (reduced.matches) {
+      revealAll();
+      return;
     }
 
-    const groupOrders = new Map<Element | null, number>();
-
-    elements.forEach((element, index) => {
-      const group = element.parentElement;
-      const order = groupOrders.get(group) ?? 0;
-      groupOrders.set(group, order + 1);
-      element.classList.add("reveal-item");
-      element.dataset.revealDirection = index % 2 === 0 ? "left" : "right";
-      element.style.setProperty("--reveal-order", String(Math.min(order, 4)));
-    });
-    document.documentElement.classList.add("motion-ready");
+    root.dataset.motion = "enhanced";
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-revealed");
-          observer.unobserve(entry.target);
-        });
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-active");
+          }
+        }
       },
-      { rootMargin: "0px 0px -8%", threshold: 0.08 },
+      { rootMargin: "0px 0px -12%", threshold: 0.12 },
     );
 
-    elements.forEach((element) => observer.observe(element));
+    revealItems.forEach((item) => observer.observe(item));
+
+    let ticking = false;
+    const updateProgress = () => {
+      const scrollable = Math.max(
+        1,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const progress = Math.min(1, Math.max(0, window.scrollY / scrollable));
+      root.style.setProperty("--page-progress", progress.toFixed(4));
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateProgress);
+    };
+
+    updateProgress();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       observer.disconnect();
-      elements.forEach((element) => {
-        element.classList.remove("reveal-item", "is-revealed");
-        delete element.dataset.revealDirection;
-        element.style.removeProperty("--reveal-order");
-      });
-      desktopQuery.removeEventListener("change", syncViewport);
-      delete document.documentElement.dataset.motionViewport;
-      document.documentElement.classList.remove("motion-ready");
+      window.removeEventListener("scroll", onScroll);
+      root.style.removeProperty("--page-progress");
+      delete root.dataset.motion;
     };
   }, []);
 

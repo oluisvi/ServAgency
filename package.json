@@ -1,6 +1,6 @@
 {
   "name": "servagency",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,9 +13,9 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
-    "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0",
+    "@hookform/resolvers": "5.2.2",
+    "@vercel/analytics": "2.0.1",
+    "@vercel/speed-insights": "2.0.0",
     "lucide-react": "1.28.0",
     "next": "16.3.0",
     "react": "19.2.8",
@@ -24,14 +24,14 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
-    "@types/node": "^24.10.0",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.10.0",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.0",
-    "prettier": "^3.7.0",
-    "prettier-plugin-tailwindcss": "^0.7.1",
+    "prettier": "3.7.0",
+    "prettier-plugin-tailwindcss": "0.7.1",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3"
   }

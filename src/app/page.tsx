@@ -1,18 +1,16 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { About } from "@/components/sections/about";
-import { Audit } from "@/components/sections/audit";
-import { Contact } from "@/components/sections/contact";
-import { FAQ } from "@/components/sections/faq";
 import { Hero } from "@/components/sections/hero";
-import { Problems } from "@/components/sections/problems";
-import { Process } from "@/components/sections/process";
-import { Projects } from "@/components/sections/projects";
+import { Outcomes } from "@/components/sections/outcomes";
 import { Services } from "@/components/sections/services";
+import { Projects } from "@/components/sections/projects";
+import { Process } from "@/components/sections/process";
 import { Technologies } from "@/components/sections/technologies";
+import { About } from "@/components/sections/about";
+import { FAQ } from "@/components/sections/faq";
+import { Contact } from "@/components/sections/contact";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://servagency.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://servagency.vercel.app";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -23,7 +21,7 @@ const jsonLd = {
       name: "ServAgency",
       url: siteUrl,
       description:
-        "Agência de tecnologia e soluções digitais para pequenas e médias empresas.",
+        "Agência de tecnologia, design e soluções digitais para pequenas e médias empresas.",
     },
     {
       "@type": "ProfessionalService",
@@ -33,9 +31,10 @@ const jsonLd = {
       areaServed: "Brasil",
       serviceType: [
         "Desenvolvimento web",
-        "SEO",
         "Automação",
         "Inteligência artificial",
+        "SEO",
+        "Experiências digitais interativas",
         "Consultoria digital",
       ],
     },
@@ -45,17 +44,14 @@ const jsonLd = {
 export default function Home() {
   return (
     <>
-      <a className="skip-link" href="#conteudo">
-        Pular para o conteúdo
-      </a>
+      <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
       <Header />
       <main id="conteudo">
         <Hero />
-        <Problems />
+        <Outcomes />
         <Services />
-        <Audit />
-        <Process />
         <Projects />
+        <Process />
         <Technologies />
         <About />
         <FAQ />
@@ -64,9 +60,7 @@ export default function Home() {
       <Footer />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
     </>
   );

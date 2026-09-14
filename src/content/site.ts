@@ -2,6 +2,7 @@ import {
   Bot,
   Braces,
   ChartNoAxesCombined,
+  Cuboid,
   Globe2,
   Search,
   Workflow,
@@ -9,75 +10,92 @@ import {
 
 export const navigation = [
   { label: "Soluções", href: "#solucoes" },
-  { label: "Processo", href: "#processo" },
   { label: "Projetos", href: "#projetos" },
+  { label: "Processo", href: "#processo" },
   { label: "Sobre", href: "#sobre" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Contato", href: "#contato" },
 ] as const;
 
-export const problems = [
-  [
-    "Não são encontradas",
-    "Sites sem estrutura e SEO deixam oportunidades passarem.",
-  ],
-  [
-    "Transmitem pouca confiança",
-    "Canais antigos ou inconsistentes enfraquecem a percepção da marca.",
-  ],
-  [
-    "Não trabalham em conjunto",
-    "Ferramentas desconectadas geram retrabalho e informação perdida.",
-  ],
-  [
-    "Dependem de tarefas manuais",
-    "Processos repetitivos consomem tempo que poderia gerar valor.",
-  ],
+export const outcomes = [
+  {
+    index: "01",
+    problem: "Sua empresa não é encontrada.",
+    outcome: "Estrutura, SEO e presença digital para transformar busca em descoberta.",
+  },
+  {
+    index: "02",
+    problem: "A presença digital não transmite confiança.",
+    outcome: "Design, conteúdo e experiência coerentes com o valor do negócio.",
+  },
+  {
+    index: "03",
+    problem: "Ferramentas e processos não conversam.",
+    outcome: "Integrações e sistemas que conectam informação, equipe e operação.",
+  },
+  {
+    index: "04",
+    problem: "O time perde tempo em tarefas repetitivas.",
+    outcome: "Automação e IA aplicadas onde realmente existe ganho operacional.",
+  },
 ] as const;
 
 export const services = [
   {
+    index: "01",
     title: "Websites e experiências digitais",
     description:
-      "Sites institucionais, landing pages e soluções web que explicam seu valor e facilitam o próximo passo.",
+      "Sites institucionais, landing pages, produtos web e experiências interativas com clareza, performance e identidade própria.",
     icon: Globe2,
+    label: "WEB / EXPERIENCE",
   },
   {
-    title: "Presença digital e marketing",
+    index: "02",
+    title: "Presença digital e marca",
     description:
-      "Organização de canais, conteúdo inicial e comunicação consistente para fortalecer a marca.",
+      "Organização de canais, conteúdo inicial e sistemas visuais consistentes para a empresa parecer tão boa quanto o trabalho que entrega.",
     icon: ChartNoAxesCombined,
+    label: "BRAND / PRESENCE",
   },
   {
+    index: "03",
     title: "Google e SEO",
     description:
-      "Estrutura técnica e presença local para sua empresa ser encontrada com mais facilidade.",
+      "Fundação técnica, arquitetura de conteúdo e presença local para aumentar descoberta sem atalhos vazios.",
     icon: Search,
+    label: "DISCOVERY / SEO",
   },
   {
+    index: "04",
     title: "Automações e integrações",
     description:
-      "Ferramentas conectadas e menos tarefas repetitivas para liberar tempo da sua equipe.",
+      "Workflows, integrações e rotinas conectadas para reduzir retrabalho e manter processos previsíveis.",
     icon: Workflow,
+    label: "SYSTEMS / AUTOMATION",
   },
   {
+    index: "05",
     title: "Inteligência artificial",
     description:
-      "IA aplicada com propósito ao atendimento, à organização, à análise e à produtividade.",
+      "IA aplicada a atendimento, análise, organização e produtividade com contexto, controle e propósito.",
     icon: Bot,
+    label: "AI / OPERATIONS",
   },
   {
+    index: "06",
+    title: "Experiências interativas e 3D",
+    description:
+      "Interfaces espaciais, narrativas imersivas e experiências WebGL quando o formato melhora entendimento, desejo ou conversão.",
+    icon: Cuboid,
+    label: "SPATIAL / INTERACTIVE",
+  },
+  {
+    index: "07",
     title: "Auditoria digital",
     description:
-      "Análise de site, SEO, redes e processos para organizar problemas, prioridades e oportunidades.",
+      "Leitura do cenário atual para priorizar problemas, oportunidades e próximos passos antes de escolher ferramentas.",
     icon: Braces,
+    label: "AUDIT / STRATEGY",
   },
-] as const;
-
-export const auditAreas = [
-  ["Website e UX", "Clareza"],
-  ["Google e SEO", "Descoberta"],
-  ["Redes sociais", "Consistência"],
-  ["Processos", "Eficiência"],
 ] as const;
 
 export const processSteps = [
@@ -87,19 +105,19 @@ export const processSteps = [
   ],
   [
     "Estratégia",
-    "Definimos prioridades, escopo e a solução proporcional ao problema.",
+    "Definimos prioridades, escopo e uma direção proporcional ao problema.",
   ],
   [
     "Criação",
-    "Unimos design, conteúdo, tecnologia e integrações em uma entrega coerente.",
+    "Unimos design, conteúdo, tecnologia e integrações em uma solução coerente.",
   ],
   [
     "Publicação",
-    "Testamos, ajustamos e colocamos a solução no ar com segurança.",
+    "Testamos, refinamos e colocamos a experiência no ar com segurança.",
   ],
   [
     "Evolução",
-    "Acompanhamos resultados, manutenção e melhorias quando fizer sentido.",
+    "Acompanhamos resultados, manutenção e melhorias quando fazem sentido.",
   ],
 ] as const;
 
@@ -127,186 +145,183 @@ export const technologies = [
   icon: TechnologyIconName;
 }>;
 
-export const faqs = [
-  [
-    "Vocês trabalham apenas com sites?",
-    "Não. Também atuamos com presença digital, Google, SEO, auditorias, automações, inteligência artificial e soluções sob demanda.",
-  ],
-  [
-    "Minha empresa não sabe o que precisa. Vocês ajudam?",
-    "Sim. Começamos entendendo o cenário e transformamos o problema em um plano claro e proporcional.",
-  ],
-  [
-    "Vocês atendem qualquer segmento?",
-    "Atendemos diferentes segmentos, desde que exista aderência entre o problema e nossa capacidade de gerar uma solução responsável.",
-  ],
-  [
-    "Quanto custa?",
-    "O investimento depende do escopo, da complexidade e do acompanhamento necessário. O diagnóstico inicial ajuda a dimensionar a proposta.",
-  ],
-  [
-    "Quanto tempo leva?",
-    "O prazo varia conforme o escopo. Uma estimativa transparente é apresentada depois de entendermos a necessidade.",
-  ],
-  [
-    "Vocês oferecem manutenção?",
-    "Sim. Podemos cuidar de suporte, atualizações, SEO, conteúdo, automações e evolução contínua.",
-  ],
-  [
-    "Vocês garantem resultados?",
-    "Não prometemos resultados impossíveis. Nosso compromisso é com estratégia, qualidade técnica, transparência e melhoria contínua.",
-  ],
-  [
-    "O atendimento pode ser remoto?",
-    "Sim. O processo pode acontecer de forma remota, com encontros e acompanhamento online.",
-  ],
-] as const;
+export type ProjectTreatment =
+  | "editorial"
+  | "spatial"
+  | "system"
+  | "data"
+  | "commerce";
 
-type PortfolioProjectBase = {
+export type PortfolioProject = {
   slug: string;
   name: string;
   category: string;
   summary: string;
   capabilities: readonly string[];
   liveUrl: string;
-  sourceUrl: string;
+  sourceUrl?: string;
+  role: "flagship" | "archive";
+  visual: {
+    treatment: ProjectTreatment;
+    label: string;
+  };
 };
 
-type PortfolioScreenshot = {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-};
-
-export type PortfolioProject = PortfolioProjectBase &
-  (
-    | {
-        featured: true;
-        screenshot: PortfolioScreenshot;
-      }
-    | {
-        featured: false;
-        screenshot?: never;
-      }
-  );
-
-export const featuredProjects = [
+export const flagshipProjects = [
   {
-    slug: "atlas-finance-ai",
-    name: "Atlas Finance AI",
-    category: "Produto de finan\u00e7as pessoais",
+    slug: "ruvro",
+    name: "Ruvro & Co",
+    category: "Luxury digital showroom",
     summary:
-      "Aplica\u00e7\u00e3o de finan\u00e7as pessoais para planejamento, m\u00faltiplas moedas e relat\u00f3rios, com insights determin\u00edsticos e explic\u00e1veis.",
+      "Showroom digital editorial para uma curadoria privada de relógios, desenhado para transformar descoberta em desejo, contexto, confiança e acesso privado.",
     capabilities: [
-      "Planejamento financeiro",
-      "M\u00faltiplas moedas",
-      "Relat\u00f3rios",
-      "Insights determin\u00edsticos e explic\u00e1veis",
+      "Direção editorial",
+      "Storytelling de produto",
+      "Motion cinematográfico",
+      "Conversão privada",
     ],
-    liveUrl: "https://atlas-finance-web.onrender.com/",
-    sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
-    featured: true,
-    screenshot: {
-      src: "/projects/atlas-finance.webp",
-      alt: "Painel financeiro do Atlas Finance AI",
-      width: 1600,
-      height: 900,
-    },
+    liveUrl: "https://ruvro.vercel.app",
+    sourceUrl: "https://github.com/oluisvi/Ruvro",
+    role: "flagship",
+    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS" },
+  },
+  {
+    slug: "lamims",
+    name: "Lamim's Barbershop",
+    category: "Experiência espacial 3D",
+    summary:
+      "Uma porta digital para a barbearia: introdução guiada, percurso espacial 3D, hotspots informativos e agendamento persistente com fallback acessível.",
+    capabilities: [
+      "Three.js / R3F",
+      "Narrativa espacial",
+      "Quality tiers",
+      "Conversão local",
+    ],
+    liveUrl: "https://lamim-s-barbershop.vercel.app/",
+    sourceUrl: "https://github.com/oluisvi/Lamim-s-Barbershop",
+    role: "flagship",
+    visual: { treatment: "spatial", label: "GUIDED → FREE EXPLORATION" },
   },
   {
     slug: "flowdesk",
     name: "FlowDesk",
-    category: "SaaS de gest\u00e3o operacional",
+    category: "SaaS de operações e automação",
     summary:
-      "Plataforma para pequenas equipes centralizarem clientes, projetos e tarefas, com colabora\u00e7\u00e3o e automa\u00e7\u00f5es visuais para processos repetitivos.",
+      "Workspace operacional para pequenas equipes centralizarem clientes, projetos, tarefas, colaboração e workflows visuais automatizados.",
     capabilities: [
-      "Gest\u00e3o de clientes e projetos",
-      "Kanban e colabora\u00e7\u00e3o",
+      "Gestão operacional",
+      "Kanban colaborativo",
       "Workflows visuais",
-      "Automa\u00e7\u00e3o de processos",
+      "Automação de processos",
     ],
     liveUrl: "https://flowdeskwebapp.vercel.app",
     sourceUrl: "https://github.com/oluisvi/FlowDesk",
-    featured: true,
-    screenshot: {
-      src: "/projects/flowdesk.png",
-      alt: "Dashboard operacional do FlowDesk",
-      width: 1600,
-      height: 900,
-    },
+    role: "flagship",
+    visual: { treatment: "system", label: "ORGANIZE → AUTOMATE" },
+  },
+  {
+    slug: "atlas-finance-ai",
+    name: "Atlas Finance AI",
+    category: "Produto de finanças pessoais",
+    summary:
+      "Aplicação de planejamento financeiro com múltiplas moedas, relatórios e insights determinísticos e explicáveis.",
+    capabilities: [
+      "Planejamento financeiro",
+      "Múltiplas moedas",
+      "Relatórios",
+      "Insights explicáveis",
+    ],
+    liveUrl: "https://atlas-finance-web.onrender.com/",
+    sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
+    role: "flagship",
+    visual: { treatment: "data", label: "DATA → DECISION" },
   },
   {
     slug: "shop-co",
     name: "Shop.co",
     category: "E-commerce full-stack",
     summary:
-      "E-commerce de moda com cat\u00e1logo, carrinho, pagamentos e gerenciamento de produtos, desenvolvido a partir de uma interface revitalizada para uma aplica\u00e7\u00e3o full-stack.",
+      "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
     capabilities: [
-      "E-commerce full-stack",
-      "Cat\u00e1logo e carrinho",
+      "Catálogo",
+      "Carrinho",
       "Pagamentos",
-      "Gest\u00e3o de produtos",
+      "Gestão de produtos",
     ],
     liveUrl: "https://shop-co-store.vercel.app/",
     sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
-    featured: true,
-    screenshot: {
-      src: "/projects/shopco.png",
-      alt: "Interface do e-commerce Shop.co",
-      width: 1600,
-      height: 900,
-    },
+    role: "flagship",
+    visual: { treatment: "commerce", label: "DISCOVER → BUY" },
   },
 ] as const satisfies readonly PortfolioProject[];
 
-export const complementaryProjects = [
+export const archiveProjects = [
   {
     slug: "ecoeduca",
     name: "EcoEduca",
-    category: "Projeto acad\u00eamico colaborativo",
+    category: "Projeto acadêmico colaborativo",
     summary:
-      "Plataforma de educa\u00e7\u00e3o ambiental com conte\u00fados, question\u00e1rios e navega\u00e7\u00e3o responsiva.",
-    capabilities: [
-      "Conte\u00fado educacional",
-      "Question\u00e1rios",
-      "Acessibilidade",
-      "Design responsivo",
-    ],
+      "Plataforma de educação ambiental com conteúdo, questionários, acessibilidade e navegação responsiva.",
+    capabilities: ["Conteúdo educacional", "Questionários", "Acessibilidade"],
     liveUrl: "https://ecoeduca.onrender.com/",
     sourceUrl: "https://github.com/oluisvi/EcoEduca",
-    featured: false,
+    role: "archive",
+    visual: { treatment: "system", label: "EDUCATION" },
   },
   {
     slug: "sanctuary-hotel",
     name: "Sanctuary Hotel",
     category: "Estudo de design",
-    summary:
-      "Estudo de design para uma experi\u00eancia digital de hotel.",
-    capabilities: [
-      "Design de interface",
-      "Experi\u00eancia de navega\u00e7\u00e3o",
-    ],
+    summary: "Estudo visual para uma experiência digital de hotelaria.",
+    capabilities: ["Design de interface", "Experiência de navegação"],
     liveUrl: "https://sanctuaryhotel.my.canva.site/",
     sourceUrl: "https://github.com/oluisvi/Design-Sanctuary-Hotel",
-    featured: false,
+    role: "archive",
+    visual: { treatment: "editorial", label: "HOSPITALITY" },
   },
 ] as const satisfies readonly PortfolioProject[];
 
 export const aboutPrinciples = [
   {
-    title: "Estrat\u00e9gia antes da ferramenta",
+    title: "Estratégia antes da ferramenta",
     description:
-      "Entendemos o problema do neg\u00f3cio antes de selecionar a tecnologia.",
+      "Entendemos o problema do negócio antes de selecionar tecnologia, formato ou efeito.",
   },
   {
-    title: "Decis\u00f5es explic\u00e1veis",
+    title: "Decisões explicáveis",
     description:
-      "Tornamos escopo, escolhas e andamento compreens\u00edveis para todos os envolvidos.",
+      "Escopo, escolhas e andamento precisam fazer sentido para quem está investindo no projeto.",
   },
   {
-    title: "Parceria pr\u00f3xima",
+    title: "Parceria próxima",
     description:
-      "Trabalhamos com comunica\u00e7\u00e3o direta e responsabilidade compartilhada.",
+      "Comunicação direta, responsabilidade compartilhada e construção sem caixa-preta.",
   },
+] as const;
+
+export const faqs = [
+  [
+    "Vocês trabalham apenas com sites?",
+    "Não. Também atuamos com presença digital, SEO, automações, inteligência artificial, produtos web e experiências interativas sob medida.",
+  ],
+  [
+    "Minha empresa não sabe exatamente o que precisa. Vocês ajudam?",
+    "Sim. O trabalho começa pelo diagnóstico do cenário e pela definição do problema antes da escolha de qualquer ferramenta.",
+  ],
+  [
+    "Vocês fazem projetos com 3D e experiências imersivas?",
+    "Sim, quando isso melhora entendimento, narrativa ou conversão. 3D não entra como decoração nem como requisito automático.",
+  ],
+  [
+    "Quanto custa?",
+    "O investimento depende do escopo, da complexidade e do acompanhamento necessário. O diagnóstico inicial ajuda a dimensionar uma proposta proporcional.",
+  ],
+  [
+    "Quanto tempo leva?",
+    "O prazo varia conforme o escopo. A estimativa é apresentada depois que o problema, as dependências e o nível de acabamento estão claros.",
+  ],
+  [
+    "Vocês oferecem manutenção e evolução?",
+    "Sim. Podemos cuidar de suporte, atualizações, SEO, conteúdo, automações e evolução contínua conforme a necessidade.",
+  ],
 ] as const;

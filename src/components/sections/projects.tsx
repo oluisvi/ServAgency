@@ -1,79 +1,41 @@
 import { ArrowUpRight } from "lucide-react";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { ProjectCard } from "@/components/ui/project-card";
-import { complementaryProjects, featuredProjects } from "@/content/site";
+import { archiveProjects, flagshipProjects } from "@/content/site";
+import { ProjectScene } from "@/components/ui/project-scene";
 
 export function Projects() {
   return (
-    <section
-      className="projects section-pad page-shell"
-      id="projetos"
-      aria-labelledby="projects-title"
-    >
-      <SectionHeading
-        id="projects-title"
-        number="05"
-        title="Produtos reais, experiência comprovada."
-        description="Projetos de produto, estudos acadêmicos e exercícios de interface construídos antes da ServAgency."
-      />
+    <section className="projects" id="projetos" aria-labelledby="projects-title">
+      <div className="page-shell projects-intro section-pad scene-reveal">
+        <span className="section-index">03 / SELECTED WORK</span>
+        <div>
+          <h2 id="projects-title">Projetos que mostram amplitudes diferentes da mesma capacidade.</h2>
+          <p>
+            Produto, dados, automação, e-commerce, direção editorial e experiência
+            espacial. Não como exercícios isolados, mas como formas diferentes de
+            transformar um problema em experiência.
+          </p>
+        </div>
+      </div>
 
-      <p className="projects-attribution">
-        Experiência construída pela equipe por trás da ServAgency
-      </p>
-
-      <div className="project-list">
-        {featuredProjects.map((project, index) => (
-          <ProjectCard
-            key={project.slug}
-            project={project}
-            layout={index === 0 ? "lead" : "supporting"}
-          />
+      <div className="project-rail" aria-label="Projetos em destaque">
+        {flagshipProjects.map((project, index) => (
+          <ProjectScene project={project} index={index} key={project.slug} />
         ))}
       </div>
 
-      <div className="complementary-projects">
-        <div className="complementary-heading">
-          <p className="complementary-eyebrow">Outros trabalhos</p>
-          <h3>Estudos complementares de interface e design.</h3>
+      <div className="page-shell project-archive scene-reveal">
+        <div>
+          <span className="section-index">ARCHIVE / EARLIER WORK</span>
+          <h3>Outros trabalhos e estudos.</h3>
         </div>
-        <div className="complementary-list">
-          {complementaryProjects.map((project) => {
-            const titleId = `project-${project.slug}-title`;
-
-            return (
-              <article
-                className="complementary-project"
-                key={project.slug}
-                aria-labelledby={titleId}
-              >
-                <div className="complementary-copy">
-                  <p className="complementary-category">{project.category}</p>
-                  <h4 id={titleId}>{project.name}</h4>
-                  <p>{project.summary}</p>
-                </div>
-                <div className="complementary-actions">
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ver produto ${project.name}`}
-                  >
-                    <span>Ver produto</span>
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                  <a
-                    href={project.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ver código de ${project.name}`}
-                  >
-                    <span>Ver código</span>
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </div>
-              </article>
-            );
-          })}
+        <div className="archive-list">
+          {archiveProjects.map((project) => (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" key={project.slug}>
+              <span>{project.name}</span>
+              <small>{project.category}</small>
+              <ArrowUpRight aria-hidden="true" />
+            </a>
+          ))}
         </div>
       </div>
     </section>

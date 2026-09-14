@@ -1,33 +1,21 @@
 import { technologies } from "@/content/site";
-import { TechnologyIcon } from "@/components/ui/technology-icon";
-
-function TechnologyGroup({ duplicate = false }: { duplicate?: boolean }) {
-  return (
-    <ul
-      className="technology-marquee-group"
-      aria-hidden={duplicate ? "true" : undefined}
-    >
-      {technologies.map((technology) => (
-        <li key={technology.name}>
-          <TechnologyIcon name={technology.icon} />
-          <span>{technology.name}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export function Technologies() {
+  const items = [...technologies, ...technologies];
   return (
-    <section className="technology-rail" aria-label="Tecnologias">
+    <section className="technology-rail" aria-label="Tecnologias usadas pela ServAgency">
       <div className="page-shell">
-        <p>
-          Selecionamos ferramentas de acordo com a necessidade de cada projeto.
-        </p>
+        <div className="technology-heading">
+          <span>TOOLS / NOT THE STRATEGY</span>
+          <p>A ferramenta entra depois que a rota está definida.</p>
+        </div>
         <div className="technology-marquee">
-          <div className="technology-marquee-track">
-            <TechnologyGroup />
-            <TechnologyGroup duplicate />
+          <div className="technology-track">
+            {items.map((technology, index) => (
+              <span key={`${technology.name}-${index}`} aria-hidden={index >= technologies.length || undefined}>
+                {technology.name}<i />
+              </span>
+            ))}
           </div>
         </div>
       </div>

@@ -1,46 +1,25 @@
-"use client";
-
-import { Plus } from "lucide-react";
 import { faqs } from "@/content/site";
-import { useState } from "react";
 
 export function FAQ() {
-  const [open, setOpen] = useState(0);
   return (
-    <section
-      className="faq section-pad page-shell"
-      id="faq"
-      aria-labelledby="faq-title"
-    >
-      <div>
-        <span className="section-number">07</span>
-        <h2 id="faq-title">Perguntas antes de começar.</h2>
-        <p>
-          Respostas diretas, sem promessas impossíveis ou soluções empurradas.
-        </p>
-      </div>
-      <div className="faq-list">
-        {faqs.map(([question, answer], index) => (
-          <article key={question}>
-            <h3>
-              <button
-                type="button"
-                onClick={() => setOpen(open === index ? -1 : index)}
-                aria-expanded={open === index}
-                aria-controls={`faq-answer-${index}`}
-              >
+    <section className="faq section-pad" id="faq" aria-labelledby="faq-title">
+      <div className="page-shell faq-grid">
+        <div className="faq-heading scene-reveal">
+          <span className="section-index">06 / FAQ</span>
+          <h2 id="faq-title">Perguntas antes de começar.</h2>
+        </div>
+        <div className="faq-list">
+          {faqs.map(([question, answer], index) => (
+            <details className="scene-reveal" key={question}>
+              <summary>
+                <span>{String(index + 1).padStart(2, "0")}</span>
                 {question}
-                <Plus aria-hidden="true" />
-              </button>
-            </h3>
-            <div
-              id={`faq-answer-${index}`}
-              className={open === index ? "is-open" : ""}
-            >
+                <i aria-hidden="true" />
+              </summary>
               <p>{answer}</p>
-            </div>
-          </article>
-        ))}
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );
