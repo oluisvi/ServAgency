@@ -1,75 +1,40 @@
+import Image from "next/image";
 import { ArrowUpRight, Braces } from "lucide-react";
-import type { PortfolioProject, ProjectTreatment } from "@/content/site";
+import type { PortfolioProject } from "@/content/site";
 
-function ProjectVisual({ treatment, name }: { treatment: ProjectTreatment; name: string }) {
-  if (treatment === "editorial") {
-    return (
-      <div className="visual visual-editorial" aria-hidden="true">
-        <div className="editorial-topline"><span>PRIVATE CURATION</span><span>RUVRO / 01</span></div>
-        <div className="watch-form"><i /><b /></div>
-        <div className="editorial-copy"><small>DIGITAL SHOWROOM</small><strong>THE CURATOR&apos;S<br/>LIGHT</strong></div>
-      </div>
-    );
-  }
+function ProjectVisual({ project }: { project: PortfolioProject }) {
+  const { visual } = project;
 
-  if (treatment === "spatial") {
+  if (!visual.src || !visual.alt) {
     return (
-      <div className="visual visual-spatial" aria-hidden="true">
-        <div className="room-grid" />
-        <div className="door-frame"><i /><i /><i /></div>
-        <div className="spatial-label"><span>SCENE 03 / 06</span><strong>ENTER THE SPACE</strong></div>
-        <div className="hotspot hotspot-a">+</div>
-        <div className="hotspot hotspot-b">+</div>
-      </div>
-    );
-  }
-
-  if (treatment === "system") {
-    return (
-      <div className="visual visual-system" aria-hidden="true">
-        <div className="app-topbar"><span>FLOWDESK</span><i /><i /><i /></div>
-        <div className="system-sidebar"><i/><i/><i/><i/><i/></div>
-        <div className="kanban">
-          {["Inbox", "Doing", "Review"].map((lane, index) => (
-            <div className="kanban-lane" key={lane}>
-              <span>{lane}</span>
-              <i className={`task task-${index + 1}`} />
-              <i className={`task task-${index + 2}`} />
-            </div>
-          ))}
-        </div>
-        <div className="workflow-line"><i/><i/><i/></div>
-      </div>
-    );
-  }
-
-  if (treatment === "data") {
-    return (
-      <div className="visual visual-data" aria-hidden="true">
-        <div className="data-top"><span>ATLAS FINANCE</span><strong>R$ 42.840,70</strong></div>
-        <svg viewBox="0 0 620 260" role="presentation">
-          <path className="chart-grid" d="M10 220H610M10 160H610M10 100H610M10 40H610" />
-          <path className="chart-line" d="M20 200 C85 180 105 212 165 150 S260 138 305 92 S410 128 462 62 S545 82 600 30" />
-          <path className="chart-area" d="M20 200 C85 180 105 212 165 150 S260 138 305 92 S410 128 462 62 S545 82 600 30 V230 H20Z" />
-        </svg>
-        <div className="data-stats"><span>+12.8%<small>Receitas</small></span><span>-4.2%<small>Despesas</small></span><span>6<small>Metas ativas</small></span></div>
+      <div className={`visual project-media project-media-${visual.treatment} project-media-fallback`}>
+        <span>{project.name}</span>
+        <small>{visual.label}</small>
       </div>
     );
   }
 
   return (
-    <div className="visual visual-commerce" aria-hidden="true">
-      <div className="commerce-head"><strong>SHOP.CO</strong><span>NEW ARRIVALS&nbsp;&nbsp; TOP SELLING</span></div>
-      <div className="commerce-products">
-        {[0, 1, 2].map((item) => (
-          <div className={`commerce-product product-${item + 1}`} key={item}>
-            <i />
-            <span>ESSENTIAL {String(item + 1).padStart(2, "0")}</span>
-            <b>R$ {(149 + item * 35).toFixed(2).replace(".", ",")}</b>
-          </div>
-        ))}
+    <div className={`visual project-media project-media-${visual.treatment}`}>
+      <div className="project-media-chrome" aria-hidden="true">
+        <span>LIVE PROJECT</span>
+        <span>{project.name.toUpperCase()}</span>
       </div>
-      <div className="commerce-strip">{name.toUpperCase()} / FULL-STACK COMMERCE</div>
+      <div className="project-media-stage">
+        <Image
+          src={visual.src}
+          alt={visual.alt}
+          fill
+          sizes="(max-width: 900px) calc(100vw - 1.25rem), 62vw"
+          className={`project-media-image project-media-image-${visual.fit ?? "cover"}`}
+          priority={project.slug === "ruvro"}
+          unoptimized={visual.src.startsWith("http")}
+        />
+      </div>
+      <div className="project-media-footer" aria-hidden="true">
+        <span>{visual.label}</span>
+        <i />
+      </div>
     </div>
   );
 }
@@ -101,7 +66,7 @@ export function ProjectScene({ project, index }: { project: PortfolioProject; in
           <div className="project-signal"><span>{project.visual.label}</span><i /></div>
         </div>
         <div className="project-visual-wrap">
-          <ProjectVisual treatment={project.visual.treatment} name={project.name} />
+          <ProjectVisual project={project} />
         </div>
       </div>
     </article>

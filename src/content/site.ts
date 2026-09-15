@@ -164,6 +164,9 @@ export type PortfolioProject = {
   visual: {
     treatment: ProjectTreatment;
     label: string;
+    src?: string;
+    alt?: string;
+    fit?: "cover" | "contain";
   };
 };
 
@@ -183,7 +186,13 @@ export const flagshipProjects = [
     liveUrl: "https://ruvro.vercel.app",
     sourceUrl: "https://github.com/oluisvi/Ruvro",
     role: "flagship",
-    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS" },
+    visual: {
+      treatment: "editorial",
+      label: "DESIRE → PRIVATE ACCESS",
+      src: "https://raw.githubusercontent.com/oluisvi/Ruvro/main/public/media/hero-watch.png",
+      alt: "Relógio em composição editorial usado na experiência Ruvro & Co",
+      fit: "cover",
+    },
   },
   {
     slug: "lamims",
@@ -200,7 +209,13 @@ export const flagshipProjects = [
     liveUrl: "https://lamim-s-barbershop.vercel.app/",
     sourceUrl: "https://github.com/oluisvi/Lamim-s-Barbershop",
     role: "flagship",
-    visual: { treatment: "spatial", label: "GUIDED → FREE EXPLORATION" },
+    visual: {
+      treatment: "spatial",
+      label: "GUIDED → FREE EXPLORATION",
+      src: "https://images.fresha.com/locations/location-profile-images/2836489/5779282/6f338dd7-c73d-48c8-859e-ea712121c052-BarbeariaLamims-BR-SoPaulo-SoPaulo-Centro-Fresha.jpg?class=venue-gallery-large&f_quality=75&f_width=1920",
+      alt: "Interior real da Barbearia Lamim's usado como referência visual do projeto imersivo",
+      fit: "cover",
+    },
   },
   {
     slug: "flowdesk",
@@ -217,7 +232,13 @@ export const flagshipProjects = [
     liveUrl: "https://flowdeskwebapp.vercel.app",
     sourceUrl: "https://github.com/oluisvi/FlowDesk",
     role: "flagship",
-    visual: { treatment: "system", label: "ORGANIZE → AUTOMATE" },
+    visual: {
+      treatment: "system",
+      label: "ORGANIZE → AUTOMATE",
+      src: "/projects/flowdesk.png",
+      alt: "Interface real do FlowDesk",
+      fit: "contain",
+    },
   },
   {
     slug: "atlas-finance-ai",
@@ -234,7 +255,13 @@ export const flagshipProjects = [
     liveUrl: "https://atlas-finance-web.onrender.com/",
     sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
     role: "flagship",
-    visual: { treatment: "data", label: "DATA → DECISION" },
+    visual: {
+      treatment: "data",
+      label: "DATA → DECISION",
+      src: "/projects/atlas-finance.webp",
+      alt: "Interface real do Atlas Finance AI",
+      fit: "contain",
+    },
   },
   {
     slug: "shop-co",
@@ -251,7 +278,13 @@ export const flagshipProjects = [
     liveUrl: "https://shop-co-store.vercel.app/",
     sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
     role: "flagship",
-    visual: { treatment: "commerce", label: "DISCOVER → BUY" },
+    visual: {
+      treatment: "commerce",
+      label: "DISCOVER → BUY",
+      src: "/projects/shopco.png",
+      alt: "Interface real do e-commerce Shop.co",
+      fit: "contain",
+    },
   },
 ] as const satisfies readonly PortfolioProject[];
 
