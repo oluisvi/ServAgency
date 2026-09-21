@@ -1,26 +1,32 @@
-# Validation
+# Validation — Interactive refinement
 
-## Verified in this environment
+## Live deploy diagnosis
 
-- 20 arquivos TypeScript/TSX passaram por transpile de sintaxe sem diagnósticos.
-- Chaves CSS balanceadas e o sistema de motion contém os estados necessários.
-- Implementações verificadas: parallax, scrub, pin + transform, fade + lift, stagger, clip reveal, magnetic CTA, image zoom, text shift, press + spring e state change.
-- Desktop usa rail horizontal pinado + scrub; mobile usa overflow horizontal nativo + scroll snap.
-- `prefers-reduced-motion` remove o motion não essencial e mantém o portfólio acessível.
-- Os seis assets remotos usados como capas reais foram confirmados nos respectivos repositórios GitHub.
-- RemoveIT usa um fallback visual fiel reconstruído a partir do layout real do projeto.
-- O `postcss.config.mjs` legado foi removido para não reintroduzir o erro `Cannot find module '@tailwindcss/postcss'` na Vercel.
-- O modelo `PortfolioProject` mantém `liveUrl`, `src`, `alt` e `fit` opcionais para compatibilidade com componentes legados ainda presentes no repositório.
+- The deployed site returns HTTP 200 and the content/projects render.
+- The previous horizontal portfolio used a `360vh` wrapper with vertical-scroll scrub, which kept the page physically long and made the interaction fragile.
+- Project covers are present and based on real project assets or a faithful RemoveIT reconstruction.
+
+## Changed
+
+- Hero title now uses per-letter interactive motion on fine-pointer devices.
+- Hero gains a lightweight CSS 3D signal sculpture driven by pointer movement; no WebGL dependency was added.
+- Pointer glow, magnetic CTAs, reactive header, surface tilt and hover state changes were normalized into one motion language.
+- Project showcase is now a real horizontal carousel: native horizontal scrolling, drag, touch, scroll snap, keyboard arrows, prev/next controls, project jumps, live state and scrub progress.
+- Removed the `360vh` pinned-scroll dependency from the carousel behavior.
+- Mobile and reduced-motion fallbacks keep all content accessible and remove expensive/reactive motion.
+
+## Static verification
+
+- 20 TS/TSX source files parsed with TypeScript `transpileModule`: 0 syntax errors.
+- CSS brace structure: balanced.
+- No new runtime dependency was introduced.
 
 ## Environment limitation
 
-A instalação completa das dependências (`npm install`) excedeu o timeout de rede deste ambiente. Por isso, `next build`, ESLint e o typecheck com as dependências reais não puderam ser executados localmente nesta rodada.
-
-Execute após extrair/copiar os arquivos:
+A full Next.js production build could not be executed in this sandbox because project dependencies are not installed and external npm resolution is unavailable here. Run locally or in CI:
 
 ```bash
 npm install
 npm run typecheck
-npm run lint
 npm run build
 ```
