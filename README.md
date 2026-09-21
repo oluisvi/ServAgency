@@ -27,3 +27,7 @@ Validation before deployment:
 npm run typecheck
 npm run build
 ```
+
+### Project carousel interaction
+
+The selected-work carousel now combines automatic rotation with direct user control. On desktop it supports pointer drag, previous/next controls, numbered project jumps and keyboard arrows. On touch devices it keeps native horizontal swipe and snap behavior. Autoplay only advances while the section is visible, pauses after user interaction and can be disabled with the PLAY/PAUSE control. Reduced-motion users receive a static/manual carousel without automatic movement.

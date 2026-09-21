@@ -1,5 +1,12 @@
 import type { CSSProperties } from "react";
-import { ArrowUpRight, Braces, ImageIcon, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Braces,
+  ImageIcon,
+  Sparkles,
+} from "lucide-react";
 import { flagshipProjects, type PortfolioProject } from "@/content/site";
 
 type ProjectMediaStyle = CSSProperties & {
@@ -74,24 +81,41 @@ export function Projects() {
             <h2>Projetos em movimento, sem transformar a página em uma maratona.</h2>
           </div>
           <p>
-            Role para atravessar os projetos. As capas usam material real de cada produto e respondem ao foco, ao cursor e ao progresso.
+            Deixe rodar sozinho, arraste para o lado ou use os controles. As capas usam material real de cada produto e respondem ao foco e ao cursor.
           </p>
         </div>
 
         <div className="project-controls">
-          <span className="project-progress-label">SCRUB / {total} PROJECTS</span>
+          <span className="project-progress-label">AUTO / DRAG / {total} PROJECTS</span>
           <div className="project-progress" aria-hidden="true"><i /></div>
-          <div className="project-jumps" aria-label="Navegação dos projetos">
-            {flagshipProjects.map((project, index) => (
-              <button type="button" key={project.slug} data-project-jump aria-label={`Ir para ${project.name}`}>
-                {String(index + 1).padStart(2, "0")}
-              </button>
-            ))}
+          <div className="project-nav-actions">
+            <button
+              type="button"
+              className="project-autoplay-toggle"
+              data-project-autoplay-toggle
+              aria-pressed="false"
+              aria-label="Pausar reprodução automática dos projetos"
+            >
+              <span data-project-autoplay-label>PAUSE</span>
+            </button>
+            <button type="button" className="project-arrow" data-project-prev aria-label="Projeto anterior">
+              <ArrowLeft aria-hidden="true" />
+            </button>
+            <div className="project-jumps" aria-label="Navegação dos projetos">
+              {flagshipProjects.map((project, index) => (
+                <button type="button" key={project.slug} data-project-jump aria-label={`Ir para ${project.name}`}>
+                  {String(index + 1).padStart(2, "0")}
+                </button>
+              ))}
+            </div>
+            <button type="button" className="project-arrow" data-project-next aria-label="Próximo projeto">
+              <ArrowRight aria-hidden="true" />
+            </button>
           </div>
         </div>
 
-        <div className="project-window">
-          <div className="project-track" data-project-track>
+        <div className="project-window" data-project-window>
+          <div className="project-track" data-project-track tabIndex={0} aria-label="Carrossel de projetos">
             {flagshipProjects.map((project, index) => (
               <article
                 className={`project-slide ${project.visual.treatment}`}

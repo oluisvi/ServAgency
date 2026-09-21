@@ -900,3 +900,76 @@ html[data-entry="skip"] .thematic-entry{display:none}
   .hero-title.is-visible > .kinetic-line{animation:none!important}
   .project-track{transform:none!important}
 }
+
+/* Carousel final behavior — same visual language, independent navigation. */
+@media(min-width:901px){
+  .motion-projects{
+    height:auto!important;
+    min-height:0!important;
+    padding:0 0 clamp(4rem,7vw,7rem)!important;
+  }
+  .project-pin{
+    position:relative!important;
+    top:auto!important;
+    height:clamp(720px,100svh,940px)!important;
+    min-height:720px!important;
+  }
+  .project-track{
+    transform:translate3d(var(--carousel-x,0px),0,0)!important;
+    transition:transform 760ms var(--spring)!important;
+    cursor:grab!important;
+    touch-action:pan-y!important;
+  }
+  .project-track.is-immediate,
+  .project-track.is-dragging{
+    transition:none!important;
+  }
+  .project-track.is-dragging{cursor:grabbing!important;user-select:none}
+}
+.project-nav-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:.42rem;
+  min-width:0;
+}
+.project-arrow,
+.project-autoplay-toggle{
+  height:2.25rem;
+  min-width:2.25rem;
+  display:inline-grid;
+  place-items:center;
+  border:1px solid rgba(16,16,15,.18);
+  background:rgba(255,255,255,.34);
+  color:var(--ink);
+  cursor:pointer;
+  transition:transform 360ms var(--spring),background-color 220ms ease,border-color 220ms ease;
+}
+.project-arrow svg{width:.95rem;height:.95rem}
+.project-autoplay-toggle{
+  width:auto;
+  padding:0 .65rem;
+  font:700 8px/1 var(--font-mono);
+  letter-spacing:.12em;
+}
+.project-arrow:hover,
+.project-autoplay-toggle:hover{
+  transform:translateY(-3px);
+  border-color:rgba(16,16,15,.48);
+  background:#fff;
+}
+.project-arrow:active,
+.project-autoplay-toggle:active{transform:translateY(-1px) scale(.94);transition-duration:90ms}
+.project-autoplay-toggle[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--signal)}
+
+@media(max-width:900px){
+  .project-nav-actions{width:100%;justify-content:flex-start;gap:.4rem;overflow:hidden}
+  .project-jumps{flex:1;min-width:0;overflow-x:auto!important;max-width:none!important}
+  .project-autoplay-toggle{flex:0 0 auto}
+  .project-arrow{flex:0 0 2.25rem}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .project-autoplay-toggle{display:none!important}
+  .project-track{transition:none!important}
+}

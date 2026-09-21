@@ -23,6 +23,7 @@ export function MotionController() {
     const sculpture = document.querySelector<HTMLElement>("[data-sculpture]");
 
     const carousel = document.querySelector<HTMLElement>("[data-project-carousel]");
+    const projectWindow = carousel?.querySelector<HTMLElement>("[data-project-window]") ?? null;
     const track = carousel?.querySelector<HTMLElement>("[data-project-track]") ?? null;
     const slides = carousel
       ? Array.from(carousel.querySelectorAll<HTMLElement>("[data-project-slide]"))
@@ -30,49 +31,144 @@ export function MotionController() {
     const jumps = carousel
       ? Array.from(carousel.querySelectorAll<HTMLButtonElement>("[data-project-jump]"))
       : [];
+    const previousButton = carousel?.querySelector<HTMLButtonElement>("[data-project-prev]") ?? null;
+    const nextButton = carousel?.querySelector<HTMLButtonElement>("[data-project-next]") ?? null;
+    const autoplayToggle =
+      carousel?.querySelector<HTMLButtonElement>("[data-project-autoplay-toggle]") ?? null;
+    const autoplayLabel =
+      carousel?.querySelector<HTMLElement>("[data-project-autoplay-label]") ?? null;
 
     let raf = 0;
     let mobileCarouselRaf = 0;
-    let activeProject = -1;
+    let activeProject = 0;
+    let carouselOffsets: number[] = [];
+    let carouselOffset = 0;
+    let carouselInView = false;
+    let autoplayPausedByUser = false;
+    let pauseUntil = 0;
+    let autoplayTimer = 0;
+    let suppressClickUntil = 0;
+    let programmaticMobileScrollUntil = 0;
 
-    const setActiveProject = (index: number) => {
-      if (!carousel || index < 0 || index >= slides.length || index === activeProject) return;
-      activeProject = index;
-      carousel.dataset.activeProject = String(index);
-      carousel.dataset.projectTreatment = slides[index]?.dataset.projectTreatment ?? "system";
+    let dragging = false;
+    let dragPointerId = -1;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let dragMoved = false;
+
+    const isMobileCarousel = () => window.innerWidth <= 900;
+
+    const pauseAutoplayTemporarily = (duration = 7500) => {
+      pauseUntil = Date.now() + duration;
+    };
+
+    const setAutoplayUi = () => {
+      if (!autoplayToggle || !autoplayLabel) return;
+      autoplayToggle.setAttribute("aria-pressed", autoplayPausedByUser ? "true" : "false");
+      autoplayToggle.setAttribute(
+        "aria-label",
+        autoplayPausedByUser
+          ? "Retomar reprodução automática dos projetos"
+          : "Pausar reprodução automática dos projetos",
+      );
+      autoplayLabel.textContent = autoplayPausedByUser ? "PLAY" : "PAUSE";
+      carousel?.toggleAttribute("data-autoplay-paused", autoplayPausedByUser);
+    };
+
+    const setActiveState = (index: number) => {
+      if (!carousel || slides.length === 0) return;
+      const normalized = Math.max(0, Math.min(slides.length - 1, index));
+      activeProject = normalized;
+      carousel.dataset.activeProject = String(normalized);
+      carousel.dataset.projectTreatment = slides[normalized]?.dataset.projectTreatment ?? "system";
+      carousel.style.setProperty(
+        "--projects-progress",
+        slides.length > 1 ? (normalized / (slides.length - 1)).toFixed(4) : "1",
+      );
+
       jumps.forEach((button, buttonIndex) => {
-        if (buttonIndex === index) button.setAttribute("aria-current", "step");
+        if (buttonIndex === normalized) button.setAttribute("aria-current", "step");
         else button.removeAttribute("aria-current");
       });
       slides.forEach((slide, slideIndex) => {
-        slide.classList.toggle("is-current", slideIndex === index);
-      });
-    };
-
-    const updateProjectFocus = (viewportCenter: number) => {
-      slides.forEach((slide) => {
-        const rect = slide.getBoundingClientRect();
-        const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
-        const focus = clamp(1 - distance / Math.max(window.innerWidth * 0.72, 1));
+        const distance = Math.abs(slideIndex - normalized);
+        const focus = clamp(1 - distance * 0.72);
+        slide.classList.toggle("is-current", slideIndex === normalized);
         slide.style.setProperty("--project-focus", focus.toFixed(3));
       });
     };
 
-    const updateDesktopCarousel = () => {
-      if (!carousel || !track || slides.length === 0 || window.innerWidth <= 900) return;
-      const rect = carousel.getBoundingClientRect();
-      const scrollRange = Math.max(1, carousel.offsetHeight - window.innerHeight);
-      const progress = clamp(-rect.top / scrollRange);
-      const maxTranslate = Math.max(0, track.scrollWidth - window.innerWidth + 24);
-      track.style.transform = `translate3d(${-progress * maxTranslate}px,0,0)`;
-      carousel.style.setProperty("--projects-progress", progress.toFixed(4));
-      setActiveProject(Math.round(progress * (slides.length - 1)));
-      updateProjectFocus(window.innerWidth / 2);
+    const measureCarousel = () => {
+      if (!track || slides.length === 0 || isMobileCarousel()) return;
+      const firstLeft = slides[0]?.offsetLeft ?? 0;
+      carouselOffsets = slides.map((slide) => Math.max(0, slide.offsetLeft - firstLeft));
+      carouselOffset = carouselOffsets[activeProject] ?? 0;
+      track.style.setProperty("--carousel-x", `${-carouselOffset}px`);
+    };
+
+    const renderDesktopOffset = (offset: number, immediate = false) => {
+      if (!track || isMobileCarousel()) return;
+      const maxOffset = carouselOffsets.at(-1) ?? 0;
+      carouselOffset = Math.max(0, Math.min(maxOffset, offset));
+      track.classList.toggle("is-immediate", immediate);
+      track.style.setProperty("--carousel-x", `${-carouselOffset}px`);
+
+      if (carouselOffsets.length > 0) {
+        let nearestIndex = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+        carouselOffsets.forEach((candidate, index) => {
+          const distance = Math.abs(candidate - carouselOffset);
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+          }
+        });
+
+        slides.forEach((slide, index) => {
+          const distance = Math.abs(carouselOffsets[index] - carouselOffset);
+          const slideWidth = Math.max(slide.offsetWidth, 1);
+          const focus = clamp(1 - distance / (slideWidth * 0.92));
+          slide.style.setProperty("--project-focus", focus.toFixed(3));
+        });
+
+        if (nearestIndex !== activeProject && !dragging) setActiveState(nearestIndex);
+      }
+    };
+
+    const scrollMobileToProject = (index: number, smooth = true) => {
+      if (!track || !slides[index]) return;
+      const slide = slides[index];
+      const left = slide.offsetLeft - Math.max(0, (track.clientWidth - slide.offsetWidth) / 2);
+      programmaticMobileScrollUntil = performance.now() + (smooth ? 1100 : 120);
+      track.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
+    };
+
+    const goToProject = (
+      index: number,
+      options: { smooth?: boolean; pause?: boolean } = {},
+    ) => {
+      if (slides.length === 0) return;
+      const normalized = ((index % slides.length) + slides.length) % slides.length;
+      const smooth = options.smooth ?? true;
+      if (options.pause ?? true) pauseAutoplayTemporarily();
+      setActiveState(normalized);
+
+      if (isMobileCarousel()) {
+        scrollMobileToProject(normalized, smooth && !reduced.matches);
+        return;
+      }
+
+      measureCarousel();
+      renderDesktopOffset(carouselOffsets[normalized] ?? 0, !smooth || reduced.matches);
+      if (track) {
+        window.setTimeout(() => track.classList.remove("is-immediate"), smooth ? 700 : 0);
+      }
     };
 
     const updateMobileCarousel = () => {
-      if (!carousel || !track || slides.length === 0 || window.innerWidth > 900) return;
-      const viewportCenter = window.innerWidth / 2;
+      if (!carousel || !track || slides.length === 0 || !isMobileCarousel()) return;
+      const trackRect = track.getBoundingClientRect();
+      const viewportCenter = trackRect.left + track.clientWidth / 2;
       let closest = 0;
       let closestDistance = Number.POSITIVE_INFINITY;
       slides.forEach((slide, index) => {
@@ -82,13 +178,10 @@ export function MotionController() {
           closestDistance = distance;
           closest = index;
         }
+        const focus = clamp(1 - distance / Math.max(track.clientWidth * 0.78, 1));
+        slide.style.setProperty("--project-focus", focus.toFixed(3));
       });
-      setActiveProject(closest);
-      carousel.style.setProperty(
-        "--projects-progress",
-        slides.length > 1 ? (closest / (slides.length - 1)).toFixed(4) : "1",
-      );
-      updateProjectFocus(viewportCenter);
+      setActiveState(closest);
       mobileCarouselRaf = 0;
     };
 
@@ -110,7 +203,6 @@ export function MotionController() {
 
     const updateScrollMotion = () => {
       updateParallax();
-      updateDesktopCarousel();
       raf = 0;
     };
 
@@ -122,18 +214,9 @@ export function MotionController() {
     const revealAll = () => {
       revealItems.forEach((item) => item.classList.add("is-visible"));
       root.dataset.motion = "reduced";
-      if (carousel) carousel.style.setProperty("--projects-progress", "1");
-      if (track) track.style.removeProperty("transform");
+      setActiveState(0);
+      if (track) track.style.removeProperty("--carousel-x");
     };
-
-    if (reduced.matches) {
-      revealAll();
-      setActiveProject(0);
-      updateMobileCarousel();
-      return;
-    }
-
-    root.dataset.motion = "enhanced";
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -146,11 +229,26 @@ export function MotionController() {
       },
       { threshold: 0.08, rootMargin: "0px 0px -4%" },
     );
-    revealItems.forEach((item) => observer.observe(item));
+    if (reduced.matches) {
+      revealAll();
+    } else {
+      root.dataset.motion = "enhanced";
+      revealItems.forEach((item) => observer.observe(item));
+    }
+
+    const carouselObserver = carousel
+      ? new IntersectionObserver(
+          ([entry]) => {
+            carouselInView = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.45);
+          },
+          { threshold: [0, 0.45, 0.75] },
+        )
+      : null;
+    if (carousel && carouselObserver) carouselObserver.observe(carousel);
 
     const cleanups: Array<() => void> = [];
 
-    if (finePointer.matches) {
+    if (!reduced.matches && finePointer.matches) {
       magneticItems.forEach((item) => {
         const move = (event: PointerEvent) => {
           const rect = item.getBoundingClientRect();
@@ -233,43 +331,156 @@ export function MotionController() {
     }
 
     jumps.forEach((button, index) => {
-      const click = () => {
-        if (window.innerWidth <= 900 && track) {
-          const slide = slides[index];
-          slide?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-          return;
-        }
-        if (!carousel || slides.length < 2) return;
-        const scrollRange = Math.max(1, carousel.offsetHeight - window.innerHeight);
-        const targetTop = window.scrollY + carousel.getBoundingClientRect().top;
-        window.scrollTo({
-          top: targetTop + scrollRange * (index / (slides.length - 1)),
-          behavior: "smooth",
-        });
-      };
+      const click = () => goToProject(index);
       button.addEventListener("click", click);
       cleanups.push(() => button.removeEventListener("click", click));
     });
 
-    const onTrackScroll = () => requestMobileCarousel();
-    track?.addEventListener("scroll", onTrackScroll, { passive: true });
-    window.addEventListener("scroll", requestScrollMotion, { passive: true });
-    window.addEventListener("resize", requestScrollMotion, { passive: true });
-    window.addEventListener("resize", requestMobileCarousel, { passive: true });
+    const previous = () => goToProject(activeProject - 1);
+    const next = () => goToProject(activeProject + 1);
+    previousButton?.addEventListener("click", previous);
+    nextButton?.addEventListener("click", next);
+    cleanups.push(() => previousButton?.removeEventListener("click", previous));
+    cleanups.push(() => nextButton?.removeEventListener("click", next));
 
-    setActiveProject(0);
+    const toggleAutoplay = () => {
+      autoplayPausedByUser = !autoplayPausedByUser;
+      setAutoplayUi();
+      if (!autoplayPausedByUser) pauseUntil = Date.now() + 900;
+    };
+    autoplayToggle?.addEventListener("click", toggleAutoplay);
+    cleanups.push(() => autoplayToggle?.removeEventListener("click", toggleAutoplay));
+
+    const onTrackScroll = () => {
+      if (!isMobileCarousel()) return;
+      if (performance.now() > programmaticMobileScrollUntil) pauseAutoplayTemporarily(5000);
+      requestMobileCarousel();
+    };
+    track?.addEventListener("scroll", onTrackScroll, { passive: true });
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!track || isMobileCarousel() || event.button !== 0) return;
+      measureCarousel();
+      dragging = true;
+      dragPointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartOffset = carouselOffset;
+      dragMoved = false;
+      pauseAutoplayTemporarily(9000);
+      track.classList.add("is-dragging");
+      track.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!track || !dragging || event.pointerId !== dragPointerId) return;
+      const delta = event.clientX - dragStartX;
+      if (Math.abs(delta) > 6) dragMoved = true;
+      if (!dragMoved) return;
+      event.preventDefault();
+      renderDesktopOffset(dragStartOffset - delta, true);
+    };
+
+    const finishDrag = (event: PointerEvent) => {
+      if (!track || !dragging || event.pointerId !== dragPointerId) return;
+      dragging = false;
+      track.classList.remove("is-dragging");
+      track.releasePointerCapture?.(event.pointerId);
+      if (dragMoved) suppressClickUntil = performance.now() + 280;
+
+      let nearestIndex = activeProject;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+      carouselOffsets.forEach((offset, index) => {
+        const distance = Math.abs(offset - carouselOffset);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+      goToProject(nearestIndex, { pause: true, smooth: true });
+    };
+
+    const suppressDraggedClick = (event: MouseEvent) => {
+      if (performance.now() < suppressClickUntil) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    track?.addEventListener("pointerdown", onPointerDown);
+    track?.addEventListener("pointermove", onPointerMove);
+    track?.addEventListener("pointerup", finishDrag);
+    track?.addEventListener("pointercancel", finishDrag);
+    track?.addEventListener("click", suppressDraggedClick, true);
+    cleanups.push(() => track?.removeEventListener("pointerdown", onPointerDown));
+    cleanups.push(() => track?.removeEventListener("pointermove", onPointerMove));
+    cleanups.push(() => track?.removeEventListener("pointerup", finishDrag));
+    cleanups.push(() => track?.removeEventListener("pointercancel", finishDrag));
+    cleanups.push(() => track?.removeEventListener("click", suppressDraggedClick, true));
+
+    const onCarouselKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        previous();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        next();
+      }
+    };
+    track?.addEventListener("keydown", onCarouselKeyDown);
+    cleanups.push(() => track?.removeEventListener("keydown", onCarouselKeyDown));
+
+    const pauseOnIntent = () => pauseAutoplayTemporarily(9000);
+    projectWindow?.addEventListener("wheel", pauseOnIntent, { passive: true });
+    projectWindow?.addEventListener("touchstart", pauseOnIntent, { passive: true });
+    carousel?.addEventListener("focusin", pauseOnIntent);
+    cleanups.push(() => projectWindow?.removeEventListener("wheel", pauseOnIntent));
+    cleanups.push(() => projectWindow?.removeEventListener("touchstart", pauseOnIntent));
+    cleanups.push(() => carousel?.removeEventListener("focusin", pauseOnIntent));
+
+    const onResize = () => {
+      requestScrollMotion();
+      requestMobileCarousel();
+      window.setTimeout(() => {
+        measureCarousel();
+        if (isMobileCarousel()) scrollMobileToProject(activeProject, false);
+        else renderDesktopOffset(carouselOffsets[activeProject] ?? 0, true);
+      }, 80);
+    };
+
+    window.addEventListener("scroll", requestScrollMotion, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
+    autoplayTimer = window.setInterval(() => {
+      if (
+        !carouselInView ||
+        autoplayPausedByUser ||
+        dragging ||
+        document.hidden ||
+        reduced.matches ||
+        Date.now() < pauseUntil
+      ) {
+        return;
+      }
+      goToProject(activeProject + 1, { pause: false, smooth: true });
+    }, 5200);
+
+    setAutoplayUi();
+    setActiveState(0);
     updateScrollMotion();
+    measureCarousel();
+    renderDesktopOffset(0, true);
     updateMobileCarousel();
 
     return () => {
       observer.disconnect();
+      carouselObserver?.disconnect();
       cleanups.forEach((cleanup) => cleanup());
       track?.removeEventListener("scroll", onTrackScroll);
       window.removeEventListener("scroll", requestScrollMotion);
-      window.removeEventListener("resize", requestScrollMotion);
-      window.removeEventListener("resize", requestMobileCarousel);
+      window.removeEventListener("resize", onResize);
       if (raf) cancelAnimationFrame(raf);
       if (mobileCarouselRaf) cancelAnimationFrame(mobileCarouselRaf);
+      if (autoplayTimer) window.clearInterval(autoplayTimer);
       delete root.dataset.motion;
     };
   }, []);

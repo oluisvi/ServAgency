@@ -28,3 +28,16 @@ npm install
 npm run typecheck
 npm run build
 ```
+
+## Carousel reliability pass — 2026-09-21
+
+- Desktop carousel no longer depends on vertical scrub/section height for project changes.
+- Automatic advance runs only while the project section is substantially visible.
+- Manual navigation: previous/next arrows, numbered jumps and keyboard arrows.
+- Pointer drag on desktop snaps to the nearest project.
+- Native horizontal swipe remains enabled on mobile.
+- Manual interaction temporarily pauses autoplay; an explicit PLAY/PAUSE control is available.
+- `prefers-reduced-motion` disables autoplay and animated transitions while preserving manual navigation.
+- Changed TS/TSX files were syntax-checked with TypeScript `transpileModule`: 0 syntax errors.
+- `globals.css` brace count validated: balanced.
+- Full `next build` was not run in this environment because project dependencies are not installed locally.
