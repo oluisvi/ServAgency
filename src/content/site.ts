@@ -67,25 +67,11 @@ export type PortfolioProject = {
 
 export const flagshipProjects: readonly PortfolioProject[] = [
   {
-    slug: "removeit", name: "RemoveIT", year: "2026", category: "Visão computacional + produto web",
-    summary: "Ferramenta local-first para remoção assistida de marcas d’água autorizadas, combinando detecção automática, máscara editável e inpainting com revisão humana.",
-    capabilities: ["Next.js 16", "FastAPI", "OpenCV / LaMa", "Privacidade local-first"],
-    sourceUrl: "https://github.com/oluisvi/RemoveIT",
-    visual: { treatment: "ai", label: "DETECT → REVIEW → REBUILD", kicker: "AI WITH HUMAN CONTROL", mockup: "removeit", alt: "Interface do RemoveIT reconstruída a partir do design real do projeto" },
-  },
-  {
     slug: "crivo-3d", name: "Crivo 3D", year: "2026", category: "Website imersivo + WebGL",
     summary: "Experiência institucional para uma empresa de impressão 3D em que camada, volume e material viram linguagem visual e interação.",
     capabilities: ["React + TypeScript", "Three.js", "Entrada sincronizada", "Viewer 3D"],
     sourceUrl: "https://github.com/oluisvi/Crivo-3D",
     visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE", src: "/projects/crivo-3d.png", alt: "Hero real do projeto Crivo 3D", fit: "cover", position: "center" },
-  },
-  {
-    slug: "ferreira-imoveis", name: "Ferreira Imóveis", year: "2026", category: "Curadoria imobiliária pessoal",
-    summary: "Experiência digital para atendimento imobiliário pessoal e consultivo, com descoberta por perfis, narrativa editorial e conversão direta pelo WhatsApp.",
-    capabilities: ["Curadoria por perfil", "Motion editorial", "Atendimento consultivo", "Conversão via WhatsApp"],
-    liveUrl: "https://ferreira-imoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
-    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/ferreira-imoveis.png", alt: "Hero real do site Ferreira Corretor de Imóveis", fit: "cover", position: "center" },
   },
   {
     slug: "ruvro", name: "Ruvro & Co", year: "2026", category: "Luxury digital showroom",
@@ -95,11 +81,39 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS", kicker: "EDITORIAL COMMERCE", src: "https://raw.githubusercontent.com/oluisvi/Ruvro/main/docs/concepts/ruvro-home-concept.png", alt: "Conceito visual real da home do Ruvro & Co", fit: "cover", position: "center" },
   },
   {
+    slug: "alvora-lab", name: "Alvora Lab", year: "2026", category: "Fabricação digital + catálogo 3D",
+    summary: "Experiência de marca e catálogo para uma pequena fábrica digital, conectando produtos prontos, projetos personalizados e uma identidade 3D interativa.",
+    capabilities: ["Logo 3D interativo", "Catálogo", "Dark / light mode", "Projetos personalizados"],
+    liveUrl: "https://alvora-lab.vercel.app/",
+    visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://alvora-lab.vercel.app/", alt: "Captura do site Alvora Lab", fit: "cover", position: "center" },
+  },
+  {
+    slug: "ferreira-imoveis", name: "Ferreira Imóveis", year: "2026", category: "Curadoria imobiliária pessoal",
+    summary: "Experiência digital para atendimento imobiliário pessoal e consultivo, com descoberta por perfis, narrativa editorial e conversão direta pelo WhatsApp.",
+    capabilities: ["Curadoria por perfil", "Motion editorial", "Atendimento consultivo", "Conversão via WhatsApp"],
+    liveUrl: "https://ferreira-imoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
+    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/ferreira-imoveis.png", alt: "Hero real do site Ferreira Corretor de Imóveis", fit: "cover", position: "center" },
+  },
+  {
+    slug: "casa-aurora", name: "Casa Aurora", year: "2026", category: "Experiência residencial 360°",
+    summary: "Apresentação arquitetônica conceitual que combina narrativa residencial, planta e exploração panorâmica dos ambientes em uma experiência digital imersiva.",
+    capabilities: ["Tour panorâmico 360°", "Canvas interativo", "Narrativa arquitetônica", "Planta conceitual"],
+    liveUrl: "https://home-3d-three.vercel.app/",
+    visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://home-3d-three.vercel.app/", alt: "Captura do projeto Casa Aurora", fit: "cover", position: "center" },
+  },
+  {
     slug: "lamims", name: "Lamim's Barbershop", year: "2026", category: "Experiência espacial 3D",
     summary: "Uma porta digital para a barbearia: introdução guiada, percurso espacial, hotspots informativos e agendamento persistente com fallback acessível.",
     capabilities: ["Three.js / R3F", "Narrativa espacial", "Quality tiers", "Conversão local"],
     liveUrl: "https://lamim-s-barbershop.vercel.app/", sourceUrl: "https://github.com/oluisvi/Lamim-s-Barbershop",
     visual: { treatment: "spatial", label: "GUIDED → FREE", kicker: "DIGITAL SPACE", src: "https://raw.githubusercontent.com/oluisvi/Lamim-s-Barbershop/main/public/images/lamims/interior-stations.webp", alt: "Interior real usado na experiência digital da Lamim's Barbershop", fit: "cover", position: "center" },
+  },
+  {
+    slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
+    summary: "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
+    capabilities: ["Direção editorial", "Hero 3D", "Commerce backend", "Pagamentos"],
+    liveUrl: "https://shop-co-store.vercel.app/", sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
+    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/shopco.png", alt: "Interface real do e-commerce Shop.co", fit: "contain", position: "center" },
   },
   {
     slug: "flowdesk", name: "FlowDesk", year: "2026", category: "SaaS de operações e automação",
@@ -116,11 +130,11 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     visual: { treatment: "data", label: "DATA → DECISION", kicker: "FINANCIAL CLARITY", src: "https://raw.githubusercontent.com/oluisvi/atlas-finance-ai/main/docs/screenshots/dashboard-desktop.png", alt: "Dashboard real do Atlas Finance AI", fit: "contain", position: "center" },
   },
   {
-    slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
-    summary: "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
-    capabilities: ["Catálogo", "Carrinho", "Pagamentos", "Gestão de produtos"],
-    liveUrl: "https://shop-co-store.vercel.app/", sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
-    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/shopco.png", alt: "Interface real do e-commerce Shop.co", fit: "contain", position: "center" },
+    slug: "removeit", name: "RemoveIT", year: "2026", category: "Visão computacional + produto web",
+    summary: "Ferramenta local-first para remoção assistida de marcas d’água autorizadas, combinando detecção automática, máscara editável e inpainting com revisão humana.",
+    capabilities: ["Next.js 16", "FastAPI", "OpenCV / LaMa", "Privacidade local-first"],
+    sourceUrl: "https://github.com/oluisvi/RemoveIT",
+    visual: { treatment: "ai", label: "DETECT → REVIEW → REBUILD", kicker: "AI WITH HUMAN CONTROL", mockup: "removeit", alt: "Interface do RemoveIT reconstruída a partir do design real do projeto" },
   },
 ];
 

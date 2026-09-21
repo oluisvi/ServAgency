@@ -39,3 +39,36 @@ Validation before deployment:
 npm run typecheck
 npm run build
 ```
+
+## Portfolio audit — 2026-09-21
+
+The home portfolio order is intentionally **not chronological**. It starts with the projects that communicate the most visual authorship, detail and interaction in the first seconds, then transitions toward denser product/application work:
+
+1. Crivo 3D
+2. Ruvro & Co
+3. Alvora Lab
+4. Ferreira Imóveis
+5. Casa Aurora
+6. Lamim's Barbershop
+7. Shop.co
+8. FlowDesk
+9. Atlas Finance AI
+10. RemoveIT
+
+The review considered the rendered experiences and available source material: hero impact, art direction, typography, imagery, spatial/motion behavior, interaction depth, compositional detail and overall finish. The order is a portfolio storytelling decision, not a chronology or a statement about engineering complexity.
+
+## Case studies
+
+Every flagship project now has a local presentation route at `/projetos/[slug]`. The pages are data-driven from `src/content/case-studies.ts` and include:
+
+- challenge and experience thesis;
+- visual palette;
+- design / interaction principles;
+- project construction narrative;
+- real project imagery or faithful interface evidence;
+- technology stack;
+- result and source-basis note;
+- live-site and repository links when available;
+- next-case navigation.
+
+For Alvora Lab and Casa Aurora, the case copy distinguishes public-product observation from undocumented internal creative rationale. It does not claim private design decisions that were not available in the supplied sources.

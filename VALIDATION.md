@@ -1,31 +1,27 @@
-# Validation — continuous carousel + Ferreira Imóveis
+# Validation — portfolio audit + case studies
 
-## Changes in this revision
+## Completed checks
 
-- Replaced interval-based project autoplay with a requestAnimationFrame-driven continuous rail.
-- Removed timed dwell between projects: movement is constant while the carousel is visible.
-- Added runtime before/after clones for a seamless infinite loop without changing the authored project list.
-- Preserved previous/next controls, numbered jumps, keyboard arrows, desktop drag and mobile swipe.
-- Manual controls animate to the requested project and continuous movement resumes immediately afterward.
-- PLAY/PAUSE remains available; `prefers-reduced-motion` disables automatic motion.
-- Moved the large project definition text from the center of the image into the lower status rail with smaller typography.
-- Added Ferreira Imóveis using the supplied real project screenshot, verified deploy URL and repository.
-- Replaced the Crivo 3D cover with the supplied real project screenshot.
-- Portfolio count now derives automatically from the project array and is currently 08.
+- Portfolio expanded from 8 to 10 projects.
+- Added Alvora Lab and Casa Aurora / Home 3D.
+- Carousel order changed from chronology to visual-storytelling priority.
+- Continuous infinite carousel behavior preserved.
+- Manual controls, drag/swipe, arrows, numbers and pause/play preserved.
+- Added `/projetos/[slug]` static case-study route for every project.
+- Added real/faithful galleries, palettes, process narrative and source notes.
+- Alvora Lab and Casa Aurora use public-deploy observations and explicitly avoid claiming undocumented internal rationale.
+- 23 TS/TSX source files transpiled with TypeScript: 0 syntax errors.
+- `globals.css` braces balanced: 729 opening / 729 closing.
+- No legacy `postcss.config.mjs` is present.
 
-## Static verification performed
+## Production gate still required
 
-- 20 TS/TSX source files parsed with TypeScript `transpileModule`: 0 syntax diagnostics.
-- CSS opening and closing braces checked for balance.
-- Local project images exist at `public/projects/ferreira-imoveis.png` and `public/projects/crivo-3d.png`.
-- Stale Tailwind/PostCSS configuration is not present.
-
-## Environment limitation
-
-A full `npm install` timed out in this environment, so a dependency-aware `next build` could not be completed here. Run before deployment:
+This environment does not contain the project's npm dependencies, so a full Next.js typecheck/build was not executed here. Before deploying:
 
 ```bash
 npm install
 npm run typecheck
 npm run build
 ```
+
+If all three pass, deploy the same source package to Vercel.
