@@ -60,6 +60,8 @@ export type PortfolioProject = {
     src?: string;
     alt?: string;
     fit?: "cover" | "contain";
+    position?: string;
+    mockup?: "removeit";
   };
 };
 
@@ -69,49 +71,49 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     summary: "Ferramenta local-first para remoção assistida de marcas d’água autorizadas, combinando detecção automática, máscara editável e inpainting com revisão humana.",
     capabilities: ["Next.js 16", "FastAPI", "OpenCV / LaMa", "Privacidade local-first"],
     sourceUrl: "https://github.com/oluisvi/RemoveIT",
-    visual: { treatment: "ai", label: "DETECT → REVIEW → REBUILD", kicker: "AI WITH HUMAN CONTROL" },
+    visual: { treatment: "ai", label: "DETECT → REVIEW → REBUILD", kicker: "AI WITH HUMAN CONTROL", mockup: "removeit", alt: "Interface do RemoveIT reconstruída a partir do design real do projeto" },
   },
   {
     slug: "crivo-3d", name: "Crivo 3D", year: "2026", category: "Website imersivo + WebGL",
     summary: "Experiência institucional para uma empresa de impressão 3D em que camada, volume e material viram linguagem visual e interação.",
     capabilities: ["React + TypeScript", "Three.js", "Entrada sincronizada", "Viewer 3D"],
     sourceUrl: "https://github.com/oluisvi/Crivo-3D",
-    visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE" },
+    visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/Crivo-3D/main/public/assets/og-crivo.png", alt: "Composição oficial do projeto Crivo 3D", fit: "cover", position: "center" },
   },
   {
     slug: "ruvro", name: "Ruvro & Co", year: "2026", category: "Luxury digital showroom",
     summary: "Showroom editorial para uma curadoria privada de relógios, desenhado para transformar descoberta em desejo, contexto, confiança e acesso privado.",
     capabilities: ["Direção editorial", "Storytelling de produto", "Motion cinematográfico", "Conversão privada"],
     liveUrl: "https://ruvro.vercel.app", sourceUrl: "https://github.com/oluisvi/Ruvro",
-    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS", kicker: "EDITORIAL COMMERCE" },
+    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS", kicker: "EDITORIAL COMMERCE", src: "https://raw.githubusercontent.com/oluisvi/Ruvro/main/docs/concepts/ruvro-home-concept.png", alt: "Conceito visual real da home do Ruvro & Co", fit: "cover", position: "center" },
   },
   {
     slug: "lamims", name: "Lamim's Barbershop", year: "2026", category: "Experiência espacial 3D",
     summary: "Uma porta digital para a barbearia: introdução guiada, percurso espacial, hotspots informativos e agendamento persistente com fallback acessível.",
     capabilities: ["Three.js / R3F", "Narrativa espacial", "Quality tiers", "Conversão local"],
     liveUrl: "https://lamim-s-barbershop.vercel.app/", sourceUrl: "https://github.com/oluisvi/Lamim-s-Barbershop",
-    visual: { treatment: "spatial", label: "GUIDED → FREE", kicker: "DIGITAL SPACE" },
+    visual: { treatment: "spatial", label: "GUIDED → FREE", kicker: "DIGITAL SPACE", src: "https://raw.githubusercontent.com/oluisvi/Lamim-s-Barbershop/main/public/images/lamims/interior-stations.webp", alt: "Interior real usado na experiência digital da Lamim's Barbershop", fit: "cover", position: "center" },
   },
   {
     slug: "flowdesk", name: "FlowDesk", year: "2026", category: "SaaS de operações e automação",
     summary: "Workspace operacional para pequenas equipes centralizarem clientes, projetos, tarefas, colaboração e workflows visuais automatizados.",
     capabilities: ["Gestão operacional", "Kanban", "Workflows visuais", "Automação"],
     liveUrl: "https://flowdeskwebapp.vercel.app", sourceUrl: "https://github.com/oluisvi/FlowDesk",
-    visual: { treatment: "system", label: "ORGANIZE → AUTOMATE", kicker: "OPERATIONS SYSTEM" },
+    visual: { treatment: "system", label: "ORGANIZE → AUTOMATE", kicker: "OPERATIONS SYSTEM", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/flowdesk.png", alt: "Interface real do FlowDesk", fit: "contain", position: "center" },
   },
   {
     slug: "atlas-finance-ai", name: "Atlas Finance AI", year: "2026", category: "Produto de finanças pessoais",
     summary: "Aplicação de planejamento financeiro com múltiplas moedas, relatórios e insights determinísticos e explicáveis.",
     capabilities: ["Planejamento", "Múltiplas moedas", "Relatórios", "Insights explicáveis"],
     liveUrl: "https://atlas-finance-web.onrender.com/", sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
-    visual: { treatment: "data", label: "DATA → DECISION", kicker: "FINANCIAL CLARITY" },
+    visual: { treatment: "data", label: "DATA → DECISION", kicker: "FINANCIAL CLARITY", src: "https://raw.githubusercontent.com/oluisvi/atlas-finance-ai/main/docs/screenshots/dashboard-desktop.png", alt: "Dashboard real do Atlas Finance AI", fit: "contain", position: "center" },
   },
   {
     slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
     summary: "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
     capabilities: ["Catálogo", "Carrinho", "Pagamentos", "Gestão de produtos"],
     liveUrl: "https://shop-co-store.vercel.app/", sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
-    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE" },
+    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/shopco.png", alt: "Interface real do e-commerce Shop.co", fit: "contain", position: "center" },
   },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThematicEntry } from "@/components/ui/thematic-entry";
+import { MotionController } from "@/components/ui/motion-controller";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
         <ThematicEntry />
         {children}
+        <MotionController />
       </body>
     </html>
   );

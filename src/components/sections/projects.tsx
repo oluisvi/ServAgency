@@ -1,2 +1,128 @@
-import {ArrowUpRight,Braces} from "lucide-react"; import {flagshipProjects} from "@/content/site";
-export function Projects(){return <section className="projects" id="projetos"><div className="section project-head"><div className="intro"><span>03 / SELECTED WORK</span><h2>Projetos que provam amplitude sem perder autoria.</h2></div></div>{flagshipProjects.map((p,i)=><article className={`project ${p.visual.treatment}`} key={p.slug}><div className="project-copy"><span className="project-no">{String(i+1).padStart(2,"0")} / {String(flagshipProjects.length).padStart(2,"0")}</span><small>{p.year} — {p.category}</small><h3>{p.name}</h3><p>{p.summary}</p><ul>{p.capabilities.map(c=><li key={c}>{c}</li>)}</ul><div className="actions">{p.liveUrl&&<a href={p.liveUrl} target="_blank">Ver projeto <ArrowUpRight/></a>}{p.sourceUrl&&<a href={p.sourceUrl} target="_blank"><Braces/> Código</a>}</div></div><div className="project-art"><span>{p.visual.kicker}</span><strong>{p.visual.label}</strong><div className="art-grid"><i/><i/><i/><i/><i/><i/></div></div></article>)}</section>}
+import type { CSSProperties } from "react";
+import { ArrowUpRight, Braces, ImageIcon, Sparkles } from "lucide-react";
+import { flagshipProjects, type PortfolioProject } from "@/content/site";
+
+type ProjectMediaStyle = CSSProperties & {
+  "--project-image"?: string;
+  "--project-position"?: string;
+};
+
+function RemoveItCover() {
+  return (
+    <div className="removeit-cover" aria-hidden="true">
+      <div className="removeit-nav">
+        <span className="removeit-brand"><i><Sparkles /></i>Remove<b>IT</b></span>
+        <span>Como funciona&nbsp;&nbsp;&nbsp; Privacidade</span>
+        <strong>Começar ↗</strong>
+      </div>
+      <div className="removeit-hero">
+        <small><i /> EDIÇÃO INTELIGENTE DE IMAGENS</small>
+        <h4>Fotos limpas.<br /><em>Em poucos segundos.</em></h4>
+        <p>A IA encontra marcas d&apos;água e mantém você no controle.</p>
+        <div className="removeit-upload">
+          <span><ImageIcon /></span>
+          <b>Solte sua imagem aqui</b>
+          <small>ou escolha um arquivo do seu dispositivo</small>
+          <button type="button" tabIndex={-1}>Escolher imagem ↗</button>
+          <i>□ Confirmo que possuo autorização para editar esta imagem.</i>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectArtwork({ project, index }: { project: PortfolioProject; index: number }) {
+  const hasImage = Boolean(project.visual.src);
+  const style: ProjectMediaStyle = hasImage
+    ? {
+        "--project-image": `url("${project.visual.src}")`,
+        "--project-position": project.visual.position ?? "center",
+      }
+    : {};
+
+  return (
+    <div
+      className={`project-art ${hasImage ? "has-project-image" : "has-project-mockup"} project-fit-${project.visual.fit ?? "cover"}`}
+      role="img"
+      aria-label={project.visual.alt ?? `Visual do projeto ${project.name}`}
+      style={style}
+    >
+      {project.visual.mockup === "removeit" ? <RemoveItCover /> : <div className="project-media" aria-hidden="true" />}
+      <div className="project-art-shade" aria-hidden="true" />
+      <div className="project-art-meta" aria-hidden="true">
+        <span>{project.visual.kicker}</span>
+        <i>{String(index + 1).padStart(2, "0")}</i>
+      </div>
+      <strong aria-hidden="true">{project.visual.label}</strong>
+      <div className="project-state" aria-hidden="true">
+        <span>STATE</span><b>ACTIVE</b>
+      </div>
+    </div>
+  );
+}
+
+export function Projects() {
+  const total = String(flagshipProjects.length).padStart(2, "0");
+
+  return (
+    <section className="projects motion-projects" id="projetos" data-project-carousel>
+      <div className="project-pin">
+        <div className="project-head motion-clip">
+          <div>
+            <span>03 / SELECTED WORK</span>
+            <h2>Projetos em movimento, sem transformar a página em uma maratona.</h2>
+          </div>
+          <p>
+            Role para atravessar os projetos. A imagem é evidência real de cada produto; o motion muda o estado sem esconder o conteúdo.
+          </p>
+        </div>
+
+        <div className="project-controls">
+          <span className="project-progress-label">SCRUB / {total} PROJECTS</span>
+          <div className="project-progress" aria-hidden="true"><i /></div>
+          <div className="project-jumps" aria-label="Navegação dos projetos">
+            {flagshipProjects.map((project, index) => (
+              <button type="button" key={project.slug} data-project-jump aria-label={`Ir para ${project.name}`}>
+                {String(index + 1).padStart(2, "0")}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="project-window">
+          <div className="project-track" data-project-track>
+            {flagshipProjects.map((project, index) => (
+              <article
+                className={`project-slide ${project.visual.treatment}`}
+                key={project.slug}
+                data-project-slide
+                data-project-treatment={project.visual.treatment}
+              >
+                <div className="project-copy">
+                  <div className="project-no"><span>{String(index + 1).padStart(2, "0")}</span><span>/ {total}</span></div>
+                  <small>{project.year} — {project.category}</small>
+                  <h3>{project.name}</h3>
+                  <p>{project.summary}</p>
+                  <ul>{project.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul>
+                  <div className="actions">
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" data-magnetic>
+                        Ver projeto <ArrowUpRight aria-hidden="true" />
+                      </a>
+                    )}
+                    {project.sourceUrl && (
+                      <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                        <Braces aria-hidden="true" /> Código
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <ProjectArtwork project={project} index={index} />
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
