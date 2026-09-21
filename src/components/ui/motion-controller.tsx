@@ -3,6 +3,10 @@
 import { useEffect } from "react";
 
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const mod = (value: number, divisor: number) =>
+  divisor > 0 ? ((value % divisor) + divisor) % divisor : 0;
+const easeInOutCubic = (value: number) =>
+  value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
 
 export function MotionController() {
   useEffect(() => {
@@ -14,7 +18,7 @@ export function MotionController() {
     );
     const parallaxItems = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
     const magneticItems = Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"));
-    const tiltItems = Array.from(
+    let tiltItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         "[data-tilt-surface], .rows article, .services article, .process li, .about li",
       ),
@@ -25,7 +29,7 @@ export function MotionController() {
     const carousel = document.querySelector<HTMLElement>("[data-project-carousel]");
     const projectWindow = carousel?.querySelector<HTMLElement>("[data-project-window]") ?? null;
     const track = carousel?.querySelector<HTMLElement>("[data-project-track]") ?? null;
-    const slides = carousel
+    const originalSlides = carousel
       ? Array.from(carousel.querySelectorAll<HTMLElement>("[data-project-slide]"))
       : [];
     const jumps = carousel
@@ -38,29 +42,42 @@ export function MotionController() {
     const autoplayLabel =
       carousel?.querySelector<HTMLElement>("[data-project-autoplay-label]") ?? null;
 
-    let raf = 0;
-    let mobileCarouselRaf = 0;
+    let scrollRaf = 0;
+    let carouselRaf = 0;
     let activeProject = 0;
-    let carouselOffsets: number[] = [];
+    let sequenceWidth = 0;
     let carouselOffset = 0;
     let carouselInView = false;
     let autoplayPausedByUser = false;
-    let pauseUntil = 0;
-    let autoplayTimer = 0;
-    let suppressClickUntil = 0;
-    let programmaticMobileScrollUntil = 0;
-
+    let carouselInitialized = false;
     let dragging = false;
+    let touching = false;
     let dragPointerId = -1;
     let dragStartX = 0;
     let dragStartOffset = 0;
     let dragMoved = false;
+    let suppressClickUntil = 0;
+    let interactionResumeAt = 0;
+    let lastCarouselTime = 0;
+    let lastProgrammaticMobileScroll = 0;
+    let allSlides: HTMLElement[] = [...originalSlides];
+    let physicalOffsets: number[] = [];
+    let physicalWidths: number[] = [];
+    let originalOffsets: number[] = [];
+    const generatedClones: HTMLElement[] = [];
+
+    let manualTween:
+      | {
+          from: number;
+          to: number;
+          startedAt: number;
+          duration: number;
+        }
+      | null = null;
 
     const isMobileCarousel = () => window.innerWidth <= 900;
-
-    const pauseAutoplayTemporarily = (duration = 7500) => {
-      pauseUntil = Date.now() + duration;
-    };
+    const currentPhysicalOffset = () =>
+      isMobileCarousel() && track ? track.scrollLeft : carouselOffset;
 
     const setAutoplayUi = () => {
       if (!autoplayToggle || !autoplayLabel) return;
@@ -75,119 +92,194 @@ export function MotionController() {
       carousel?.toggleAttribute("data-autoplay-paused", autoplayPausedByUser);
     };
 
-    const setActiveState = (index: number) => {
-      if (!carousel || slides.length === 0) return;
-      const normalized = Math.max(0, Math.min(slides.length - 1, index));
-      activeProject = normalized;
-      carousel.dataset.activeProject = String(normalized);
-      carousel.dataset.projectTreatment = slides[normalized]?.dataset.projectTreatment ?? "system";
-      carousel.style.setProperty(
-        "--projects-progress",
-        slides.length > 1 ? (normalized / (slides.length - 1)).toFixed(4) : "1",
-      );
+    const prepareInfiniteTrack = () => {
+      if (!track || originalSlides.length === 0 || generatedClones.length > 0) return;
 
-      jumps.forEach((button, buttonIndex) => {
-        if (buttonIndex === normalized) button.setAttribute("aria-current", "step");
-        else button.removeAttribute("aria-current");
+      originalSlides.forEach((slide, index) => {
+        slide.dataset.projectIndex = String(index);
       });
-      slides.forEach((slide, slideIndex) => {
-        const distance = Math.abs(slideIndex - normalized);
-        const focus = clamp(1 - distance * 0.72);
-        slide.classList.toggle("is-current", slideIndex === normalized);
-        slide.style.setProperty("--project-focus", focus.toFixed(3));
-      });
+
+      const makeClone = (slide: HTMLElement, side: "before" | "after") => {
+        const clone = slide.cloneNode(true) as HTMLElement;
+        clone.dataset.projectClone = side;
+        clone.setAttribute("aria-hidden", "true");
+        clone.querySelectorAll<HTMLElement>("a, button, input, select, textarea, [tabindex]").forEach((node) => {
+          node.tabIndex = -1;
+        });
+        generatedClones.push(clone);
+        return clone;
+      };
+
+      const before = document.createDocumentFragment();
+      originalSlides.forEach((slide) => before.appendChild(makeClone(slide, "before")));
+      track.insertBefore(before, originalSlides[0]);
+
+      originalSlides.forEach((slide) => track.appendChild(makeClone(slide, "after")));
+      allSlides = Array.from(track.querySelectorAll<HTMLElement>("[data-project-slide]"));
     };
 
-    const measureCarousel = () => {
-      if (!track || slides.length === 0 || isMobileCarousel()) return;
-      const firstLeft = slides[0]?.offsetLeft ?? 0;
-      carouselOffsets = slides.map((slide) => Math.max(0, slide.offsetLeft - firstLeft));
-      carouselOffset = carouselOffsets[activeProject] ?? 0;
-      track.style.setProperty("--carousel-x", `${-carouselOffset}px`);
-    };
-
-    const renderDesktopOffset = (offset: number, immediate = false) => {
+    const setTrackOffset = (offset: number) => {
       if (!track || isMobileCarousel()) return;
-      const maxOffset = carouselOffsets.at(-1) ?? 0;
-      carouselOffset = Math.max(0, Math.min(maxOffset, offset));
-      track.classList.toggle("is-immediate", immediate);
+      carouselOffset = offset;
       track.style.setProperty("--carousel-x", `${-carouselOffset}px`);
+    };
 
-      if (carouselOffsets.length > 0) {
-        let nearestIndex = 0;
-        let nearestDistance = Number.POSITIVE_INFINITY;
-        carouselOffsets.forEach((candidate, index) => {
-          const distance = Math.abs(candidate - carouselOffset);
-          if (distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestIndex = index;
-          }
-        });
+    const rebaseDesktopOffset = () => {
+      if (!sequenceWidth) return;
+      if (carouselOffset >= sequenceWidth * 2) carouselOffset -= sequenceWidth;
+      if (carouselOffset < 0) carouselOffset += sequenceWidth;
+      setTrackOffset(carouselOffset);
+    };
 
-        slides.forEach((slide, index) => {
-          const distance = Math.abs(carouselOffsets[index] - carouselOffset);
-          const slideWidth = Math.max(slide.offsetWidth, 1);
-          const focus = clamp(1 - distance / (slideWidth * 0.92));
-          slide.style.setProperty("--project-focus", focus.toFixed(3));
-        });
-
-        if (nearestIndex !== activeProject && !dragging) setActiveState(nearestIndex);
+    const rebaseMobileOffset = () => {
+      if (!track || !sequenceWidth || !isMobileCarousel()) return;
+      if (track.scrollLeft >= sequenceWidth * 2) {
+        lastProgrammaticMobileScroll = performance.now();
+        track.scrollLeft -= sequenceWidth;
+      } else if (track.scrollLeft < 0) {
+        lastProgrammaticMobileScroll = performance.now();
+        track.scrollLeft += sequenceWidth;
       }
     };
 
-    const scrollMobileToProject = (index: number, smooth = true) => {
-      if (!track || !slides[index]) return;
-      const slide = slides[index];
-      const left = slide.offsetLeft - Math.max(0, (track.clientWidth - slide.offsetWidth) / 2);
-      programmaticMobileScrollUntil = performance.now() + (smooth ? 1100 : 120);
-      track.scrollTo({ left, behavior: smooth ? "smooth" : "auto" });
-    };
+    const setActiveVisualState = (physicalOffset: number) => {
+      if (!carousel || !projectWindow || allSlides.length === 0 || originalSlides.length === 0) return;
 
-    const goToProject = (
-      index: number,
-      options: { smooth?: boolean; pause?: boolean } = {},
-    ) => {
-      if (slides.length === 0) return;
-      const normalized = ((index % slides.length) + slides.length) % slides.length;
-      const smooth = options.smooth ?? true;
-      if (options.pause ?? true) pauseAutoplayTemporarily();
-      setActiveState(normalized);
-
-      if (isMobileCarousel()) {
-        scrollMobileToProject(normalized, smooth && !reduced.matches);
-        return;
-      }
-
-      measureCarousel();
-      renderDesktopOffset(carouselOffsets[normalized] ?? 0, !smooth || reduced.matches);
-      if (track) {
-        window.setTimeout(() => track.classList.remove("is-immediate"), smooth ? 700 : 0);
-      }
-    };
-
-    const updateMobileCarousel = () => {
-      if (!carousel || !track || slides.length === 0 || !isMobileCarousel()) return;
-      const trackRect = track.getBoundingClientRect();
-      const viewportCenter = trackRect.left + track.clientWidth / 2;
-      let closest = 0;
+      const viewportWidth = isMobileCarousel()
+        ? Math.max(track?.clientWidth ?? 0, 1)
+        : Math.max(projectWindow.clientWidth, 1);
+      const viewportCenter = physicalOffset + viewportWidth / 2;
+      let closestPhysical = 0;
       let closestDistance = Number.POSITIVE_INFINITY;
-      slides.forEach((slide, index) => {
-        const rect = slide.getBoundingClientRect();
-        const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
+
+      allSlides.forEach((slide, index) => {
+        const center = (physicalOffsets[index] ?? slide.offsetLeft) + (physicalWidths[index] ?? slide.offsetWidth) / 2;
+        const distance = Math.abs(center - viewportCenter);
+        const focus = clamp(1 - distance / Math.max(viewportWidth * 0.72, 1));
+        slide.style.setProperty("--project-focus", focus.toFixed(3));
         if (distance < closestDistance) {
           closestDistance = distance;
-          closest = index;
+          closestPhysical = index;
         }
-        const focus = clamp(1 - distance / Math.max(track.clientWidth * 0.78, 1));
-        slide.style.setProperty("--project-focus", focus.toFixed(3));
       });
-      setActiveState(closest);
-      mobileCarouselRaf = 0;
+
+      const closestSlide = allSlides[closestPhysical];
+      const logicalIndex = Number(closestSlide?.dataset.projectIndex ?? 0);
+      activeProject = Number.isFinite(logicalIndex) ? logicalIndex : 0;
+
+      carousel.dataset.activeProject = String(activeProject);
+      carousel.dataset.projectTreatment =
+        originalSlides[activeProject]?.dataset.projectTreatment ?? "system";
+
+      const cycleProgress = sequenceWidth
+        ? mod(physicalOffset - sequenceWidth, sequenceWidth) / sequenceWidth
+        : 0;
+      carousel.style.setProperty("--projects-progress", cycleProgress.toFixed(4));
+
+      jumps.forEach((button, index) => {
+        if (index === activeProject) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
+      });
+
+      allSlides.forEach((slide, index) => {
+        slide.classList.toggle("is-current", index === closestPhysical);
+      });
     };
 
-    const requestMobileCarousel = () => {
-      if (mobileCarouselRaf) return;
-      mobileCarouselRaf = requestAnimationFrame(updateMobileCarousel);
+    const measureCarousel = (preservePosition = true) => {
+      if (!track || !projectWindow || originalSlides.length === 0) return;
+      const previousWidth = sequenceWidth;
+      const previousLogicalProgress = previousWidth
+        ? mod(currentPhysicalOffset() - previousWidth, previousWidth) / previousWidth
+        : 0;
+
+      allSlides = Array.from(track.querySelectorAll<HTMLElement>("[data-project-slide]"));
+      const firstOriginal = originalSlides[0];
+      const firstAfter = allSlides.find(
+        (slide) => slide.dataset.projectClone === "after" && slide.dataset.projectIndex === "0",
+      );
+      if (!firstOriginal || !firstAfter) return;
+
+      sequenceWidth = Math.max(1, firstAfter.offsetLeft - firstOriginal.offsetLeft);
+      const firstOriginalLeft = firstOriginal.offsetLeft;
+      originalOffsets = originalSlides.map((slide) => slide.offsetLeft - firstOriginalLeft);
+      physicalOffsets = allSlides.map((slide) => slide.offsetLeft);
+      physicalWidths = allSlides.map((slide) => slide.offsetWidth);
+
+      const targetOffset = sequenceWidth + previousLogicalProgress * sequenceWidth;
+      if (!carouselInitialized || !preservePosition) {
+        carouselOffset = sequenceWidth;
+        if (isMobileCarousel()) {
+          lastProgrammaticMobileScroll = performance.now();
+          track.scrollLeft = sequenceWidth;
+        } else {
+          setTrackOffset(sequenceWidth);
+        }
+        carouselInitialized = true;
+      } else if (isMobileCarousel()) {
+        lastProgrammaticMobileScroll = performance.now();
+        track.scrollLeft = targetOffset;
+      } else {
+        setTrackOffset(targetOffset);
+      }
+
+      setActiveVisualState(currentPhysicalOffset());
+    };
+
+    const normalizeForManualNavigation = () => {
+      if (!sequenceWidth) return;
+      if (isMobileCarousel() && track) {
+        let offset = track.scrollLeft;
+        while (offset < sequenceWidth * 0.5) offset += sequenceWidth;
+        while (offset > sequenceWidth * 1.5) offset -= sequenceWidth;
+        if (Math.abs(offset - track.scrollLeft) > 0.5) {
+          lastProgrammaticMobileScroll = performance.now();
+          track.scrollLeft = offset;
+        }
+      } else {
+        while (carouselOffset < sequenceWidth * 0.5) carouselOffset += sequenceWidth;
+        while (carouselOffset > sequenceWidth * 1.5) carouselOffset -= sequenceWidth;
+        setTrackOffset(carouselOffset);
+      }
+    };
+
+    const findTargetForProject = (index: number, direction: -1 | 0 | 1) => {
+      if (!sequenceWidth || originalOffsets.length === 0) return currentPhysicalOffset();
+      normalizeForManualNavigation();
+      const current = currentPhysicalOffset();
+      const logicalOffset = originalOffsets[index] ?? 0;
+      const candidates = [logicalOffset, sequenceWidth + logicalOffset, sequenceWidth * 2 + logicalOffset];
+
+      if (direction > 0) {
+        const forward = candidates.filter((candidate) => candidate > current + 2);
+        return forward.length ? Math.min(...forward) : sequenceWidth * 2 + logicalOffset;
+      }
+      if (direction < 0) {
+        const backward = candidates.filter((candidate) => candidate < current - 2);
+        return backward.length ? Math.max(...backward) : logicalOffset;
+      }
+      return candidates.reduce((best, candidate) =>
+        Math.abs(candidate - current) < Math.abs(best - current) ? candidate : best,
+      candidates[0]);
+    };
+
+    const startManualTween = (target: number, duration = 560) => {
+      if (!track || !sequenceWidth) return;
+      const from = currentPhysicalOffset();
+      manualTween = {
+        from,
+        to: target,
+        startedAt: performance.now(),
+        duration: reduced.matches ? 1 : duration,
+      };
+      interactionResumeAt = performance.now() + duration + 180;
+    };
+
+    const goToProject = (index: number, direction: -1 | 0 | 1 = 0) => {
+      if (originalSlides.length === 0) return;
+      const normalized = mod(index, originalSlides.length);
+      const target = findTargetForProject(normalized, direction);
+      startManualTween(target);
     };
 
     const updateParallax = () => {
@@ -203,19 +295,17 @@ export function MotionController() {
 
     const updateScrollMotion = () => {
       updateParallax();
-      raf = 0;
+      scrollRaf = 0;
     };
 
     const requestScrollMotion = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(updateScrollMotion);
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(updateScrollMotion);
     };
 
     const revealAll = () => {
       revealItems.forEach((item) => item.classList.add("is-visible"));
       root.dataset.motion = "reduced";
-      setActiveState(0);
-      if (track) track.style.removeProperty("--carousel-x");
     };
 
     const observer = new IntersectionObserver(
@@ -229,6 +319,7 @@ export function MotionController() {
       },
       { threshold: 0.08, rootMargin: "0px 0px -4%" },
     );
+
     if (reduced.matches) {
       revealAll();
     } else {
@@ -239,12 +330,20 @@ export function MotionController() {
     const carouselObserver = carousel
       ? new IntersectionObserver(
           ([entry]) => {
-            carouselInView = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.45);
+            carouselInView = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.32);
+            if (carouselInView) lastCarouselTime = performance.now();
           },
-          { threshold: [0, 0.45, 0.75] },
+          { threshold: [0, 0.32, 0.6] },
         )
       : null;
     if (carousel && carouselObserver) carouselObserver.observe(carousel);
+
+    prepareInfiniteTrack();
+    tiltItems = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-tilt-surface], .rows article, .services article, .process li, .about li",
+      ),
+    );
 
     const cleanups: Array<() => void> = [];
 
@@ -331,13 +430,13 @@ export function MotionController() {
     }
 
     jumps.forEach((button, index) => {
-      const click = () => goToProject(index);
+      const click = () => goToProject(index, 0);
       button.addEventListener("click", click);
       cleanups.push(() => button.removeEventListener("click", click));
     });
 
-    const previous = () => goToProject(activeProject - 1);
-    const next = () => goToProject(activeProject + 1);
+    const previous = () => goToProject(activeProject - 1, -1);
+    const next = () => goToProject(activeProject + 1, 1);
     previousButton?.addEventListener("click", previous);
     nextButton?.addEventListener("click", next);
     cleanups.push(() => previousButton?.removeEventListener("click", previous));
@@ -346,57 +445,63 @@ export function MotionController() {
     const toggleAutoplay = () => {
       autoplayPausedByUser = !autoplayPausedByUser;
       setAutoplayUi();
-      if (!autoplayPausedByUser) pauseUntil = Date.now() + 900;
+      interactionResumeAt = performance.now() + 180;
     };
     autoplayToggle?.addEventListener("click", toggleAutoplay);
     cleanups.push(() => autoplayToggle?.removeEventListener("click", toggleAutoplay));
 
-    const onTrackScroll = () => {
-      if (!isMobileCarousel()) return;
-      if (performance.now() > programmaticMobileScrollUntil) pauseAutoplayTemporarily(5000);
-      requestMobileCarousel();
-    };
-    track?.addEventListener("scroll", onTrackScroll, { passive: true });
-
     const onPointerDown = (event: PointerEvent) => {
-      if (!track || isMobileCarousel() || event.button !== 0) return;
-      measureCarousel();
+      if (!track || event.button !== 0) return;
+      manualTween = null;
+      if (isMobileCarousel()) {
+        touching = true;
+        interactionResumeAt = Number.POSITIVE_INFINITY;
+        return;
+      }
       dragging = true;
       dragPointerId = event.pointerId;
       dragStartX = event.clientX;
       dragStartOffset = carouselOffset;
       dragMoved = false;
-      pauseAutoplayTemporarily(9000);
+      interactionResumeAt = Number.POSITIVE_INFINITY;
       track.classList.add("is-dragging");
       track.setPointerCapture?.(event.pointerId);
     };
 
     const onPointerMove = (event: PointerEvent) => {
-      if (!track || !dragging || event.pointerId !== dragPointerId) return;
+      if (!track || isMobileCarousel() || !dragging || event.pointerId !== dragPointerId) return;
       const delta = event.clientX - dragStartX;
-      if (Math.abs(delta) > 6) dragMoved = true;
+      if (Math.abs(delta) > 5) dragMoved = true;
       if (!dragMoved) return;
       event.preventDefault();
-      renderDesktopOffset(dragStartOffset - delta, true);
+      carouselOffset = dragStartOffset - delta;
+      if (sequenceWidth) {
+        while (carouselOffset >= sequenceWidth * 2) {
+          carouselOffset -= sequenceWidth;
+          dragStartOffset -= sequenceWidth;
+        }
+        while (carouselOffset < 0) {
+          carouselOffset += sequenceWidth;
+          dragStartOffset += sequenceWidth;
+        }
+      }
+      setTrackOffset(carouselOffset);
+      setActiveVisualState(carouselOffset);
     };
 
-    const finishDrag = (event: PointerEvent) => {
-      if (!track || !dragging || event.pointerId !== dragPointerId) return;
+    const finishPointer = (event: PointerEvent) => {
+      if (!track) return;
+      if (isMobileCarousel()) {
+        touching = false;
+        interactionResumeAt = performance.now() + 520;
+        return;
+      }
+      if (!dragging || event.pointerId !== dragPointerId) return;
       dragging = false;
       track.classList.remove("is-dragging");
       track.releasePointerCapture?.(event.pointerId);
       if (dragMoved) suppressClickUntil = performance.now() + 280;
-
-      let nearestIndex = activeProject;
-      let nearestDistance = Number.POSITIVE_INFINITY;
-      carouselOffsets.forEach((offset, index) => {
-        const distance = Math.abs(offset - carouselOffset);
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestIndex = index;
-        }
-      });
-      goToProject(nearestIndex, { pause: true, smooth: true });
+      interactionResumeAt = performance.now() + 320;
     };
 
     const suppressDraggedClick = (event: MouseEvent) => {
@@ -408,14 +513,24 @@ export function MotionController() {
 
     track?.addEventListener("pointerdown", onPointerDown);
     track?.addEventListener("pointermove", onPointerMove);
-    track?.addEventListener("pointerup", finishDrag);
-    track?.addEventListener("pointercancel", finishDrag);
+    track?.addEventListener("pointerup", finishPointer);
+    track?.addEventListener("pointercancel", finishPointer);
     track?.addEventListener("click", suppressDraggedClick, true);
     cleanups.push(() => track?.removeEventListener("pointerdown", onPointerDown));
     cleanups.push(() => track?.removeEventListener("pointermove", onPointerMove));
-    cleanups.push(() => track?.removeEventListener("pointerup", finishDrag));
-    cleanups.push(() => track?.removeEventListener("pointercancel", finishDrag));
+    cleanups.push(() => track?.removeEventListener("pointerup", finishPointer));
+    cleanups.push(() => track?.removeEventListener("pointercancel", finishPointer));
     cleanups.push(() => track?.removeEventListener("click", suppressDraggedClick, true));
+
+    const onTrackScroll = () => {
+      if (!track || !isMobileCarousel()) return;
+      const now = performance.now();
+      rebaseMobileOffset();
+      setActiveVisualState(track.scrollLeft);
+      if (now - lastProgrammaticMobileScroll > 90) interactionResumeAt = now + 620;
+    };
+    track?.addEventListener("scroll", onTrackScroll, { passive: true });
+    cleanups.push(() => track?.removeEventListener("scroll", onTrackScroll));
 
     const onCarouselKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft") {
@@ -429,58 +544,86 @@ export function MotionController() {
     track?.addEventListener("keydown", onCarouselKeyDown);
     cleanups.push(() => track?.removeEventListener("keydown", onCarouselKeyDown));
 
-    const pauseOnIntent = () => pauseAutoplayTemporarily(9000);
-    projectWindow?.addEventListener("wheel", pauseOnIntent, { passive: true });
-    projectWindow?.addEventListener("touchstart", pauseOnIntent, { passive: true });
-    carousel?.addEventListener("focusin", pauseOnIntent);
-    cleanups.push(() => projectWindow?.removeEventListener("wheel", pauseOnIntent));
-    cleanups.push(() => projectWindow?.removeEventListener("touchstart", pauseOnIntent));
-    cleanups.push(() => carousel?.removeEventListener("focusin", pauseOnIntent));
-
     const onResize = () => {
       requestScrollMotion();
-      requestMobileCarousel();
-      window.setTimeout(() => {
-        measureCarousel();
-        if (isMobileCarousel()) scrollMobileToProject(activeProject, false);
-        else renderDesktopOffset(carouselOffsets[activeProject] ?? 0, true);
-      }, 80);
+      window.setTimeout(() => measureCarousel(true), 80);
     };
-
     window.addEventListener("scroll", requestScrollMotion, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
 
-    autoplayTimer = window.setInterval(() => {
-      if (
-        !carouselInView ||
-        autoplayPausedByUser ||
-        dragging ||
-        document.hidden ||
-        reduced.matches ||
-        Date.now() < pauseUntil
-      ) {
-        return;
+    const runCarousel = (now: number) => {
+      if (!lastCarouselTime) lastCarouselTime = now;
+      const deltaSeconds = Math.min((now - lastCarouselTime) / 1000, 0.05);
+      lastCarouselTime = now;
+
+      if (track && sequenceWidth > 0) {
+        if (manualTween) {
+          const progress = clamp((now - manualTween.startedAt) / manualTween.duration);
+          const eased = easeInOutCubic(progress);
+          const nextOffset = manualTween.from + (manualTween.to - manualTween.from) * eased;
+          if (isMobileCarousel()) {
+            lastProgrammaticMobileScroll = now;
+            track.scrollLeft = nextOffset;
+            rebaseMobileOffset();
+            setActiveVisualState(track.scrollLeft);
+          } else {
+            carouselOffset = nextOffset;
+            setTrackOffset(carouselOffset);
+            setActiveVisualState(carouselOffset);
+          }
+          if (progress >= 1) {
+            manualTween = null;
+            if (isMobileCarousel()) rebaseMobileOffset();
+            else rebaseDesktopOffset();
+          }
+        } else {
+          const canAutoplay =
+            carouselInView &&
+            !autoplayPausedByUser &&
+            !dragging &&
+            !touching &&
+            !document.hidden &&
+            !reduced.matches &&
+            now >= interactionResumeAt;
+
+          if (canAutoplay) {
+            const speed = isMobileCarousel() ? 34 : 58;
+            const distance = speed * deltaSeconds;
+            if (isMobileCarousel()) {
+              lastProgrammaticMobileScroll = now;
+              track.scrollLeft += distance;
+              rebaseMobileOffset();
+              setActiveVisualState(track.scrollLeft);
+            } else {
+              carouselOffset += distance;
+              rebaseDesktopOffset();
+              setActiveVisualState(carouselOffset);
+            }
+          }
+        }
       }
-      goToProject(activeProject + 1, { pause: false, smooth: true });
-    }, 5200);
+
+      carouselRaf = requestAnimationFrame(runCarousel);
+    };
 
     setAutoplayUi();
-    setActiveState(0);
     updateScrollMotion();
-    measureCarousel();
-    renderDesktopOffset(0, true);
-    updateMobileCarousel();
+    window.setTimeout(() => measureCarousel(false), 0);
+    carouselRaf = requestAnimationFrame(runCarousel);
 
     return () => {
       observer.disconnect();
       carouselObserver?.disconnect();
       cleanups.forEach((cleanup) => cleanup());
-      track?.removeEventListener("scroll", onTrackScroll);
       window.removeEventListener("scroll", requestScrollMotion);
       window.removeEventListener("resize", onResize);
-      if (raf) cancelAnimationFrame(raf);
-      if (mobileCarouselRaf) cancelAnimationFrame(mobileCarouselRaf);
-      if (autoplayTimer) window.clearInterval(autoplayTimer);
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      if (carouselRaf) cancelAnimationFrame(carouselRaf);
+      generatedClones.forEach((clone) => clone.remove());
+      if (track) {
+        track.style.removeProperty("--carousel-x");
+        track.scrollLeft = 0;
+      }
       delete root.dataset.motion;
     };
   }, []);

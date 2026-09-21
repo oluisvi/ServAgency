@@ -61,9 +61,10 @@ function ProjectArtwork({ project, index }: { project: PortfolioProject; index: 
         <span>{project.visual.kicker}</span>
         <i>{String(index + 1).padStart(2, "0")}</i>
       </div>
-      <strong aria-hidden="true">{project.visual.label}</strong>
       <div className="project-state" aria-hidden="true">
-        <span>STATE</span><b>ACTIVE</b>
+        <span>STATE</span>
+        <strong className="project-art-label">{project.visual.label}</strong>
+        <b>ACTIVE</b>
       </div>
     </div>
   );
