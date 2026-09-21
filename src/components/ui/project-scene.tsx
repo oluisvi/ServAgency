@@ -46,7 +46,7 @@ export function ProjectScene({ project, index }: { project: PortfolioProject; in
     <article className={`project-scene project-${project.visual.treatment}`}>
       <div className="project-sticky page-shell">
         <div className="project-copy">
-          <div className="project-number"><span>{number}</span><span>/ 05</span></div>
+          <div className="project-number"><span>{number}</span></div>
           <p className="project-category">{project.category}</p>
           <h3>{project.name}</h3>
           <p className="project-summary">{project.summary}</p>
@@ -54,9 +54,11 @@ export function ProjectScene({ project, index }: { project: PortfolioProject; in
             {project.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
           </ul>
           <div className="project-actions">
-            <a className="project-action-primary" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-              Ver projeto <ArrowUpRight aria-hidden="true" />
-            </a>
+            {project.liveUrl && (
+              <a className="project-action-primary" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                Ver projeto <ArrowUpRight aria-hidden="true" />
+              </a>
+            )}
             {project.sourceUrl && (
               <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
                 <Braces aria-hidden="true" /> Código

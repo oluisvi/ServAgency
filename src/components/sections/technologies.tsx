@@ -12,8 +12,8 @@ export function Technologies() {
         <div className="technology-marquee">
           <div className="technology-track">
             {items.map((technology, index) => (
-              <span key={`${technology.name}-${index}`} aria-hidden={index >= technologies.length || undefined}>
-                {technology.name}<i />
+              <span key={`${technology}-${index}`} aria-hidden={index >= technologies.length || undefined}>
+                {technology}<i />
               </span>
             ))}
           </div>

@@ -34,13 +34,36 @@ export const processSteps = [
 ] as const;
 
 export type ProjectTreatment = "ai" | "spatial" | "editorial" | "system" | "data" | "commerce";
+export type TechnologyIconName =
+  | "react"
+  | "nextdotjs"
+  | "typescript"
+  | "nodedotjs"
+  | "n8n"
+  | "openai"
+  | "vercel"
+  | "google";
+
 export type PortfolioProject = {
-  slug: string; name: string; category: string; year: string; summary: string;
-  capabilities: readonly string[]; liveUrl?: string; sourceUrl?: string;
-  visual: { treatment: ProjectTreatment; label: string; kicker: string };
+  slug: string;
+  name: string;
+  category: string;
+  year: string;
+  summary: string;
+  capabilities: readonly string[];
+  liveUrl?: string;
+  sourceUrl?: string;
+  visual: {
+    treatment: ProjectTreatment;
+    label: string;
+    kicker: string;
+    src?: string;
+    alt?: string;
+    fit?: "cover" | "contain";
+  };
 };
 
-export const flagshipProjects = [
+export const flagshipProjects: readonly PortfolioProject[] = [
   {
     slug: "removeit", name: "RemoveIT", year: "2026", category: "Visão computacional + produto web",
     summary: "Ferramenta local-first para remoção assistida de marcas d’água autorizadas, combinando detecção automática, máscara editável e inpainting com revisão humana.",
@@ -90,7 +113,7 @@ export const flagshipProjects = [
     liveUrl: "https://shop-co-store.vercel.app/", sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
     visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE" },
   },
-] as const satisfies readonly PortfolioProject[];
+];
 
 export const technologies = ["React", "Next.js", "TypeScript", "Node.js", "Three.js", "n8n", "OpenAI", "Vercel", "Google"] as const;
 
