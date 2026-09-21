@@ -28,7 +28,7 @@ function KineticLine({ text, emphasis }: { text: string; emphasis?: string }) {
 }
 
 function LogoSculpture() {
-  const layers = Array.from({ length: 8 }, (_, index) => index);
+  const layers = Array.from({ length: 5 }, (_, index) => index);
 
   return (
     <div className="logo-sculpture" data-sculpture aria-label="Logo ServAgency em profundidade interativa">
@@ -37,7 +37,7 @@ function LogoSculpture() {
           {layers.map((layer) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src="/logo.svg"
+              src="/logo-hero.webp"
               alt=""
               key={layer}
               className="logo-sculpture-layer"
@@ -45,7 +45,7 @@ function LogoSculpture() {
             />
           ))}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="" className="logo-sculpture-face" />
+          <img src="/logo-hero.webp" alt="" className="logo-sculpture-face" />
         </div>
         <span className="logo-sculpture-orbit logo-sculpture-orbit-a" />
         <span className="logo-sculpture-orbit logo-sculpture-orbit-b" />

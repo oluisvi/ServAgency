@@ -21,7 +21,7 @@ export function Brand() {
   return (
     <span className="brand brand-official" aria-label="ServAgency">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo.svg" alt="" aria-hidden="true" className="brand-official-image" />
+      <img src="/logo.svg" alt="" aria-hidden="true" className="brand-official-image" width={1942} height={809} decoding="async" />
     </span>
   );
 }

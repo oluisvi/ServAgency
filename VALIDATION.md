@@ -1,21 +1,35 @@
-# Validation — official logo + carousel actions
+# Validation — navigation repair + performance pass
 
-## Validated in this package
+## Fixed
 
-- 23 TypeScript / TSX source files passed TypeScript `transpileModule` syntax diagnostics with 0 errors.
-- `src/app/globals.css` has balanced braces (766 / 766).
-- Portfolio and case-study slugs match 10 / 10.
-- `public/logo.svg` is bundled locally.
-- Carousel action links are excluded from drag pointer capture.
-- `Ver case` uses a native internal anchor so cloned infinite-carousel slides preserve navigation.
-- `Ver ao vivo` remains a normal external anchor.
-- Repository/code buttons were removed from the carousel and case-study UI.
-- The new Alvora Lab and Casa Aurora repository URLs are recorded in project data.
-- Alvora Lab and Casa Aurora case copy/stack were updated from their real repository documentation.
+- Home-only motion runtime now mounts with the home route and unmounts when leaving it.
+- Returning from a case no longer reuses stale observers/listeners from a different DOM tree.
+- The case `Projetos` action uses a clean `/#projetos` document navigation as an additional fail-safe.
+- Thematic entry only exists in the home route bundle.
 
-## Build gate
+## Performance changes
 
-The environment timed out while installing npm dependencies, so a full Next.js build could not be executed here. Run after extracting:
+- Carousel animation frame loop stops when the carousel has no visible/active work.
+- Pointer-driven effects are coalesced to one update per browser animation frame.
+- Carousel slide focus/state DOM writes are skipped when values did not materially change.
+- Decorative logo and technology-marquee loops pause while offscreen.
+- Project cover media uses native lazy-loaded images instead of CSS background images.
+- Below-the-fold case sections use `content-visibility: auto`.
+- Case hero images decode asynchronously and are prioritized only where needed.
+- Case routes use `dynamicParams = false` and are statically generated from the known case list.
+- Unused React Hook Form / Zod / Vercel analytics packages were removed.
+- Local visual assets get conservative cache headers.
+- Public assets dropped from roughly 3.3 MB to roughly 0.6 MB by replacing the two largest PNG screenshots with high-quality WebP and using a dedicated small hero-logo WebP.
+
+## Static checks performed
+
+- TypeScript parser reported no syntax/control-flow errors in the changed files. Full typecheck cannot run without installed project dependencies.
+- CSS opening/closing braces are balanced.
+- 10 portfolio projects and 10 case-study slugs remain present.
+- Local image references used by the revised carousel/cases exist in `public/`.
+- No repository/code link is rendered in project cards or case pages.
+
+## Required pre-deploy commands
 
 ```bash
 npm install
@@ -23,4 +37,4 @@ npm run typecheck
 npm run build
 ```
 
-The previous stale Tailwind/PostCSS config is not part of this package.
+The dependency install could not be completed in this environment because the network install timed out, so a full Next.js production build is not claimed here.

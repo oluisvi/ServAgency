@@ -306,10 +306,6 @@ html[data-entry="skip"] .thematic-entry{display:none}
   position:absolute;
   inset:-3%;
   z-index:0;
-  background-image:var(--project-image);
-  background-position:var(--project-position,center);
-  background-repeat:no-repeat;
-  background-size:cover;
   transform:scale(calc(1.075 - var(--project-focus) * .045)) translate3d(calc((1 - var(--project-focus)) * 10px),0,0);
   filter:saturate(calc(.76 + var(--project-focus) * .24)) contrast(calc(.96 + var(--project-focus) * .04));
   transition:filter 180ms linear;
@@ -317,7 +313,6 @@ html[data-entry="skip"] .thematic-entry{display:none}
 }
 .project-fit-contain .project-media{
   inset:7%;
-  background-size:contain;
   border:1px solid rgba(255,255,255,.14);
   background-color:#0c0d0f;
   box-shadow:0 28px 80px rgba(0,0,0,.22);
@@ -1375,3 +1370,41 @@ html[data-entry="skip"] .thematic-entry{display:none}
   .logo-sculpture-orbit-b{animation:none!important;transform:none!important}
   .logo-sculpture-stack{transform:translateZ(0)!important}
 }
+
+/* Performance pass — same visuals, less offscreen work. */
+.project-media{
+  width:auto;
+  height:auto;
+  object-fit:cover;
+  object-position:var(--project-position,center);
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.project-fit-contain .project-media{object-fit:contain}
+.case-section{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 900px;
+}
+.case-next{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 320px;
+}
+.logo-sculpture-stage{
+  contain:layout paint style;
+}
+@media(max-width:900px){
+  .case-section{contain-intrinsic-size:auto 760px}
+}
+
+/* Pause decorative continuous animations when they are offscreen. */
+.logo-sculpture .logo-sculpture-stack,
+.logo-sculpture .logo-sculpture-orbit-a,
+.logo-sculpture .logo-sculpture-orbit-b,
+.tech>div{animation-play-state:paused}
+.logo-sculpture.is-motion-active .logo-sculpture-stack,
+.logo-sculpture.is-motion-active .logo-sculpture-orbit-a,
+.logo-sculpture.is-motion-active .logo-sculpture-orbit-b,
+.tech.is-motion-active>div{animation-play-state:running}
+.project-slide{contain:layout paint style}
+.project-media{will-change:auto}
+.project-slide.is-current .project-media{will-change:transform}

@@ -9,7 +9,6 @@ import {
 import { flagshipProjects, type PortfolioProject } from "@/content/site";
 
 type ProjectMediaStyle = CSSProperties & {
-  "--project-image"?: string;
   "--project-position"?: string;
 };
 
@@ -40,10 +39,7 @@ function RemoveItCover() {
 function ProjectArtwork({ project, index }: { project: PortfolioProject; index: number }) {
   const hasImage = Boolean(project.visual.src);
   const style: ProjectMediaStyle = hasImage
-    ? {
-        "--project-image": `url("${project.visual.src}")`,
-        "--project-position": project.visual.position ?? "center",
-      }
+    ? { "--project-position": project.visual.position ?? "center" }
     : {};
 
   return (
@@ -54,7 +50,24 @@ function ProjectArtwork({ project, index }: { project: PortfolioProject; index: 
       style={style}
       data-tilt-surface
     >
-      {project.visual.mockup === "removeit" ? <RemoveItCover /> : <div className="project-media" aria-hidden="true" />}
+      {project.visual.mockup === "removeit" ? (
+        <RemoveItCover />
+      ) : hasImage ? (
+        // Plain img keeps remote project imagery compatible while allowing native lazy loading.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="project-media"
+          src={project.visual.src}
+          alt=""
+          aria-hidden="true"
+          loading={index < 2 ? "eager" : "lazy"}
+          fetchPriority={index === 0 ? "high" : "auto"}
+          decoding="async"
+          draggable={false}
+        />
+      ) : (
+        <div className="project-media" aria-hidden="true" />
+      )}
       <div className="project-art-shade" aria-hidden="true" />
       <div className="project-art-meta" aria-hidden="true">
         <span>{project.visual.kicker}</span>

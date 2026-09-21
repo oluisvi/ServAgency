@@ -25,6 +25,7 @@ export function MotionController() {
     );
     const pointerFields = Array.from(document.querySelectorAll<HTMLElement>("[data-pointer-field]"));
     const sculpture = document.querySelector<HTMLElement>("[data-sculpture]");
+    const techRail = document.querySelector<HTMLElement>(".tech");
 
     const carousel = document.querySelector<HTMLElement>("[data-project-carousel]");
     const projectWindow = carousel?.querySelector<HTMLElement>("[data-project-window]") ?? null;
@@ -65,6 +66,9 @@ export function MotionController() {
     let physicalOffsets: number[] = [];
     let physicalWidths: number[] = [];
     let originalOffsets: number[] = [];
+    let renderedActiveProject = -1;
+    let renderedClosestPhysical = -1;
+    let renderedFocusValues: number[] = [];
     const generatedClones: HTMLElement[] = [];
 
     let manualTween:
@@ -157,7 +161,10 @@ export function MotionController() {
         const center = (physicalOffsets[index] ?? slide.offsetLeft) + (physicalWidths[index] ?? slide.offsetWidth) / 2;
         const distance = Math.abs(center - viewportCenter);
         const focus = clamp(1 - distance / Math.max(viewportWidth * 0.72, 1));
-        slide.style.setProperty("--project-focus", focus.toFixed(3));
+        if (Math.abs((renderedFocusValues[index] ?? -1) - focus) > 0.002) {
+          slide.style.setProperty("--project-focus", focus.toFixed(3));
+          renderedFocusValues[index] = focus;
+        }
         if (distance < closestDistance) {
           closestDistance = distance;
           closestPhysical = index;
@@ -168,23 +175,27 @@ export function MotionController() {
       const logicalIndex = Number(closestSlide?.dataset.projectIndex ?? 0);
       activeProject = Number.isFinite(logicalIndex) ? logicalIndex : 0;
 
-      carousel.dataset.activeProject = String(activeProject);
-      carousel.dataset.projectTreatment =
-        originalSlides[activeProject]?.dataset.projectTreatment ?? "system";
+      if (activeProject !== renderedActiveProject) {
+        carousel.dataset.activeProject = String(activeProject);
+        carousel.dataset.projectTreatment =
+          originalSlides[activeProject]?.dataset.projectTreatment ?? "system";
+        jumps.forEach((button, index) => {
+          if (index === activeProject) button.setAttribute("aria-current", "step");
+          else button.removeAttribute("aria-current");
+        });
+        renderedActiveProject = activeProject;
+      }
 
       const cycleProgress = sequenceWidth
         ? mod(physicalOffset - sequenceWidth, sequenceWidth) / sequenceWidth
         : 0;
       carousel.style.setProperty("--projects-progress", cycleProgress.toFixed(4));
 
-      jumps.forEach((button, index) => {
-        if (index === activeProject) button.setAttribute("aria-current", "step");
-        else button.removeAttribute("aria-current");
-      });
-
-      allSlides.forEach((slide, index) => {
-        slide.classList.toggle("is-current", index === closestPhysical);
-      });
+      if (closestPhysical !== renderedClosestPhysical) {
+        if (renderedClosestPhysical >= 0) allSlides[renderedClosestPhysical]?.classList.remove("is-current");
+        closestSlide?.classList.add("is-current");
+        renderedClosestPhysical = closestPhysical;
+      }
     };
 
     const measureCarousel = (preservePosition = true) => {
@@ -195,6 +206,9 @@ export function MotionController() {
         : 0;
 
       allSlides = Array.from(track.querySelectorAll<HTMLElement>("[data-project-slide]"));
+      renderedFocusValues = new Array(allSlides.length).fill(-1);
+      renderedClosestPhysical = -1;
+      renderedActiveProject = -1;
       const firstOriginal = originalSlides[0];
       const firstAfter = allSlides.find(
         (slide) => slide.dataset.projectClone === "after" && slide.dataset.projectIndex === "0",
@@ -274,6 +288,7 @@ export function MotionController() {
         duration: reduced.matches ? 1 : duration,
       };
       interactionResumeAt = performance.now() + duration + 180;
+      startCarouselLoop();
     };
 
     const goToProject = (index: number, direction: -1 | 0 | 1 = 0) => {
@@ -328,11 +343,17 @@ export function MotionController() {
       revealItems.forEach((item) => observer.observe(item));
     }
 
+    const startCarouselLoop = () => {
+      if (!track || carouselRaf) return;
+      lastCarouselTime = performance.now();
+      carouselRaf = requestAnimationFrame(runCarousel);
+    };
+
     const carouselObserver = carousel
       ? new IntersectionObserver(
           ([entry]) => {
             carouselInView = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.32);
-            if (carouselInView) lastCarouselTime = performance.now();
+            if (carouselInView) startCarouselLoop();
           },
           { threshold: [0, 0.32, 0.6] },
         )
@@ -348,6 +369,39 @@ export function MotionController() {
 
     const cleanups: Array<() => void> = [];
 
+    const bindRafPointerMove = (
+      item: HTMLElement,
+      handler: (event: PointerEvent) => void,
+    ) => {
+      let frame = 0;
+      let latest: PointerEvent | null = null;
+      const move = (event: PointerEvent) => {
+        latest = event;
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          if (latest) handler(latest);
+        });
+      };
+      item.addEventListener("pointermove", move);
+      cleanups.push(() => {
+        item.removeEventListener("pointermove", move);
+        if (frame) cancelAnimationFrame(frame);
+      });
+    };
+
+    const ambientMotionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          (entry.target as HTMLElement).classList.toggle("is-motion-active", entry.isIntersecting);
+        });
+      },
+      { rootMargin: "220px 0px", threshold: 0 },
+    );
+    if (sculpture) ambientMotionObserver.observe(sculpture);
+    if (techRail) ambientMotionObserver.observe(techRail);
+    cleanups.push(() => ambientMotionObserver.disconnect());
+
     if (!reduced.matches && finePointer.matches) {
       magneticItems.forEach((item) => {
         const move = (event: PointerEvent) => {
@@ -361,12 +415,9 @@ export function MotionController() {
           item.style.setProperty("--magnetic-x", "0px");
           item.style.setProperty("--magnetic-y", "0px");
         };
-        item.addEventListener("pointermove", move);
+        bindRafPointerMove(item, move);
         item.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          item.removeEventListener("pointermove", move);
-          item.removeEventListener("pointerleave", leave);
-        });
+        cleanups.push(() => item.removeEventListener("pointerleave", leave));
       });
 
       tiltItems.forEach((item) => {
@@ -385,12 +436,9 @@ export function MotionController() {
           item.style.setProperty("--surface-x", "50%");
           item.style.setProperty("--surface-y", "50%");
         };
-        item.addEventListener("pointermove", move);
+        bindRafPointerMove(item, move);
         item.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          item.removeEventListener("pointermove", move);
-          item.removeEventListener("pointerleave", leave);
-        });
+        cleanups.push(() => item.removeEventListener("pointerleave", leave));
       });
 
       pointerFields.forEach((field) => {
@@ -401,8 +449,7 @@ export function MotionController() {
           field.style.setProperty("--pointer-x", `${(x * 100).toFixed(1)}%`);
           field.style.setProperty("--pointer-y", `${(y * 100).toFixed(1)}%`);
         };
-        field.addEventListener("pointermove", move);
-        cleanups.push(() => field.removeEventListener("pointermove", move));
+        bindRafPointerMove(field, move);
       });
 
       if (sculpture) {
@@ -421,12 +468,9 @@ export function MotionController() {
           sculpture.style.setProperty("--scene-x", "0px");
           sculpture.style.setProperty("--scene-y", "0px");
         };
-        sculpture.addEventListener("pointermove", move);
+        bindRafPointerMove(sculpture, move);
         sculpture.addEventListener("pointerleave", leave);
-        cleanups.push(() => {
-          sculpture.removeEventListener("pointermove", move);
-          sculpture.removeEventListener("pointerleave", leave);
-        });
+        cleanups.push(() => sculpture.removeEventListener("pointerleave", leave));
       }
     }
 
@@ -447,6 +491,7 @@ export function MotionController() {
       autoplayPausedByUser = !autoplayPausedByUser;
       setAutoplayUi();
       interactionResumeAt = performance.now() + 180;
+      if (!autoplayPausedByUser) startCarouselLoop();
     };
     autoplayToggle?.addEventListener("click", toggleAutoplay);
     cleanups.push(() => autoplayToggle?.removeEventListener("click", toggleAutoplay));
@@ -633,13 +678,31 @@ export function MotionController() {
         }
       }
 
-      carouselRaf = requestAnimationFrame(runCarousel);
+      const shouldKeepRunning = Boolean(
+        track && (
+          manualTween ||
+          dragging ||
+          touching ||
+          (carouselInView && !autoplayPausedByUser && !document.hidden && !reduced.matches)
+        )
+      );
+      carouselRaf = shouldKeepRunning ? requestAnimationFrame(runCarousel) : 0;
     };
+
+    const onVisibilityChange = () => {
+      if (!document.hidden && carouselInView && !autoplayPausedByUser) startCarouselLoop();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    cleanups.push(() => document.removeEventListener("visibilitychange", onVisibilityChange));
 
     setAutoplayUi();
     updateScrollMotion();
-    window.setTimeout(() => measureCarousel(false), 0);
-    carouselRaf = requestAnimationFrame(runCarousel);
+    if (track) {
+      window.setTimeout(() => {
+        measureCarousel(false);
+        startCarouselLoop();
+      }, 0);
+    }
 
     return () => {
       observer.disconnect();

@@ -71,7 +71,7 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     summary: "Experiência institucional para uma empresa de impressão 3D em que camada, volume e material viram linguagem visual e interação.",
     capabilities: ["React + TypeScript", "Three.js", "Entrada sincronizada", "Viewer 3D"],
     sourceUrl: "https://github.com/oluisvi/Crivo-3D",
-    visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE", src: "/projects/crivo-3d.png", alt: "Hero real do projeto Crivo 3D", fit: "cover", position: "center" },
+    visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE", src: "/projects/crivo-3d.webp", alt: "Hero real do projeto Crivo 3D", fit: "cover", position: "center" },
   },
   {
     slug: "ruvro", name: "Ruvro & Co", year: "2026", category: "Luxury digital showroom",
@@ -92,7 +92,7 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     summary: "Experiência digital para atendimento imobiliário pessoal e consultivo, com descoberta por perfis, narrativa editorial e conversão direta pelo WhatsApp.",
     capabilities: ["Curadoria por perfil", "Motion editorial", "Atendimento consultivo", "Conversão via WhatsApp"],
     liveUrl: "https://ferreira-imoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
-    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/ferreira-imoveis.png", alt: "Hero real do site Ferreira Corretor de Imóveis", fit: "cover", position: "center" },
+    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/ferreira-imoveis.webp", alt: "Hero real do site Ferreira Corretor de Imóveis", fit: "cover", position: "center" },
   },
   {
     slug: "casa-aurora", name: "Casa Aurora", year: "2026", category: "Experiência residencial 360°",

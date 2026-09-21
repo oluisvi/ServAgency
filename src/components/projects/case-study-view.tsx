@@ -41,12 +41,12 @@ function RemoveItCaseVisual() {
   );
 }
 
-function CaseImage({ src, alt, fit = "cover" }: { src: string; alt: string; fit?: "cover" | "contain" }) {
+function CaseImage({ src, alt, fit = "cover", priority = false }: { src: string; alt: string; fit?: "cover" | "contain"; priority?: boolean }) {
   return (
     <div className={`case-image case-image-${fit}`}>
       {/* Plain img intentionally supports project-hosted and screenshot-service URLs without Next image host configuration. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} loading="lazy" />
+      <img src={src} alt={alt} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" />
     </div>
   );
 }
@@ -66,9 +66,9 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
   return (
     <main className="case-study" style={style}>
       <nav className="case-nav" aria-label="Navegação do projeto">
-        <Link href="/#projetos" className="case-back">
+        <a href="/#projetos" className="case-back">
           <ArrowLeft aria-hidden="true" /> Projetos
-        </Link>
+        </a>
         <span>ServAgency / Case Study</span>
         <div className="case-nav-actions">
           {project.liveUrl && (
@@ -87,7 +87,7 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
           <p className="case-intro">{project.intro}</p>
         </div>
         <div className="case-hero-media">
-          {project.cover ? <CaseImage src={project.cover} alt={project.coverAlt} /> : <RemoveItCaseVisual />}
+          {project.cover ? <CaseImage src={project.cover} alt={project.coverAlt} priority /> : <RemoveItCaseVisual />}
           <div className="case-hero-index" aria-hidden="true">
             <span>{String(index + 1).padStart(2, "0")}</span>
             <i />

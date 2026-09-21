@@ -47,7 +47,7 @@ export const caseStudies: readonly CaseStudy[] = [
     result:
       "Uma experiência institucional em que o 3D não entra como decoração: ele explica a proposta da empresa. O sistema inclui entrada temática, hero procedural, motion controlado, carrossel em profundidade e fallbacks para dispositivos com menor capacidade.",
     sourceUrl: "https://github.com/oluisvi/Crivo-3D",
-    cover: "/projects/crivo-3d.png",
+    cover: "/projects/crivo-3d.webp",
     coverAlt: "Hero do projeto Crivo 3D com símbolo tridimensional",
     palette: [
       { name: "Carbon", value: "#080808" },
@@ -68,7 +68,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     stack: ["React", "TypeScript", "Vite", "Three.js", "CSS nativo"],
     gallery: [
-      { src: "/projects/crivo-3d.png", alt: "Hero Crivo 3D", caption: "Hero espacial inspirado no símbolo da marca." },
+      { src: "/projects/crivo-3d.webp", alt: "Hero Crivo 3D", caption: "Hero espacial inspirado no símbolo da marca." },
       { src: "https://raw.githubusercontent.com/oluisvi/Crivo-3D/main/public/assets/printer-crivo.webp", alt: "Impressora usada no projeto Crivo 3D", caption: "Fotografia real usada como evidência de fabricação." },
       { src: "https://raw.githubusercontent.com/oluisvi/Crivo-3D/main/public/assets/og-crivo.png", alt: "Composição social do projeto Crivo 3D", caption: "Composição visual criada para o MVP." },
     ],
@@ -176,7 +176,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "Uma landing editorial com descoberta por perfil, narrativa de atendimento e conversão direta por WhatsApp. O CRECI e o posicionamento consultivo aparecem como prova, sem transformar o site em portal imobiliário.",
     liveUrl: "https://ferreira-imoveis.vercel.app/",
     sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
-    cover: "/projects/ferreira-imoveis.png",
+    cover: "/projects/ferreira-imoveis.webp",
     coverAlt: "Hero do projeto Ferreira Imóveis",
     palette: [
       { name: "Ink", value: "#171614" },
@@ -197,7 +197,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     stack: ["React", "Vite", "TypeScript", "CSS", "Motion progressivo"],
     gallery: [
-      { src: "/projects/ferreira-imoveis.png", alt: "Hero Ferreira Imóveis", caption: "Composição editorial orientada por arquitetura e história." },
+      { src: "/projects/ferreira-imoveis.webp", alt: "Hero Ferreira Imóveis", caption: "Composição editorial orientada por arquitetura e história." },
       { src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c3?auto=format&fit=crop&w=1600&q=85", alt: "Casa contemporânea usada no projeto", caption: "Perfil Casa — imagem de ambientação declaradamente demonstrativa." },
       { src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=85", alt: "Interior de apartamento usado no projeto", caption: "Perfil Apartamento — direção de atmosfera para a busca." },
     ],
