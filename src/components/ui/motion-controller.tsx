@@ -30,105 +30,106 @@ export function MotionController() {
     const jumps = carousel
       ? Array.from(carousel.querySelectorAll<HTMLButtonElement>("[data-project-jump]"))
       : [];
-    const prev = carousel?.querySelector<HTMLButtonElement>("[data-project-prev]") ?? null;
-    const next = carousel?.querySelector<HTMLButtonElement>("[data-project-next]") ?? null;
-    const status = carousel?.querySelector<HTMLElement>("[data-project-status]") ?? null;
 
-    let scrollRaf = 0;
-    let carouselRaf = 0;
+    let raf = 0;
+    let mobileCarouselRaf = 0;
     let activeProject = -1;
 
-    const revealAll = () => {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
-      root.dataset.motion = "reduced";
-    };
-
     const setActiveProject = (index: number) => {
-      if (!carousel || index < 0 || index >= slides.length) return;
-      if (index !== activeProject) {
-        activeProject = index;
-        carousel.dataset.activeProject = String(index);
-        carousel.dataset.projectTreatment = slides[index]?.dataset.projectTreatment ?? "system";
-        jumps.forEach((button, buttonIndex) => {
-          if (buttonIndex === index) button.setAttribute("aria-current", "step");
-          else button.removeAttribute("aria-current");
-        });
-        slides.forEach((slide, slideIndex) => {
-          slide.classList.toggle("is-current", slideIndex === index);
-        });
-        if (status) status.textContent = `${slides[index]?.querySelector("h3")?.textContent ?? "Projeto"}, ${index + 1} de ${slides.length}`;
-      }
-      if (prev) prev.disabled = index === 0;
-      if (next) next.disabled = index === slides.length - 1;
-    };
-
-    const getNearestSlide = () => {
-      if (!track || slides.length === 0) return 0;
-      const center = track.scrollLeft + track.clientWidth / 2;
-      let index = 0;
-      let distance = Number.POSITIVE_INFINITY;
-      slides.forEach((slide, slideIndex) => {
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        const nextDistance = Math.abs(slideCenter - center);
-        if (nextDistance < distance) {
-          distance = nextDistance;
-          index = slideIndex;
-        }
+      if (!carousel || index < 0 || index >= slides.length || index === activeProject) return;
+      activeProject = index;
+      carousel.dataset.activeProject = String(index);
+      carousel.dataset.projectTreatment = slides[index]?.dataset.projectTreatment ?? "system";
+      jumps.forEach((button, buttonIndex) => {
+        if (buttonIndex === index) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
       });
-      return index;
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("is-current", slideIndex === index);
+      });
     };
 
-    const updateCarousel = () => {
-      if (!carousel || !track || slides.length === 0) return;
-      const maxScroll = Math.max(1, track.scrollWidth - track.clientWidth);
-      const progress = clamp(track.scrollLeft / maxScroll);
-      carousel.style.setProperty("--projects-progress", progress.toFixed(4));
-      const nearest = getNearestSlide();
-      setActiveProject(nearest);
-
-      const viewportCenter = track.getBoundingClientRect().left + track.clientWidth / 2;
+    const updateProjectFocus = (viewportCenter: number) => {
       slides.forEach((slide) => {
         const rect = slide.getBoundingClientRect();
         const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
-        const focus = clamp(1 - distance / Math.max(track.clientWidth * 0.72, 1));
+        const focus = clamp(1 - distance / Math.max(window.innerWidth * 0.72, 1));
         slide.style.setProperty("--project-focus", focus.toFixed(3));
       });
-      carouselRaf = 0;
     };
 
-    const requestCarouselUpdate = () => {
-      if (carouselRaf) return;
-      carouselRaf = window.requestAnimationFrame(updateCarousel);
+    const updateDesktopCarousel = () => {
+      if (!carousel || !track || slides.length === 0 || window.innerWidth <= 900) return;
+      const rect = carousel.getBoundingClientRect();
+      const scrollRange = Math.max(1, carousel.offsetHeight - window.innerHeight);
+      const progress = clamp(-rect.top / scrollRange);
+      const maxTranslate = Math.max(0, track.scrollWidth - window.innerWidth + 24);
+      track.style.transform = `translate3d(${-progress * maxTranslate}px,0,0)`;
+      carousel.style.setProperty("--projects-progress", progress.toFixed(4));
+      setActiveProject(Math.round(progress * (slides.length - 1)));
+      updateProjectFocus(window.innerWidth / 2);
     };
 
-    const scrollToProject = (index: number) => {
-      const slide = slides[index];
-      if (!track || !slide) return;
-      const target = slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2;
-      track.scrollTo({ left: Math.max(0, target), behavior: reduced.matches ? "auto" : "smooth" });
+    const updateMobileCarousel = () => {
+      if (!carousel || !track || slides.length === 0 || window.innerWidth > 900) return;
+      const viewportCenter = window.innerWidth / 2;
+      let closest = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+      slides.forEach((slide, index) => {
+        const rect = slide.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closest = index;
+        }
+      });
+      setActiveProject(closest);
+      carousel.style.setProperty(
+        "--projects-progress",
+        slides.length > 1 ? (closest / (slides.length - 1)).toFixed(4) : "1",
+      );
+      updateProjectFocus(viewportCenter);
+      mobileCarouselRaf = 0;
+    };
+
+    const requestMobileCarousel = () => {
+      if (mobileCarouselRaf) return;
+      mobileCarouselRaf = requestAnimationFrame(updateMobileCarousel);
     };
 
     const updateParallax = () => {
       const viewport = Math.max(window.innerHeight, 1);
       parallaxItems.forEach((item) => {
         const rect = item.getBoundingClientRect();
-        if (rect.bottom < -viewport * 0.2 || rect.top > viewport * 1.2) return;
+        if (rect.bottom < -viewport * 0.25 || rect.top > viewport * 1.25) return;
         const strength = Number(item.dataset.parallax ?? 0.04);
         const centerDelta = rect.top + rect.height / 2 - viewport / 2;
         item.style.setProperty("--parallax-y", `${(-centerDelta * strength).toFixed(2)}px`);
       });
-      scrollRaf = 0;
     };
 
-    const requestScrollUpdate = () => {
-      if (scrollRaf) return;
-      scrollRaf = window.requestAnimationFrame(updateParallax);
+    const updateScrollMotion = () => {
+      updateParallax();
+      updateDesktopCarousel();
+      raf = 0;
+    };
+
+    const requestScrollMotion = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(updateScrollMotion);
+    };
+
+    const revealAll = () => {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      root.dataset.motion = "reduced";
+      if (carousel) carousel.style.setProperty("--projects-progress", "1");
+      if (track) track.style.removeProperty("transform");
     };
 
     if (reduced.matches) {
       revealAll();
       setActiveProject(0);
-      updateCarousel();
+      updateMobileCarousel();
       return;
     }
 
@@ -143,7 +144,7 @@ export function MotionController() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -6%" },
+      { threshold: 0.08, rootMargin: "0px 0px -4%" },
     );
     revealItems.forEach((item) => observer.observe(item));
 
@@ -175,8 +176,8 @@ export function MotionController() {
           const rect = item.getBoundingClientRect();
           const px = clamp((event.clientX - rect.left) / Math.max(rect.width, 1));
           const py = clamp((event.clientY - rect.top) / Math.max(rect.height, 1));
-          item.style.setProperty("--tilt-x", `${((0.5 - py) * 4.5).toFixed(2)}deg`);
-          item.style.setProperty("--tilt-y", `${((px - 0.5) * 5.5).toFixed(2)}deg`);
+          item.style.setProperty("--tilt-x", `${((0.5 - py) * 4.2).toFixed(2)}deg`);
+          item.style.setProperty("--tilt-y", `${((px - 0.5) * 5).toFixed(2)}deg`);
           item.style.setProperty("--surface-x", `${(px * 100).toFixed(1)}%`);
           item.style.setProperty("--surface-y", `${(py * 100).toFixed(1)}%`);
         };
@@ -232,86 +233,43 @@ export function MotionController() {
     }
 
     jumps.forEach((button, index) => {
-      const click = () => scrollToProject(index);
+      const click = () => {
+        if (window.innerWidth <= 900 && track) {
+          const slide = slides[index];
+          slide?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+          return;
+        }
+        if (!carousel || slides.length < 2) return;
+        const scrollRange = Math.max(1, carousel.offsetHeight - window.innerHeight);
+        const targetTop = window.scrollY + carousel.getBoundingClientRect().top;
+        window.scrollTo({
+          top: targetTop + scrollRange * (index / (slides.length - 1)),
+          behavior: "smooth",
+        });
+      };
       button.addEventListener("click", click);
       cleanups.push(() => button.removeEventListener("click", click));
     });
 
-    if (prev) {
-      const click = () => scrollToProject(Math.max(0, activeProject - 1));
-      prev.addEventListener("click", click);
-      cleanups.push(() => prev.removeEventListener("click", click));
-    }
-    if (next) {
-      const click = () => scrollToProject(Math.min(slides.length - 1, activeProject + 1));
-      next.addEventListener("click", click);
-      cleanups.push(() => next.removeEventListener("click", click));
-    }
+    const onTrackScroll = () => requestMobileCarousel();
+    track?.addEventListener("scroll", onTrackScroll, { passive: true });
+    window.addEventListener("scroll", requestScrollMotion, { passive: true });
+    window.addEventListener("resize", requestScrollMotion, { passive: true });
+    window.addEventListener("resize", requestMobileCarousel, { passive: true });
 
-    if (track) {
-      let dragging = false;
-      let startX = 0;
-      let startScroll = 0;
-      const pointerDown = (event: PointerEvent) => {
-        if (!finePointer.matches || event.button !== 0) return;
-        if ((event.target as HTMLElement).closest("a,button")) return;
-        dragging = true;
-        startX = event.clientX;
-        startScroll = track.scrollLeft;
-        track.classList.add("is-dragging");
-        track.setPointerCapture(event.pointerId);
-      };
-      const pointerMove = (event: PointerEvent) => {
-        if (!dragging) return;
-        track.scrollLeft = startScroll - (event.clientX - startX);
-      };
-      const pointerUp = (event: PointerEvent) => {
-        if (!dragging) return;
-        dragging = false;
-        track.classList.remove("is-dragging");
-        if (track.hasPointerCapture(event.pointerId)) track.releasePointerCapture(event.pointerId);
-        scrollToProject(getNearestSlide());
-      };
-      const keyDown = (event: KeyboardEvent) => {
-        if (event.key === "ArrowRight") {
-          event.preventDefault();
-          scrollToProject(Math.min(slides.length - 1, activeProject + 1));
-        } else if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          scrollToProject(Math.max(0, activeProject - 1));
-        }
-      };
-      track.addEventListener("scroll", requestCarouselUpdate, { passive: true });
-      track.addEventListener("pointerdown", pointerDown);
-      track.addEventListener("pointermove", pointerMove);
-      track.addEventListener("pointerup", pointerUp);
-      track.addEventListener("pointercancel", pointerUp);
-      track.addEventListener("keydown", keyDown);
-      cleanups.push(() => {
-        track.removeEventListener("scroll", requestCarouselUpdate);
-        track.removeEventListener("pointerdown", pointerDown);
-        track.removeEventListener("pointermove", pointerMove);
-        track.removeEventListener("pointerup", pointerUp);
-        track.removeEventListener("pointercancel", pointerUp);
-        track.removeEventListener("keydown", keyDown);
-      });
-    }
-
-    window.addEventListener("scroll", requestScrollUpdate, { passive: true });
-    window.addEventListener("resize", requestCarouselUpdate, { passive: true });
-    window.addEventListener("resize", requestScrollUpdate, { passive: true });
     setActiveProject(0);
-    updateCarousel();
-    updateParallax();
+    updateScrollMotion();
+    updateMobileCarousel();
 
     return () => {
       observer.disconnect();
       cleanups.forEach((cleanup) => cleanup());
-      window.removeEventListener("scroll", requestScrollUpdate);
-      window.removeEventListener("resize", requestCarouselUpdate);
-      window.removeEventListener("resize", requestScrollUpdate);
-      if (scrollRaf) cancelAnimationFrame(scrollRaf);
-      if (carouselRaf) cancelAnimationFrame(carouselRaf);
+      track?.removeEventListener("scroll", onTrackScroll);
+      window.removeEventListener("scroll", requestScrollMotion);
+      window.removeEventListener("resize", requestScrollMotion);
+      window.removeEventListener("resize", requestMobileCarousel);
+      if (raf) cancelAnimationFrame(raf);
+      if (mobileCarouselRaf) cancelAnimationFrame(mobileCarouselRaf);
       delete root.dataset.motion;
     };
   }, []);

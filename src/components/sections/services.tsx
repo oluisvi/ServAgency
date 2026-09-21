@@ -3,7 +3,7 @@ import { services } from "@/content/site";
 export function Services() {
   return (
     <section className="section dark" id="solucoes">
-      <div className="intro motion-clip">
+      <div className="intro section-heading-motion">
         <span>02 / CAPABILITIES</span>
         <h2 data-parallax="0.025">Da presença digital ao sistema que opera por trás dela.</h2>
       </div>

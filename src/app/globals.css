@@ -708,3 +708,195 @@ html[data-entry="skip"] .thematic-entry{display:none}
   .kinetic-char,.kinetic-word,[data-tilt-surface],.rows article,.services article,.process li,.about li{transform:none!important;transition:none!important}
   .project-track{scroll-behavior:auto!important}
 }
+
+/* ========================================================================== */
+/* Stability repair — 2026-09-21                                             */
+/* Keeps the interactive additions while restoring reliable layout behavior. */
+/* ========================================================================== */
+
+/* Section headings are content first: motion must never be able to hide them. */
+.section-heading-motion{
+  opacity:1!important;
+  clip-path:none!important;
+  transform:none!important;
+}
+.section-heading-motion h2{
+  opacity:1;
+  transform:translate3d(0,0,0);
+  transition:transform 560ms var(--motion-enter),letter-spacing 560ms var(--motion-enter),color 260ms ease;
+}
+@media (hover:hover) and (pointer:fine){
+  .section-heading-motion:hover h2{transform:translate3d(.035em,-.025em,0);letter-spacing:-.064em}
+}
+
+/* Kinetic hero repair: only the three lines are blocks. Words/characters stay inline. */
+.hero-title > .kinetic-line{
+  display:block!important;
+  overflow:visible!important;
+  opacity:1;
+  transform:none;
+}
+.hero-title .kinetic-word{
+  display:inline-flex!important;
+  flex-direction:row!important;
+  align-items:baseline;
+  vertical-align:baseline;
+  white-space:nowrap;
+  overflow:visible!important;
+  opacity:1!important;
+  transform:none;
+}
+.hero-title .kinetic-char{
+  display:inline-block!important;
+  width:auto!important;
+  opacity:1!important;
+}
+.hero-title .kinetic-space{
+  display:inline-block!important;
+  width:.22em!important;
+  opacity:1!important;
+  transform:none!important;
+}
+.hero-title.is-visible > .kinetic-line:nth-child(1){animation:hero-line-enter 820ms var(--motion-enter) both}
+.hero-title.is-visible > .kinetic-line:nth-child(2){animation:hero-line-enter 820ms var(--motion-enter) 80ms both}
+.hero-title.is-visible > .kinetic-line:nth-child(3){animation:hero-line-enter 820ms var(--motion-enter) 160ms both}
+@keyframes hero-line-enter{
+  from{opacity:.15;transform:translate3d(0,.72em,0);filter:blur(5px)}
+  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+
+/* Restore the preferred pinned / scrubbed project sequence, but lift it in-frame. */
+.motion-projects{
+  --projects-progress:0;
+  position:relative;
+  height:300vh!important;
+  min-height:0;
+  padding:0!important;
+  overflow:visible;
+  background:#ebe6de;
+  color:var(--ink);
+  isolation:isolate;
+}
+.project-pin{
+  position:sticky;
+  top:0;
+  height:100svh;
+  min-height:620px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(circle at calc(8% + var(--projects-progress) * 72%) 5%,rgba(184,255,44,.11),transparent 21rem),
+    #ebe6de;
+}
+.project-head{
+  flex:0 0 auto;
+  padding:clamp(4.9rem,6.4vh,5.8rem) 6vw .72rem!important;
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(250px,.55fr)!important;
+  gap:4vw;
+  align-items:end;
+}
+.project-head h2{
+  margin:0;
+  max-width:900px;
+  font-size:clamp(2.1rem,4.05vw,4.55rem)!important;
+  line-height:.91;
+  letter-spacing:-.06em;
+}
+.project-head p{margin:0;max-width:490px;font-size:.9rem;line-height:1.45}
+.project-controls{
+  flex:0 0 auto;
+  display:grid!important;
+  grid-template-columns:auto minmax(100px,1fr) auto!important;
+  align-items:center;
+  gap:1.1rem;
+  padding:0 6vw .65rem!important;
+}
+.project-jumps{display:flex!important;gap:.4rem;padding:0!important;overflow:visible!important}
+.project-window{
+  flex:1 1 auto;
+  min-height:0!important;
+  overflow:hidden!important;
+  display:flex;
+  align-items:flex-start;
+}
+.project-track{
+  display:flex!important;
+  align-items:stretch!important;
+  gap:clamp(1rem,1.8vw,2rem)!important;
+  width:max-content!important;
+  height:100%!important;
+  overflow:visible!important;
+  padding:0 9vw clamp(.9rem,1.6vh,1.4rem) 6vw!important;
+  cursor:default!important;
+  scroll-snap-type:none!important;
+  scroll-behavior:auto!important;
+  touch-action:auto!important;
+  will-change:transform;
+}
+.project-slide{
+  --project-focus:.25;
+  flex:0 0 min(82vw,1280px)!important;
+  min-width:780px!important;
+  height:100%!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:minmax(320px,.43fr) minmax(420px,.57fr)!important;
+  scroll-snap-align:none!important;
+  transform:translate3d(0,calc((1 - var(--project-focus)) * 12px),0) scale(calc(.982 + var(--project-focus) * .018))!important;
+}
+.project-slide .project-copy{padding:clamp(1.65rem,3vw,3.25rem)!important}
+.project-slide .project-copy small{margin:.7rem 0 .55rem!important}
+.project-slide h3{font-size:clamp(2.8rem,5.45vw,6.4rem)!important}
+.project-slide .project-copy>p{margin:.85rem 0 .55rem!important}
+.project-slide .actions{margin-top:.95rem!important}
+.project-slide .project-art{
+  min-height:0!important;
+  transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));
+  transition:transform 580ms var(--spring),box-shadow 300ms ease;
+}
+.project-slide.is-current .project-art{box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+
+/* Mobile stays native horizontal swipe instead of sticky scrub. */
+@media(max-width:900px){
+  .motion-projects{height:auto!important;padding-bottom:clamp(4rem,10vw,7rem)!important}
+  .project-pin{position:relative;height:auto;min-height:0;overflow:visible}
+  .project-head{padding:6rem 1.25rem 1.35rem!important;grid-template-columns:1fr!important;gap:1rem}
+  .project-head h2{font-size:clamp(2.5rem,10vw,4.5rem)!important}
+  .project-controls{grid-template-columns:1fr!important;padding:0 1.25rem .85rem!important}
+  .project-progress-label{display:none}
+  .project-jumps{overflow:auto!important;max-width:100%;padding:.2rem 0!important;scrollbar-width:none}
+  .project-window{overflow:visible!important}
+  .project-track{
+    width:100%!important;
+    height:auto!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x mandatory!important;
+    transform:none!important;
+    padding:0 1.25rem 1.5rem!important;
+    gap:1rem!important;
+  }
+  .project-slide{
+    flex:0 0 min(88vw,680px)!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:650px!important;
+    grid-template-columns:1fr!important;
+    scroll-snap-align:center!important;
+    transform:none!important;
+    opacity:1!important;
+  }
+  .project-slide .project-art{min-height:44vh!important;transform:none!important}
+}
+
+@media(max-width:520px){
+  .project-slide{flex-basis:91vw!important;min-height:610px!important}
+  .hero-title{font-size:clamp(3.15rem,15vw,5.15rem);letter-spacing:-.07em}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-title.is-visible > .kinetic-line{animation:none!important}
+  .project-track{transform:none!important}
+}
