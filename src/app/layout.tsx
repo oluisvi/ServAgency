@@ -1,54 +1,43 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { MotionController } from "@/components/ui/motion-controller";
+import { ThematicEntry } from "@/components/ui/thematic-entry";
 import "./globals.css";
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://servagency.vercel.app";
+const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "ServAgency — Sistemas e experiências digitais",
-    template: "%s | ServAgency",
-  },
-  description:
-    "Estratégia, design, automação, IA e desenvolvimento web conectados para transformar problemas reais em sistemas e experiências digitais.",
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: "pt_BR",
-    url: "/",
-    siteName: "ServAgency",
-    title: "ServAgency — Sistemas e experiências digitais",
-    description:
-      "Estratégia, design e tecnologia conectados para resolver problemas reais de empresas.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ServAgency — Sistemas e experiências digitais",
-    description:
-      "Web, automação, IA, produtos digitais e experiências interativas com estratégia e acabamento.",
-  },
+  title: "ServAgency — Sistemas e experiências digitais",
+  description: "Estratégia, design, automação, IA e desenvolvimento web conectados.",
   icons: { icon: "/favicon.svg" },
+  openGraph: {
+    title: "ServAgency — Sistemas e experiências digitais",
+    description: "Estratégia, design e engenharia convergindo em sistemas digitais com identidade própria.",
+    images: [{ url: "/og-servagency.png", width: 1200, height: 630, alt: "ServAgency — Digital Systems in Motion" }],
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090b0f",
+  themeColor: "#0c0d0f",
   colorScheme: "dark light",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="pt-BR" className={`${geist.variable} ${mono.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var r=matchMedia("(prefers-reduced-motion: reduce)").matches;var s=sessionStorage.getItem("servagency:thematic-entry-seen:v1")==="1";document.documentElement.dataset.entry=(r||s)?"skip":"show"}catch(e){document.documentElement.dataset.entry="show"}})();`,
+          }}
+        />
+      </head>
       <body>
+        <noscript>
+          <style>{`.thematic-entry{display:none!important}`}</style>
+        </noscript>
+        <ThematicEntry />
         {children}
-        <MotionController />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

@@ -1,61 +1,33 @@
-# ServAgency — Digital Systems in Motion
+# ServAgency — Signal Convergence
 
-Revitalização visual e estrutural do site da ServAgency.
+Reestruturação visual da ServAgency com identidade própria, portfólio em cenas e assinatura visual baseada no conceito **Digital Systems in Motion**.
 
-## Direção
+## Identidade
 
-A home foi redesenhada como uma experiência de creative technology studio, usando a ideia de **rota/sinal** para conectar estratégia, tecnologia, execução e projetos.
+A marca usa o símbolo **Signal Convergence**: múltiplas rotas convergem em um único nó, representando estratégia, design e engenharia transformadas em solução. Consulte `BRAND.md`.
 
-### Projetos em destaque
+## Entrada temática
 
-- Ruvro & Co — luxury digital showroom
-- Lamim's Barbershop — experiência espacial 3D
-- FlowDesk — SaaS de operações e automação
-- Atlas Finance AI — produto financeiro e dados
-- Shop.co — e-commerce full-stack
+Na primeira visita de cada sessão, uma microcena curta desenha as rotas da marca e revela o hero. A experiência:
 
-## Stack
+- aparece uma vez por `sessionStorage` (`servagency:thematic-entry-seen:v1`);
+- aguarda fontes + múltiplos frames antes de abrir;
+- possui timeout de segurança;
+- não captura foco e é `aria-hidden`;
+- é desativada em `prefers-reduced-motion`;
+- usa apenas CSS e APIs nativas, sem biblioteca de animação.
 
-- Next.js 16
-- React 19
-- TypeScript
-- Tailwind CSS / PostCSS
-- Lucide React
-- React Hook Form + Zod
-- Vercel Analytics + Speed Insights
-
-## Rodando localmente
+## Rodar
 
 ```bash
 npm install
 npm run dev
 ```
 
-Acesse `http://localhost:3000`.
-
-## Validação
+Validação:
 
 ```bash
 npm run typecheck
 npm run lint
 npm run build
 ```
-
-## Deploy
-
-O projeto está preparado para Vercel. Opcionalmente configure:
-
-```env
-NEXT_PUBLIC_SITE_URL=https://seu-dominio.com
-```
-
-Sem essa variável o fallback é `https://servagency.vercel.app`.
-
-## Contato
-
-O formulário não grava dados em backend próprio. Ele valida os campos no navegador e prepara a mensagem para envio pelo WhatsApp.
-
-## Design docs
-
-- `docs/superpowers/specs/2026-09-14-digital-systems-in-motion-design.md`
-- `docs/superpowers/plans/2026-09-14-servagency-revamp.md`
