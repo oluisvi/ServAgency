@@ -56,6 +56,7 @@ export function MotionController() {
     let dragStartX = 0;
     let dragStartOffset = 0;
     let dragMoved = false;
+    let dragCaptured = false;
     let suppressClickUntil = 0;
     let interactionResumeAt = 0;
     let lastCarouselTime = 0;
@@ -452,6 +453,11 @@ export function MotionController() {
 
     const onPointerDown = (event: PointerEvent) => {
       if (!track || event.button !== 0) return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("a, button, input, select, textarea, [data-carousel-interactive]")) {
+        interactionResumeAt = performance.now() + 900;
+        return;
+      }
       manualTween = null;
       if (isMobileCarousel()) {
         touching = true;
@@ -459,19 +465,23 @@ export function MotionController() {
         return;
       }
       dragging = true;
+      dragCaptured = false;
       dragPointerId = event.pointerId;
       dragStartX = event.clientX;
       dragStartOffset = carouselOffset;
       dragMoved = false;
       interactionResumeAt = Number.POSITIVE_INFINITY;
-      track.classList.add("is-dragging");
-      track.setPointerCapture?.(event.pointerId);
     };
 
     const onPointerMove = (event: PointerEvent) => {
       if (!track || isMobileCarousel() || !dragging || event.pointerId !== dragPointerId) return;
       const delta = event.clientX - dragStartX;
-      if (Math.abs(delta) > 5) dragMoved = true;
+      if (Math.abs(delta) > 7 && !dragMoved) {
+        dragMoved = true;
+        dragCaptured = true;
+        track.classList.add("is-dragging");
+        track.setPointerCapture?.(event.pointerId);
+      }
       if (!dragMoved) return;
       event.preventDefault();
       carouselOffset = dragStartOffset - delta;
@@ -499,7 +509,8 @@ export function MotionController() {
       if (!dragging || event.pointerId !== dragPointerId) return;
       dragging = false;
       track.classList.remove("is-dragging");
-      track.releasePointerCapture?.(event.pointerId);
+      if (dragCaptured) track.releasePointerCapture?.(event.pointerId);
+      dragCaptured = false;
       if (dragMoved) suppressClickUntil = performance.now() + 280;
       interactionResumeAt = performance.now() + 320;
     };
@@ -510,6 +521,25 @@ export function MotionController() {
         event.stopPropagation();
       }
     };
+
+
+    const interactiveProjectLinks = track
+      ? Array.from(track.querySelectorAll<HTMLElement>("[data-carousel-interactive]"))
+      : [];
+    interactiveProjectLinks.forEach((item) => {
+      const pause = () => { interactionResumeAt = Number.POSITIVE_INFINITY; };
+      const resume = () => { interactionResumeAt = performance.now() + 950; };
+      item.addEventListener("pointerenter", pause);
+      item.addEventListener("pointerleave", resume);
+      item.addEventListener("focus", pause);
+      item.addEventListener("blur", resume);
+      cleanups.push(() => {
+        item.removeEventListener("pointerenter", pause);
+        item.removeEventListener("pointerleave", resume);
+        item.removeEventListener("focus", pause);
+        item.removeEventListener("blur", resume);
+      });
+    });
 
     track?.addEventListener("pointerdown", onPointerDown);
     track?.addEventListener("pointermove", onPointerMove);

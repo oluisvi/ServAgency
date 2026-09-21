@@ -72,3 +72,11 @@ Every flagship project now has a local presentation route at `/projetos/[slug]`.
 - next-case navigation.
 
 For Alvora Lab and Casa Aurora, the case copy distinguishes public-product observation from undocumented internal creative rationale. It does not claim private design decisions that were not available in the supplied sources.
+
+## Latest identity / interaction patch
+
+- Uses the supplied official `logo.svg` in the fixed header.
+- Replaces the previous hero signal/trident object with an interactive layered 3D treatment of the official logo.
+- Removes repository/code buttons from portfolio and case pages.
+- Fixes `Ver case` / `Ver ao vivo` conflicts with carousel dragging by separating interactive controls from drag surfaces.
+- Updates Alvora Lab and Casa Aurora source metadata and case-study engineering details from `Kaiquemarques00/AlvoraLab` and `Kaiquemarques00/Home-3d`.

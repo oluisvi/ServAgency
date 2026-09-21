@@ -19,14 +19,9 @@ export function BrandMark(props: SVGProps<SVGSVGElement>) {
 
 export function Brand() {
   return (
-    <span className="brand" aria-label="ServAgency">
-      <span className="brand-mark" aria-hidden="true">
-        <BrandMark />
-      </span>
-      <span className="brand-wordmark">
-        <span>Serv</span>
-        <strong>Agency</strong>
-      </span>
+    <span className="brand brand-official" aria-label="ServAgency">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo.svg" alt="" aria-hidden="true" className="brand-official-image" />
     </span>
   );
 }

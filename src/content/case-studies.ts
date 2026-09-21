@@ -128,10 +128,11 @@ export const caseStudies: readonly CaseStudy[] = [
     challenge:
       "Explicar impressão 3D para públicos diferentes — quem quer comprar uma peça pronta, quem tem uma ideia personalizada e empresas — sem fragmentar a marca em três sites diferentes.",
     concept:
-      "A leitura pública do produto sugere uma lógica DIGITAL → PHYSICAL → USE: ideias digitais ganham forma, entram no catálogo e chegam ao contexto real. A interface reforça isso com logo 3D, produtos renderizados e navegação por caminhos claros.",
+      "Laboratório de objetos. A documentação do projeto define essa Creative North Star para apresentar fabricação digital com precisão e proximidade: produto em primeiro plano, tipografia forte, linhas finas e azul elétrico orientando ação, foco e progresso.",
     result:
       "Uma presença de marca com dark/light mode, logo 3D arrastável, catálogo com exposição automática, rotas para personalizados e empresas e uma hierarquia visual coerente entre objeto e serviço.",
     liveUrl: "https://alvora-lab.vercel.app/",
+    sourceUrl: "https://github.com/Kaiquemarques00/AlvoraLab",
     cover: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://alvora-lab.vercel.app/",
     coverAlt: "Captura do site Alvora Lab",
     palette: [
@@ -141,23 +142,23 @@ export const caseStudies: readonly CaseStudy[] = [
       { name: "Ice", value: "#EDF0FB" },
     ],
     principles: [
-      { title: "Objeto como interface", text: "O logo 3D pode ser girado por drag e teclado, criando relação direta com o que a marca fabrica." },
-      { title: "Três caminhos claros", text: "Catálogo, personalizados e empresas aparecem como jornadas distintas sob a mesma identidade." },
-      { title: "Exposição controlável", text: "O catálogo automatizado mantém setas e pausa, evitando que motion retire controle do usuário." },
+      { title: "Objeto como interface", text: "O palco 3D transforma a própria identidade em objeto manipulável, conectando interface e fabricação." },
+      { title: "One Accent Rule", text: "O azul elétrico é reservado para ação, seleção, foco e progresso para não competir com as cores dos produtos." },
+      { title: "Jornadas separadas", text: "Produtos prontos, personalizados e demandas B2B têm caminhos distintos sem fragmentar a marca." },
     ],
     process: [
-      { step: "01", title: "Organizar a oferta", text: "A experiência separa produto pronto, projeto sob medida e demanda B2B." },
-      { step: "02", title: "Materializar a identidade", text: "O 3D interativo transforma a marca em um objeto manipulável." },
-      { step: "03", title: "Criar uma exposição", text: "Produtos são apresentados em sequência visual com categorias e aplicação." },
-      { step: "04", title: "Conectar intenção à ação", text: "CTAs recorrentes encaminham cada tipo de visitante para o próximo passo adequado." },
+      { step: "01", title: "Definir as jornadas", text: "O brief separa descoberta de produto pronto, solicitação personalizada e demanda para empresas." },
+      { step: "02", title: "Construir o sistema", text: "DESIGN.md formaliza tokens claros/escuros, Rambla como família principal e o azul elétrico como sinal de interação." },
+      { step: "03", title: "Materializar a marca", text: "O hero 3D e a exposição de produtos aproximam fabricação digital e interface sem esconder o catálogo." },
+      { step: "04", title: "Preservar conversão", text: "Catálogo, produto e orçamento permanecem os destinos principais; motion entra como resposta, não obstáculo." },
     ],
-    stack: ["Interface web", "Canvas / 3D", "Catálogo", "Tema claro/escuro"],
+    stack: ["Next.js", "React", "TypeScript", "Three.js", "Catálogo data-driven", "Tema claro/escuro"],
     gallery: [
       { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://alvora-lab.vercel.app/", alt: "Home Alvora Lab", caption: "Hero com identidade 3D e caminhos de conversão." },
       { src: "https://alvora-lab.vercel.app/images/hero-product.png", alt: "Produto Alvora Lab", caption: "Objeto modular usado na linguagem do catálogo." },
       { src: "https://alvora-lab.vercel.app/images/wave-sculpture.png", alt: "Escultura impressa em 3D da Alvora Lab", caption: "Forma escultórica usada para comunicar possibilidades de fabricação." },
     ],
-    sourceNote: "Leitura baseada no deploy público. A direção descrita aqui é inferida da interface observável; não atribui decisões internas não documentadas ao autor.",
+    sourceNote: "Case baseado no deploy e na documentação real do repositório AlvoraLab — DESIGN.md, PRODUCT.md e o project brief. O conceito de ‘Laboratório de objetos’, a paleta e as jornadas de catálogo/personalização vêm dessas fontes.",
     theme: { bg: "#080B18", surface: "#101536", text: "#EDF0FB", muted: "#AEB8DC", accent: "#163BFF", accentText: "#FFFFFF" },
   },
   {
@@ -209,14 +210,15 @@ export const caseStudies: readonly CaseStudy[] = [
     title: "Casa Aurora",
     subtitle: "Uma casa conceitual apresentada como espaço a ser explorado, não apenas como planta.",
     intro:
-      "A Casa Aurora usa uma narrativa residencial calma e um explorador panorâmico 360° para aproximar o visitante da sensação dos ambientes. A interface mistura editorialidade, arquitetura e controle espacial acessível.",
+      "A Casa Aurora combina um percurso principal em geometria 3D real com dez panoramas 360° derivados do projeto em Blender. A experiência mistura narrativa residencial, câmera controlada por scroll, planta conceitual e exploração detalhada dos ambientes.",
     challenge:
       "Apresentar um projeto arquitetônico conceitual sem fingir que a visualização substitui um projeto executivo, ao mesmo tempo em que a experiência precisa gerar desejo e entendimento espacial.",
     concept:
-      "A VIDA CABE AQUI. A experiência alterna entre narrativa e exploração: primeiro estabelece atmosfera, depois oferece cômodos, panorama e planta. O contraste entre Georgia e DM Sans separa emoção de controle funcional.",
+      "A VIDA CABE AQUI. O tour principal trata a casa como um espaço contínuo: a rolagem move uma câmera por um modelo paramétrico em Three.js; quando o usuário quer olhar com mais detalhe, a experiência abre panoramas 360° por ambiente e depois restaura a posição do percurso.",
     result:
-      "Um tour residencial com panorama em canvas, seleção de ambientes, controles de teclado, planta conceitual e uma paleta orgânica de verdes e tons quentes. O conteúdo explicita que dimensões e soluções construtivas dependem de validação técnica.",
+      "Uma apresentação residencial com casa, mobiliário e paisagismo construídos como geometria 3D, percurso reversível por scroll, dez vistas panorâmicas, planta conceitual e navegação alternativa por teclado. O conteúdo mantém explícito o caráter conceitual do estudo.",
     liveUrl: "https://home-3d-three.vercel.app/",
+    sourceUrl: "https://github.com/Kaiquemarques00/Home-3d",
     cover: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://home-3d-three.vercel.app/",
     coverAlt: "Captura do projeto Casa Aurora",
     palette: [
@@ -226,22 +228,22 @@ export const caseStudies: readonly CaseStudy[] = [
       { name: "Olive", value: "#697557" },
     ],
     principles: [
-      { title: "Atmosfera antes da planta", text: "A narrativa abre com sensação de morar antes de entrar em medidas e organização espacial." },
-      { title: "Exploração acessível", text: "O panorama responde a teclado, zoom e centralização, além da interação direta." },
-      { title: "Conceito honesto", text: "A interface diferencia claramente estudo conceitual de projeto executivo validado." },
+      { title: "Geometria, não vídeo", text: "A experiência principal é uma cena Three.js real; câmera, casa e paisagismo continuam manipuláveis como espaço." },
+      { title: "Detalhe sob demanda", text: "Dez panoramas 360° carregam apenas quando escolhidos e oferecem teclado, zoom e recentralização." },
+      { title: "Conceito honesto", text: "A interface diferencia claramente apresentação conceitual de projeto arquitetônico executivo validado." },
     ],
     process: [
-      { step: "01", title: "Criar atmosfera", text: "Paleta terrosa, serif editorial e ritmo calmo estabelecem uma linguagem residencial." },
-      { step: "02", title: "Mapear ambientes", text: "A casa é organizada em cômodos navegáveis, evitando que o 360° vire uma cena sem orientação." },
-      { step: "03", title: "Construir o panorama", text: "Canvas entrega exploração espacial com controles alternativos e estado de ambiente." },
-      { step: "04", title: "Conectar à planta", text: "A visualização é complementada por uma planta conceitual e explicações de programa." },
+      { step: "01", title: "Modelar o espaço", text: "Casa, mobiliário, materiais e jardim são definidos em código paramétrico e renderizados em Three.js." },
+      { step: "02", title: "Coreografar a câmera", text: "Waypoints e capítulos ligam a rolagem nativa a um percurso reversível pela casa." },
+      { step: "03", title: "Gerar os panoramas", text: "Dez câmeras no Blender alimentam vistas 360° fotográficas carregadas apenas quando solicitadas." },
+      { step: "04", title: "Preservar continuidade", text: "Ao fechar o panorama, câmera e posição do tour são restauradas, enquanto planta e conteúdo alternativo mantêm orientação." },
     ],
-    stack: ["Canvas 2D", "Panorama 360°", "JavaScript", "UI acessível"],
+    stack: ["React", "TypeScript", "Three.js", "Vite", "Panoramas 360°", "Blender workflow"],
     gallery: [
       { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://home-3d-three.vercel.app/", alt: "Home Casa Aurora", caption: "Entrada editorial da experiência residencial." },
       { src: "https://home-3d-three.vercel.app/planta-baixa-conceitual.png", alt: "Planta conceitual Casa Aurora", caption: "Planta usada para explicar organização dos ambientes.", fit: "contain" },
     ],
-    sourceNote: "Leitura baseada no deploy público e inspeção da interface. A direção descrita é uma análise do produto visível, não um relato interno do processo do autor.",
+    sourceNote: "Case baseado no deploy e no repositório Home-3d. O README documenta a casa paramétrica em Three.js, o percurso reversível por scroll e as dez vistas panorâmicas geradas a partir do projeto em Blender.",
     theme: { bg: "#E8E4D9", surface: "#F1EDE3", text: "#253029", muted: "#697557", accent: "#34412F", accentText: "#F6F2E6" },
   },
   {

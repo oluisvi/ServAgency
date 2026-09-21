@@ -1,6 +1,5 @@
 import type { CSSProperties } from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
-import { BrandMark } from "@/components/ui/brand";
 
 function KineticLine({ text, emphasis }: { text: string; emphasis?: string }) {
   const words = text.split(" ");
@@ -28,27 +27,33 @@ function KineticLine({ text, emphasis }: { text: string; emphasis?: string }) {
   );
 }
 
-function SignalSculpture() {
+function LogoSculpture() {
+  const layers = Array.from({ length: 8 }, (_, index) => index);
+
   return (
-    <div className="signal-sculpture" data-sculpture aria-hidden="true">
-      <div className="signal-sculpture-stage">
-        <div className="signal-cube">
-          <i className="face face-front" />
-          <i className="face face-back" />
-          <i className="face face-left" />
-          <i className="face face-right" />
-          <i className="face face-top" />
-          <i className="face face-bottom" />
+    <div className="logo-sculpture" data-sculpture aria-label="Logo ServAgency em profundidade interativa">
+      <div className="logo-sculpture-stage" aria-hidden="true">
+        <div className="logo-sculpture-stack">
+          {layers.map((layer) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/logo.svg"
+              alt=""
+              key={layer}
+              className="logo-sculpture-layer"
+              style={{ "--logo-depth": layer } as CSSProperties}
+            />
+          ))}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="" className="logo-sculpture-face" />
         </div>
-        <span className="signal-ring signal-ring-a" />
-        <span className="signal-ring signal-ring-b" />
-        <span className="signal-ring signal-ring-c" />
-        <span className="signal-node signal-node-a" />
-        <span className="signal-node signal-node-b" />
-        <span className="signal-node signal-node-c" />
+        <span className="logo-sculpture-orbit logo-sculpture-orbit-a" />
+        <span className="logo-sculpture-orbit logo-sculpture-orbit-b" />
+        <i className="logo-sculpture-node logo-sculpture-node-a" />
+        <i className="logo-sculpture-node logo-sculpture-node-b" />
       </div>
       <div className="signal-sculpture-caption">
-        <span>INTERACTIVE SIGNAL OBJECT</span>
+        <span>IDENTITY IN MOTION</span>
         <i />
         <strong>MOVE POINTER</strong>
       </div>
@@ -59,9 +64,6 @@ function SignalSculpture() {
 export function Hero() {
   return (
     <section className="hero" id="inicio" data-pointer-field>
-      <div className="hero-symbol" aria-hidden="true" data-parallax="0.07">
-        <BrandMark />
-      </div>
       <div className="hero-pointer-glow" aria-hidden="true" />
       <div className="hero-meta motion-reveal">
         <span>CREATIVE TECHNOLOGY STUDIO</span>
@@ -77,7 +79,7 @@ export function Hero() {
           </h1>
         </div>
         <div className="hero-side motion-reveal" data-parallax="0.025">
-          <SignalSculpture />
+          <LogoSculpture />
           <p>
             Websites, automações, IA, produtos web e experiências interativas
             desenvolvidos como um único sistema — da ideia ao uso real.

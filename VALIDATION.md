@@ -1,22 +1,21 @@
-# Validation — portfolio audit + case studies
+# Validation — official logo + carousel actions
 
-## Completed checks
+## Validated in this package
 
-- Portfolio expanded from 8 to 10 projects.
-- Added Alvora Lab and Casa Aurora / Home 3D.
-- Carousel order changed from chronology to visual-storytelling priority.
-- Continuous infinite carousel behavior preserved.
-- Manual controls, drag/swipe, arrows, numbers and pause/play preserved.
-- Added `/projetos/[slug]` static case-study route for every project.
-- Added real/faithful galleries, palettes, process narrative and source notes.
-- Alvora Lab and Casa Aurora use public-deploy observations and explicitly avoid claiming undocumented internal rationale.
-- 23 TS/TSX source files transpiled with TypeScript: 0 syntax errors.
-- `globals.css` braces balanced: 729 opening / 729 closing.
-- No legacy `postcss.config.mjs` is present.
+- 23 TypeScript / TSX source files passed TypeScript `transpileModule` syntax diagnostics with 0 errors.
+- `src/app/globals.css` has balanced braces (766 / 766).
+- Portfolio and case-study slugs match 10 / 10.
+- `public/logo.svg` is bundled locally.
+- Carousel action links are excluded from drag pointer capture.
+- `Ver case` uses a native internal anchor so cloned infinite-carousel slides preserve navigation.
+- `Ver ao vivo` remains a normal external anchor.
+- Repository/code buttons were removed from the carousel and case-study UI.
+- The new Alvora Lab and Casa Aurora repository URLs are recorded in project data.
+- Alvora Lab and Casa Aurora case copy/stack were updated from their real repository documentation.
 
-## Production gate still required
+## Build gate
 
-This environment does not contain the project's npm dependencies, so a full Next.js typecheck/build was not executed here. Before deploying:
+The environment timed out while installing npm dependencies, so a full Next.js build could not be executed here. Run after extracting:
 
 ```bash
 npm install
@@ -24,4 +23,4 @@ npm run typecheck
 npm run build
 ```
 
-If all three pass, deploy the same source package to Vercel.
+The previous stale Tailwind/PostCSS config is not part of this package.

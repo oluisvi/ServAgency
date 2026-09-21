@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, Braces } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { PortfolioProject } from "@/content/site";
 
 function ProjectVisual({ project }: { project: PortfolioProject }) {
@@ -57,11 +57,6 @@ export function ProjectScene({ project, index }: { project: PortfolioProject; in
             {project.liveUrl && (
               <a className="project-action-primary" href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                 Ver projeto <ArrowUpRight aria-hidden="true" />
-              </a>
-            )}
-            {project.sourceUrl && (
-              <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-                <Braces aria-hidden="true" /> Código
               </a>
             )}
           </div>

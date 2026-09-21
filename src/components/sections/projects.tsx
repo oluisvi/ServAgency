@@ -1,10 +1,8 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
-  Braces,
   ImageIcon,
   Sparkles,
 } from "lucide-react";
@@ -132,17 +130,12 @@ export function Projects() {
                   <p>{project.summary}</p>
                   <ul>{project.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul>
                   <div className="actions">
-                    <Link href={`/projetos/${project.slug}`} data-magnetic>
+                    <a href={`/projetos/${project.slug}`} data-magnetic data-carousel-interactive>
                       Ver case <ArrowUpRight aria-hidden="true" />
-                    </Link>
+                    </a>
                     {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        Site ao vivo <ArrowUpRight aria-hidden="true" />
-                      </a>
-                    )}
-                    {project.sourceUrl && (
-                      <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-                        <Braces aria-hidden="true" /> Código
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" data-carousel-interactive>
+                        Ver ao vivo <ArrowUpRight aria-hidden="true" />
                       </a>
                     )}
                   </div>

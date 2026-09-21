@@ -1205,7 +1205,7 @@ html[data-entry="skip"] .thematic-entry{display:none}
 .case-removeit-body{display:grid;grid-template-columns:1fr .9fr;gap:clamp(2rem,5vw,5rem);align-items:end}.case-removeit-body>div:first-child>span{color:#6558f5;font:700 .65rem var(--font-mono);letter-spacing:.12em}.case-removeit h2{margin:1rem 0;font-size:clamp(3rem,6vw,6.5rem);line-height:.88;letter-spacing:-.07em}.case-removeit h2 em{font-style:normal;color:#6558f5}.case-removeit-body p{max-width:480px;color:#6f7484}
 .case-removeit-upload{padding:2.5rem 1.7rem;border:1px solid #d9d7f5;border-radius:1.5rem;background:rgba(255,255,255,.9);display:grid;justify-items:center;text-align:center;gap:.7rem;box-shadow:0 20px 70px rgba(38,34,82,.12)}.case-removeit-upload svg{width:2rem;height:2rem;color:#6558f5}.case-removeit-upload span{font-size:.65rem;color:#77798a}
 @media(max-width:900px){
-  .case-nav{grid-template-columns:1fr auto}.case-nav>span{display:none}.case-nav-actions a:last-child{display:none}
+  .case-nav{grid-template-columns:1fr auto}.case-nav>span{display:none}
   .case-hero{width:100%;grid-template-columns:1fr;min-height:0;border:0}.case-hero-copy{padding:7rem 1.25rem 3rem}.case-hero-media{min-height:58vh;border-left:0;border-top:1px solid color-mix(in srgb,var(--case-text) 12%,transparent)}
   .case-section{width:calc(100% - 2.5rem);padding-block:5rem}.case-two-col,.case-stack,.case-concept-grid{grid-template-columns:1fr;gap:1.2rem}.case-two-col>p,.case-concept p,.case-stack ul{margin-top:1rem}
   .case-section-heading{display:block}.case-section-heading h2{margin-top:1.4rem}
@@ -1221,4 +1221,157 @@ html[data-entry="skip"] .thematic-entry{display:none}
   .case-hero h1{font-size:clamp(4rem,20vw,6.7rem)}
   .case-swatches article{min-height:150px;padding:.9rem}
   .case-next{padding:2rem 1.25rem}.case-next svg{width:1.6rem;height:1.6rem}
+}
+
+/* Official ServAgency identity — uploaded logo.svg */
+.brand-official{
+  display:inline-flex;
+  align-items:center;
+  width:clamp(118px,9.4vw,158px);
+  height:30px;
+  overflow:visible;
+}
+.brand-official-image{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:left center;
+  filter:drop-shadow(0 0 0 rgba(184,255,44,0));
+  transition:transform 520ms var(--spring),filter 320ms ease;
+}
+.header>a:first-child:hover .brand-official-image{
+  transform:translate3d(2px,-2px,0) scale(1.025);
+  filter:drop-shadow(0 0 10px rgba(184,255,44,.25));
+}
+
+/* The old signal/trident background is intentionally retired in favor of the real identity. */
+.hero-symbol{display:none!important}
+
+/* Interactive pseudo-3D extrusion made from the official SVG. */
+.logo-sculpture{
+  --scene-rx:10deg;
+  --scene-ry:-12deg;
+  --scene-x:0px;
+  --scene-y:0px;
+  width:min(100%,590px);
+  margin:0 0 clamp(1.35rem,2.2vw,2.25rem);
+  perspective:1200px;
+}
+.logo-sculpture-stage{
+  position:relative;
+  min-height:clamp(220px,25vw,360px);
+  display:grid;
+  place-items:center;
+  overflow:visible;
+  perspective:1100px;
+  isolation:isolate;
+}
+.logo-sculpture-stage::before{
+  content:"";
+  position:absolute;
+  width:72%;
+  height:42%;
+  left:15%;
+  top:30%;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(184,255,44,.105),rgba(184,255,44,.025) 42%,transparent 72%);
+  filter:blur(18px);
+  pointer-events:none;
+}
+.logo-sculpture-stack{
+  position:absolute;
+  inset:9% 0 8%;
+  transform-style:preserve-3d;
+  transform:translate3d(var(--scene-x),var(--scene-y),0) rotateX(var(--scene-rx)) rotateY(var(--scene-ry));
+  transition:transform 700ms var(--spring);
+  animation:official-logo-float 5.8s ease-in-out infinite;
+}
+.logo-sculpture-layer,
+.logo-sculpture-face{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  user-select:none;
+  pointer-events:none;
+  backface-visibility:hidden;
+}
+.logo-sculpture-layer{
+  transform:translate3d(calc(var(--logo-depth) * -1.6px),calc(var(--logo-depth) * 1.15px),calc(var(--logo-depth) * -4px));
+  opacity:calc(.12 + var(--logo-depth) * .022);
+  filter:brightness(.32) saturate(1.3) drop-shadow(0 9px 18px rgba(0,0,0,.34));
+}
+.logo-sculpture-face{
+  transform:translateZ(18px);
+  filter:drop-shadow(0 20px 30px rgba(0,0,0,.38)) drop-shadow(0 0 16px rgba(184,255,44,.12));
+}
+.logo-sculpture-orbit{
+  position:absolute;
+  z-index:-1;
+  left:50%;
+  top:50%;
+  border:1px solid rgba(184,255,44,.18);
+  border-radius:50%;
+  pointer-events:none;
+  transform-style:preserve-3d;
+}
+.logo-sculpture-orbit-a{
+  width:78%;
+  aspect-ratio:2.2/1;
+  transform:translate(-50%,-50%) rotate(-11deg);
+  animation:official-orbit-a 11s linear infinite;
+}
+.logo-sculpture-orbit-b{
+  width:54%;
+  aspect-ratio:1.65/1;
+  transform:translate(-50%,-50%) rotate(24deg);
+  border-color:rgba(184,255,44,.11);
+  animation:official-orbit-b 8s linear infinite;
+}
+.logo-sculpture-node{
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--signal);
+  box-shadow:0 0 0 5px rgba(184,255,44,.06),0 0 18px rgba(184,255,44,.55);
+}
+.logo-sculpture-node-a{left:14%;top:58%}
+.logo-sculpture-node-b{right:13%;top:28%}
+@keyframes official-logo-float{
+  0%,100%{translate:0 -4px}
+  50%{translate:0 7px}
+}
+@keyframes official-orbit-a{
+  to{rotate:360deg}
+}
+@keyframes official-orbit-b{
+  to{rotate:-360deg}
+}
+
+/* Buttons inside the moving rail stay above drag surfaces and remain clickable. */
+.project-slide .project-copy{position:relative;z-index:8}
+.project-slide .actions{position:relative;z-index:12}
+.project-slide .actions a{position:relative;z-index:13;pointer-events:auto;cursor:pointer}
+.project-slide .actions a:hover{color:#000}
+
+@media(max-width:900px){
+  .brand-official{width:126px;height:27px}
+  .logo-sculpture{width:min(94vw,540px);margin-inline:auto;align-self:center}
+  .logo-sculpture-stage{min-height:clamp(185px,48vw,300px)}
+}
+
+@media(max-width:520px){
+  .brand-official{width:110px;height:24px}
+  .logo-sculpture-stage{min-height:180px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .logo-sculpture-stack,
+  .logo-sculpture-orbit-a,
+  .logo-sculpture-orbit-b{animation:none!important;transform:none!important}
+  .logo-sculpture-stack{transform:translateZ(0)!important}
 }

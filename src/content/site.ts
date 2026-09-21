@@ -84,7 +84,7 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     slug: "alvora-lab", name: "Alvora Lab", year: "2026", category: "Fabricação digital + catálogo 3D",
     summary: "Experiência de marca e catálogo para uma pequena fábrica digital, conectando produtos prontos, projetos personalizados e uma identidade 3D interativa.",
     capabilities: ["Logo 3D interativo", "Catálogo", "Dark / light mode", "Projetos personalizados"],
-    liveUrl: "https://alvora-lab.vercel.app/",
+    liveUrl: "https://alvora-lab.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/AlvoraLab",
     visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://alvora-lab.vercel.app/", alt: "Captura do site Alvora Lab", fit: "cover", position: "center" },
   },
   {
@@ -98,7 +98,7 @@ export const flagshipProjects: readonly PortfolioProject[] = [
     slug: "casa-aurora", name: "Casa Aurora", year: "2026", category: "Experiência residencial 360°",
     summary: "Apresentação arquitetônica conceitual que combina narrativa residencial, planta e exploração panorâmica dos ambientes em uma experiência digital imersiva.",
     capabilities: ["Tour panorâmico 360°", "Canvas interativo", "Narrativa arquitetônica", "Planta conceitual"],
-    liveUrl: "https://home-3d-three.vercel.app/",
+    liveUrl: "https://home-3d-three.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/Home-3d",
     visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://home-3d-three.vercel.app/", alt: "Captura do projeto Casa Aurora", fit: "cover", position: "center" },
   },
   {

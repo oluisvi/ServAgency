@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Braces, ImageIcon, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ImageIcon, Sparkles } from "lucide-react";
 import type { CaseStudy } from "@/content/case-studies";
 import { caseStudies } from "@/content/case-studies";
 
@@ -73,12 +73,7 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
         <div className="case-nav-actions">
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-              Site ao vivo <ArrowUpRight aria-hidden="true" />
-            </a>
-          )}
-          {project.sourceUrl && (
-            <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-              <Braces aria-hidden="true" /> Código
+              Ver ao vivo <ArrowUpRight aria-hidden="true" />
             </a>
           )}
         </div>
@@ -204,11 +199,6 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
           {project.liveUrl && (
             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
               Abrir experiência <ArrowUpRight aria-hidden="true" />
-            </a>
-          )}
-          {project.sourceUrl && (
-            <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-              Explorar repositório <Braces aria-hidden="true" />
             </a>
           )}
         </div>
