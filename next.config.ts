@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: visualCache }],
       },
       {
-        source: "/logo-hero.webp",
+        source: "/logo-hero-alpha.webp",
         headers: [{ key: "Cache-Control", value: visualCache }],
       },
     ];

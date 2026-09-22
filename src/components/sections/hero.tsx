@@ -37,7 +37,7 @@ function LogoSculpture() {
           {layers.map((layer) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src="/logo-hero.webp"
+              src="/logo-hero-alpha.webp"
               alt=""
               key={layer}
               className="logo-sculpture-layer"
@@ -45,7 +45,7 @@ function LogoSculpture() {
             />
           ))}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-hero.webp" alt="" className="logo-sculpture-face" />
+          <img src="/logo-hero-alpha.webp" alt="" className="logo-sculpture-face" />
         </div>
         <span className="logo-sculpture-orbit logo-sculpture-orbit-a" />
         <span className="logo-sculpture-orbit logo-sculpture-orbit-b" />
