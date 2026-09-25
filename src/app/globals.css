@@ -1408,3 +1408,6 @@ html[data-entry="skip"] .thematic-entry{display:none}
 .project-slide{contain:layout paint style}
 .project-media{will-change:auto}
 .project-slide.is-current .project-media{will-change:transform}
+
+.header-local-actions{display:flex;align-items:center;justify-self:end;gap:1rem}.language-switcher{display:inline-flex;align-items:center;gap:.3rem;color:#a8adaf;font:600 10px/1 var(--font-mono);letter-spacing:.08em}.language-switcher button{border:0;padding:.35rem .1rem;background:transparent;color:inherit;cursor:pointer}.language-switcher button:is(:hover,.is-active){color:var(--signal)}
+@media(max-width:900px){.header-local-actions{gap:.65rem}.language-switcher{font-size:9px}}

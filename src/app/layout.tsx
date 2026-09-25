@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "ServAgency — Sistemas e experiências digitais",
   description: "Estratégia, design, automação, IA e desenvolvimento web conectados.",
   icons: { icon: "/favicon.svg" },
+  alternates: { canonical: "/", languages: { "pt-BR": "/", en: "/en" } },
   openGraph: {
     title: "ServAgency — Sistemas e experiências digitais",
     description: "Estratégia, design e engenharia convergindo em sistemas digitais com identidade própria.",

@@ -1,11 +1,14 @@
-import { services } from "@/content/site";
+import { localizedContent } from "@/i18n/content";
+import type { Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
 
-export function Services() {
+export function Services({ locale, copy }: { locale: Locale; copy: SiteCopy["services"] }) {
+  const { services } = localizedContent(locale);
   return (
     <section className="section dark" id="solucoes">
       <div className="intro section-heading-motion">
-        <span>02 / CAPABILITIES</span>
-        <h2 data-parallax="0.025">Da presença digital ao sistema que opera por trás dela.</h2>
+        <span>{copy.kicker}</span>
+        <h2 data-parallax="0.025">{copy.title}</h2>
       </div>
       <div className="services motion-stagger">
         {services.map((service) => {

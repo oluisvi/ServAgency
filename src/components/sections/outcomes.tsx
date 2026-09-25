@@ -1,11 +1,14 @@
-import { outcomes } from "@/content/site";
+import { localizedContent } from "@/i18n/content";
+import type { Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
 
-export function Outcomes() {
+export function Outcomes({ locale, copy }: { locale: Locale; copy: SiteCopy["outcomes"] }) {
+  const { outcomes } = localizedContent(locale);
   return (
     <section className="section light">
       <div className="intro section-heading-motion">
-        <span>01 / FRICTION</span>
-        <h2 data-parallax="0.025">Tecnologia só importa quando muda alguma coisa.</h2>
+        <span>{copy.kicker}</span>
+        <h2 data-parallax="0.025">{copy.title}</h2>
       </div>
       <div className="rows motion-stagger">
         {outcomes.map(([number, problem, result]) => (

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import type { SiteCopy } from "@/i18n/copy";
 
 function KineticLine({ text, emphasis }: { text: string; emphasis?: string }) {
   const words = text.split(" ");
@@ -27,11 +28,11 @@ function KineticLine({ text, emphasis }: { text: string; emphasis?: string }) {
   );
 }
 
-function LogoSculpture() {
+function LogoSculpture({ copy }: { copy: SiteCopy["hero"] }) {
   const layers = Array.from({ length: 5 }, (_, index) => index);
 
   return (
-    <div className="logo-sculpture" data-sculpture aria-label="Logo ServAgency em profundidade interativa">
+    <div className="logo-sculpture" data-sculpture aria-label={copy.sculptureLabel}>
       <div className="logo-sculpture-stage" aria-hidden="true">
         <div className="logo-sculpture-stack">
           {layers.map((layer) => (
@@ -53,53 +54,50 @@ function LogoSculpture() {
         <i className="logo-sculpture-node logo-sculpture-node-b" />
       </div>
       <div className="signal-sculpture-caption">
-        <span>IDENTITY IN MOTION</span>
+        <span>{copy.caption[0]}</span>
         <i />
-        <strong>MOVE POINTER</strong>
+        <strong>{copy.caption[1]}</strong>
       </div>
     </div>
   );
 }
 
-export function Hero() {
+export function Hero({ copy }: { copy: SiteCopy["hero"] }) {
   return (
     <section className="hero" id="inicio" data-pointer-field>
       <div className="hero-pointer-glow" aria-hidden="true" />
       <div className="hero-meta motion-reveal">
-        <span>CREATIVE TECHNOLOGY STUDIO</span>
-        <span>JACAREÍ / SP — BRASIL</span>
+        <span>{copy.meta[0]}</span>
+        <span>{copy.meta[1]}</span>
       </div>
       <div className="hero-grid">
         <div className="hero-copy-block">
-          <p className="eyebrow motion-reveal">ESTRATÉGIA × DESIGN × ENGENHARIA</p>
+          <p className="eyebrow motion-reveal">{copy.eyebrow}</p>
           <h1 className="hero-title motion-clip" data-kinetic-title>
-            <KineticLine text="Construímos sistemas" />
-            <KineticLine text="digitais que se movem" emphasis="se" />
-            <KineticLine text="com o seu negócio." />
+            <KineticLine text={copy.lines[0]} />
+            <KineticLine text={copy.lines[1]} emphasis={copy.emphasis} />
+            <KineticLine text={copy.lines[2]} />
           </h1>
         </div>
         <div className="hero-side motion-reveal" data-parallax="0.025">
-          <LogoSculpture />
-          <p>
-            Websites, automações, IA, produtos web e experiências interativas
-            desenvolvidos como um único sistema — da ideia ao uso real.
-          </p>
+          <LogoSculpture copy={copy} />
+          <p>{copy.body}</p>
           <a href="#projetos" className="motion-link" data-magnetic>
-            Explorar projetos <ArrowDownRight aria-hidden="true" />
+            {copy.projects} <ArrowDownRight aria-hidden="true" />
           </a>
         </div>
       </div>
       <div className="signal motion-stagger" aria-hidden="true">
-        <span>PROBLEMA</span>
+        <span>{copy.signal[0]}</span>
         <i />
-        <span>ESTRATÉGIA</span>
+        <span>{copy.signal[1]}</span>
         <i />
-        <span>TECNOLOGIA</span>
+        <span>{copy.signal[2]}</span>
         <i />
-        <strong>SOLUÇÃO</strong>
+        <strong>{copy.signal[3]}</strong>
       </div>
       <a className="hero-cta motion-reveal" href="#contato" data-magnetic>
-        Falar sobre meu projeto <ArrowUpRight aria-hidden="true" />
+        {copy.cta} <ArrowUpRight aria-hidden="true" />
       </a>
     </section>
   );

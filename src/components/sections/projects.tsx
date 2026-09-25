@@ -7,6 +7,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { flagshipProjects, type PortfolioProject } from "@/content/site";
+import type { Locale } from "@/i18n/config";
+import type { SiteCopy } from "@/i18n/copy";
 
 type ProjectMediaStyle = CSSProperties & {
   "--project-position"?: string;
@@ -36,7 +38,7 @@ function RemoveItCover() {
   );
 }
 
-function ProjectArtwork({ project, index }: { project: PortfolioProject; index: number }) {
+function ProjectArtwork({ project, index, copy }: { project: PortfolioProject; index: number; copy: SiteCopy["projects"] }) {
   const hasImage = Boolean(project.visual.src);
   const style: ProjectMediaStyle = hasImage
     ? { "--project-position": project.visual.position ?? "center" }
@@ -46,7 +48,7 @@ function ProjectArtwork({ project, index }: { project: PortfolioProject; index: 
     <div
       className={`project-art ${hasImage ? "has-project-image" : "has-project-mockup"} project-fit-${project.visual.fit ?? "cover"}`}
       role="img"
-      aria-label={project.visual.alt ?? `Visual do projeto ${project.name}`}
+      aria-label={project.visual.alt ?? `${copy.visual} ${project.name}`}
       style={style}
       data-tilt-surface
     >
@@ -74,15 +76,15 @@ function ProjectArtwork({ project, index }: { project: PortfolioProject; index: 
         <i>{String(index + 1).padStart(2, "0")}</i>
       </div>
       <div className="project-state" aria-hidden="true">
-        <span>STATE</span>
+        <span>{copy.state}</span>
         <strong className="project-art-label">{project.visual.label}</strong>
-        <b>ACTIVE</b>
+        <b>{copy.active}</b>
       </div>
     </div>
   );
 }
 
-export function Projects() {
+export function Projects({ copy }: { locale: Locale; copy: SiteCopy }) {
   const total = String(flagshipProjects.length).padStart(2, "0");
 
   return (
@@ -90,16 +92,16 @@ export function Projects() {
       <div className="project-pin">
         <div className="project-head section-heading-motion">
           <div>
-            <span>03 / SELECTED WORK</span>
-            <h2>Projetos em movimento, sem transformar a página em uma maratona.</h2>
+            <span>{copy.projects.kicker}</span>
+            <h2>{copy.projects.title}</h2>
           </div>
           <p>
-            Deixe rodar sozinho, arraste para o lado ou use os controles. As capas usam material real de cada produto e respondem ao foco e ao cursor.
+            {copy.projects.body}
           </p>
         </div>
 
         <div className="project-controls">
-          <span className="project-progress-label">AUTO / DRAG / {total} PROJECTS</span>
+          <span className="project-progress-label">AUTO / DRAG / {total} {copy.projects.progress}</span>
           <div className="project-progress" aria-hidden="true"><i /></div>
           <div className="project-nav-actions">
             <button
@@ -107,28 +109,28 @@ export function Projects() {
               className="project-autoplay-toggle"
               data-project-autoplay-toggle
               aria-pressed="false"
-              aria-label="Pausar reprodução automática dos projetos"
+              aria-label={copy.projects.pause}
             >
               <span data-project-autoplay-label>PAUSE</span>
             </button>
-            <button type="button" className="project-arrow" data-project-prev aria-label="Projeto anterior">
+            <button type="button" className="project-arrow" data-project-prev aria-label={copy.projects.previous}>
               <ArrowLeft aria-hidden="true" />
             </button>
-            <div className="project-jumps" aria-label="Navegação dos projetos">
+            <div className="project-jumps" aria-label={copy.projects.navigation}>
               {flagshipProjects.map((project, index) => (
-                <button type="button" key={project.slug} data-project-jump aria-label={`Ir para ${project.name}`}>
+                <button type="button" key={project.slug} data-project-jump aria-label={`${copy.projects.goTo} ${project.name}`}>
                   {String(index + 1).padStart(2, "0")}
                 </button>
               ))}
             </div>
-            <button type="button" className="project-arrow" data-project-next aria-label="Próximo projeto">
+            <button type="button" className="project-arrow" data-project-next aria-label={copy.projects.next}>
               <ArrowRight aria-hidden="true" />
             </button>
           </div>
         </div>
 
         <div className="project-window" data-project-window>
-          <div className="project-track" data-project-track tabIndex={0} aria-label="Carrossel de projetos">
+          <div className="project-track" data-project-track tabIndex={0} aria-label={copy.projects.carousel}>
             {flagshipProjects.map((project, index) => (
               <article
                 className={`project-slide ${project.visual.treatment}`}
@@ -144,16 +146,16 @@ export function Projects() {
                   <ul>{project.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul>
                   <div className="actions">
                     <a href={`/projetos/${project.slug}`} data-magnetic data-carousel-interactive>
-                      Ver case <ArrowUpRight aria-hidden="true" />
+                      {copy.projects.viewCase} <ArrowUpRight aria-hidden="true" />
                     </a>
                     {project.liveUrl && (
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" data-carousel-interactive>
-                        Ver ao vivo <ArrowUpRight aria-hidden="true" />
+                        {copy.projects.live} <ArrowUpRight aria-hidden="true" />
                       </a>
                     )}
                   </div>
                 </div>
-                <ProjectArtwork project={project} index={index} />
+                <ProjectArtwork project={project} index={index} copy={copy.projects} />
               </article>
             ))}
           </div>
