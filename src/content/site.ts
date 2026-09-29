@@ -78,14 +78,14 @@ const portfolioProjects: readonly PortfolioProject[] = [
     summary: "Experiência digital para atendimento imobiliário pessoal e consultivo, com descoberta por perfis, narrativa editorial e conversão direta pelo WhatsApp.",
     capabilities: ["Curadoria por perfil", "Motion editorial", "Atendimento consultivo", "Conversão via WhatsApp"],
     liveUrl: "https://ferreiracorretordeimoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
-    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/catalog/ferreira-imoveis.png", alt: "Screenshot do deploy do Ferreira Imóveis", fit: "contain", position: "center" },
+    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/catalog/ferreira-imoveis.png?v=2", alt: "Screenshot do deploy do Ferreira Imóveis", fit: "contain", position: "center" },
   },
   {
     slug: "casa-aurora", name: "Casa Aurora", year: "2026", category: "Experiência residencial 360°",
     summary: "Apresentação arquitetônica conceitual que combina narrativa residencial, planta e exploração panorâmica dos ambientes em uma experiência digital imersiva.",
     capabilities: ["Tour panorâmico 360°", "Canvas interativo", "Narrativa arquitetônica", "Planta conceitual"],
     liveUrl: "https://home-3d-three.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/Home-3d",
-    visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "/projects/catalog/casa-aurora.png", alt: "Screenshot do deploy da Casa Aurora", fit: "contain", position: "center" },
+    visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "/projects/catalog/casa-aurora.png?v=2", alt: "Screenshot do deploy da Casa Aurora", fit: "contain", position: "center" },
   },
   {
     slug: "lamims", name: "Lamim's Barbershop", year: "2026", category: "Experiência espacial 3D",
@@ -99,7 +99,7 @@ const portfolioProjects: readonly PortfolioProject[] = [
     summary: "Experiência digital para uma padaria artesanal que transforma produto, origem e atmosfera em desejo de visita e pedido.",
     capabilities: ["Storytelling de marca", "Cardápio editorial", "Conversão local", "Experiência gastronômica"],
     liveUrl: "https://pao-do-pedro.vercel.app/", sourceUrl: "https://github.com/oluisvi/pao-do-pedro",
-    visual: { treatment: "editorial", label: "BAKE → SHARE → RETURN", kicker: "ARTISAN FOOD EXPERIENCE", src: "/projects/catalog/pao-do-pedro.png", alt: "Screenshot do deploy do Pão do Pedro", fit: "contain", position: "center" },
+    visual: { treatment: "editorial", label: "BAKE → SHARE → RETURN", kicker: "ARTISAN FOOD EXPERIENCE", src: "/projects/catalog/pao-do-pedro.png?v=2", alt: "Screenshot do deploy do Pão do Pedro", fit: "contain", position: "center" },
   },
   {
     slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
@@ -113,7 +113,7 @@ const portfolioProjects: readonly PortfolioProject[] = [
     summary: "Experiência de marca e catálogo para uma pequena fábrica digital, conectando produtos prontos, projetos personalizados e uma identidade 3D interativa.",
     capabilities: ["Logo 3D interativo", "Catálogo", "Dark / light mode", "Projetos personalizados"],
     liveUrl: "https://alvora-lab.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/AlvoraLab",
-    visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "/projects/catalog/alvora-lab.png", alt: "Screenshot do deploy do Alvora Lab", fit: "contain", position: "center" },
+    visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "/projects/catalog/alvora-lab.png?v=2", alt: "Screenshot do deploy do Alvora Lab", fit: "contain", position: "center" },
   },
 ];
 
