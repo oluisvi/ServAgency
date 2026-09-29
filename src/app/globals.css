@@ -304,7 +304,11 @@ html[data-entry="skip"] .thematic-entry{display:none}
 /* Real project covers + authored fallback */
 .project-media{
   position:absolute;
-  inset:-3%;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:var(--project-position,center);
   z-index:0;
   transform:scale(calc(1.075 - var(--project-focus) * .045)) translate3d(calc((1 - var(--project-focus)) * 10px),0,0);
   filter:saturate(calc(.76 + var(--project-focus) * .24)) contrast(calc(.96 + var(--project-focus) * .04));
@@ -312,10 +316,13 @@ html[data-entry="skip"] .thematic-entry{display:none}
   will-change:transform;
 }
 .project-fit-contain .project-media{
-  inset:7%;
-  border:1px solid rgba(255,255,255,.14);
-  background-color:#0c0d0f;
-  box-shadow:0 28px 80px rgba(0,0,0,.22);
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background-color:#f4f3ef;
+  box-shadow:none;
+  transform:none;
 }
 .project-art-shade{
   position:absolute;
@@ -396,7 +403,7 @@ html[data-entry="skip"] .thematic-entry{display:none}
 
 @media(max-width:900px){
   .project-media{transform:scale(1.035)}
-  .project-fit-contain .project-media{inset:5%}
+  .project-fit-contain .project-media{inset:0;transform:none}
   .removeit-cover{transform:none}
   .removeit-nav{grid-template-columns:1fr auto}.removeit-nav>span:nth-child(2){display:none}
   .removeit-hero{width:92%;margin-top:7%}
@@ -1373,14 +1380,14 @@ html[data-entry="skip"] .thematic-entry{display:none}
 
 /* Performance pass — same visuals, less offscreen work. */
 .project-media{
-  width:auto;
-  height:auto;
+  width:100%;
+  height:100%;
   object-fit:cover;
   object-position:var(--project-position,center);
   user-select:none;
   -webkit-user-drag:none;
 }
-.project-fit-contain .project-media{object-fit:contain}
+.project-fit-contain .project-media{inset:0;width:100%;height:100%;object-fit:contain;transform:none}
 .case-section{
   content-visibility:auto;
   contain-intrinsic-size:auto 900px;

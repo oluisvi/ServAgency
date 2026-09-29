@@ -65,78 +65,63 @@ export type PortfolioProject = {
   };
 };
 
-export const flagshipProjects: readonly PortfolioProject[] = [
-  {
-    slug: "crivo-3d", name: "Crivo 3D", year: "2026", category: "Website imersivo + WebGL",
-    summary: "Experiência institucional para uma empresa de impressão 3D em que camada, volume e material viram linguagem visual e interação.",
-    capabilities: ["React + TypeScript", "Three.js", "Entrada sincronizada", "Viewer 3D"],
-    sourceUrl: "https://github.com/oluisvi/Crivo-3D",
-    visual: { treatment: "spatial", label: "IDEA → LAYER → FORM", kicker: "SPATIAL BRAND EXPERIENCE", src: "/projects/crivo-3d.webp", alt: "Hero real do projeto Crivo 3D", fit: "cover", position: "center" },
-  },
+const portfolioProjects: readonly PortfolioProject[] = [
   {
     slug: "ruvro", name: "Ruvro & Co", year: "2026", category: "Luxury digital showroom",
     summary: "Showroom editorial para uma curadoria privada de relógios, desenhado para transformar descoberta em desejo, contexto, confiança e acesso privado.",
     capabilities: ["Direção editorial", "Storytelling de produto", "Motion cinematográfico", "Conversão privada"],
     liveUrl: "https://ruvro.vercel.app", sourceUrl: "https://github.com/oluisvi/Ruvro",
-    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS", kicker: "EDITORIAL COMMERCE", src: "https://raw.githubusercontent.com/oluisvi/Ruvro/main/docs/concepts/ruvro-home-concept.png", alt: "Conceito visual real da home do Ruvro & Co", fit: "cover", position: "center" },
-  },
-  {
-    slug: "alvora-lab", name: "Alvora Lab", year: "2026", category: "Fabricação digital + catálogo 3D",
-    summary: "Experiência de marca e catálogo para uma pequena fábrica digital, conectando produtos prontos, projetos personalizados e uma identidade 3D interativa.",
-    capabilities: ["Logo 3D interativo", "Catálogo", "Dark / light mode", "Projetos personalizados"],
-    liveUrl: "https://alvora-lab.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/AlvoraLab",
-    visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://alvora-lab.vercel.app/", alt: "Captura do site Alvora Lab", fit: "cover", position: "center" },
+    visual: { treatment: "editorial", label: "DESIRE → PRIVATE ACCESS", kicker: "EDITORIAL COMMERCE", src: "/projects/catalog/ruvro.png", alt: "Screenshot do deploy do Ruvro & Co", fit: "contain", position: "center" },
   },
   {
     slug: "ferreira-imoveis", name: "Ferreira Imóveis", year: "2026", category: "Curadoria imobiliária pessoal",
     summary: "Experiência digital para atendimento imobiliário pessoal e consultivo, com descoberta por perfis, narrativa editorial e conversão direta pelo WhatsApp.",
     capabilities: ["Curadoria por perfil", "Motion editorial", "Atendimento consultivo", "Conversão via WhatsApp"],
-    liveUrl: "https://ferreira-imoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
-    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/ferreira-imoveis.webp", alt: "Hero real do site Ferreira Corretor de Imóveis", fit: "cover", position: "center" },
+    liveUrl: "https://ferreiracorretordeimoveis.vercel.app/", sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
+    visual: { treatment: "editorial", label: "CURATE → VISIT → DECIDE", kicker: "PERSONAL REAL ESTATE", src: "/projects/catalog/ferreira-imoveis.png", alt: "Screenshot do deploy do Ferreira Imóveis", fit: "contain", position: "center" },
   },
   {
     slug: "casa-aurora", name: "Casa Aurora", year: "2026", category: "Experiência residencial 360°",
     summary: "Apresentação arquitetônica conceitual que combina narrativa residencial, planta e exploração panorâmica dos ambientes em uma experiência digital imersiva.",
     capabilities: ["Tour panorâmico 360°", "Canvas interativo", "Narrativa arquitetônica", "Planta conceitual"],
     liveUrl: "https://home-3d-three.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/Home-3d",
-    visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://home-3d-three.vercel.app/", alt: "Captura do projeto Casa Aurora", fit: "cover", position: "center" },
+    visual: { treatment: "spatial", label: "SPACE → EXPERIENCE → HOME", kicker: "RESIDENTIAL EXPERIENCE", src: "/projects/catalog/casa-aurora.png", alt: "Screenshot do deploy da Casa Aurora", fit: "contain", position: "center" },
   },
   {
     slug: "lamims", name: "Lamim's Barbershop", year: "2026", category: "Experiência espacial 3D",
     summary: "Uma porta digital para a barbearia: introdução guiada, percurso espacial, hotspots informativos e agendamento persistente com fallback acessível.",
     capabilities: ["Three.js / R3F", "Narrativa espacial", "Quality tiers", "Conversão local"],
     liveUrl: "https://lamim-s-barbershop.vercel.app/", sourceUrl: "https://github.com/oluisvi/Lamim-s-Barbershop",
-    visual: { treatment: "spatial", label: "GUIDED → FREE", kicker: "DIGITAL SPACE", src: "https://raw.githubusercontent.com/oluisvi/Lamim-s-Barbershop/main/public/images/lamims/interior-stations.webp", alt: "Interior real usado na experiência digital da Lamim's Barbershop", fit: "cover", position: "center" },
+    visual: { treatment: "spatial", label: "GUIDED → FREE", kicker: "DIGITAL SPACE", src: "/projects/catalog/lamims.png", alt: "Screenshot do deploy da Lamim's Barbershop", fit: "contain", position: "center" },
+  },
+  {
+    slug: "pao-do-pedro", name: "Pão do Pedro", year: "2026", category: "Marca e experiência gastronômica",
+    summary: "Experiência digital para uma padaria artesanal que transforma produto, origem e atmosfera em desejo de visita e pedido.",
+    capabilities: ["Storytelling de marca", "Cardápio editorial", "Conversão local", "Experiência gastronômica"],
+    liveUrl: "https://pao-do-pedro.vercel.app/", sourceUrl: "https://github.com/oluisvi/pao-do-pedro",
+    visual: { treatment: "editorial", label: "BAKE → SHARE → RETURN", kicker: "ARTISAN FOOD EXPERIENCE", src: "/projects/catalog/pao-do-pedro.png", alt: "Screenshot do deploy do Pão do Pedro", fit: "contain", position: "center" },
   },
   {
     slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
     summary: "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
     capabilities: ["Direção editorial", "Hero 3D", "Commerce backend", "Pagamentos"],
     liveUrl: "https://shop-co-store.vercel.app/", sourceUrl: "https://github.com/oluisvi/shop-co-ecommerce",
-    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/shopco.png", alt: "Interface real do e-commerce Shop.co", fit: "contain", position: "center" },
+    visual: { treatment: "commerce", label: "DISCOVER → BUY", kicker: "COMMERCE EXPERIENCE", src: "/projects/catalog/shop-co.png", alt: "Screenshot do deploy do Shop.co", fit: "contain", position: "center" },
   },
   {
-    slug: "flowdesk", name: "FlowDesk", year: "2026", category: "SaaS de operações e automação",
-    summary: "Workspace operacional para pequenas equipes centralizarem clientes, projetos, tarefas, colaboração e workflows visuais automatizados.",
-    capabilities: ["Gestão operacional", "Kanban", "Workflows visuais", "Automação"],
-    liveUrl: "https://flowdeskwebapp.vercel.app", sourceUrl: "https://github.com/oluisvi/FlowDesk",
-    visual: { treatment: "system", label: "ORGANIZE → AUTOMATE", kicker: "OPERATIONS SYSTEM", src: "https://raw.githubusercontent.com/oluisvi/ServAgency/main/public/projects/flowdesk.png", alt: "Interface real do FlowDesk", fit: "contain", position: "center" },
-  },
-  {
-    slug: "atlas-finance-ai", name: "Atlas Finance AI", year: "2026", category: "Produto de finanças pessoais",
-    summary: "Aplicação de planejamento financeiro com múltiplas moedas, relatórios e insights determinísticos e explicáveis.",
-    capabilities: ["Planejamento", "Múltiplas moedas", "Relatórios", "Insights explicáveis"],
-    liveUrl: "https://atlas-finance-web.onrender.com/", sourceUrl: "https://github.com/oluisvi/atlas-finance-ai",
-    visual: { treatment: "data", label: "DATA → DECISION", kicker: "FINANCIAL CLARITY", src: "https://raw.githubusercontent.com/oluisvi/atlas-finance-ai/main/docs/screenshots/dashboard-desktop.png", alt: "Dashboard real do Atlas Finance AI", fit: "contain", position: "center" },
-  },
-  {
-    slug: "removeit", name: "RemoveIT", year: "2026", category: "Visão computacional + produto web",
-    summary: "Ferramenta local-first para remoção assistida de marcas d’água autorizadas, combinando detecção automática, máscara editável e inpainting com revisão humana.",
-    capabilities: ["Next.js 16", "FastAPI", "OpenCV / LaMa", "Privacidade local-first"],
-    sourceUrl: "https://github.com/oluisvi/RemoveIT",
-    visual: { treatment: "ai", label: "DETECT → REVIEW → REBUILD", kicker: "AI WITH HUMAN CONTROL", mockup: "removeit", alt: "Interface do RemoveIT reconstruída a partir do design real do projeto" },
+    slug: "alvora-lab", name: "Alvora Lab", year: "2026", category: "Fabricação digital + catálogo 3D",
+    summary: "Experiência de marca e catálogo para uma pequena fábrica digital, conectando produtos prontos, projetos personalizados e uma identidade 3D interativa.",
+    capabilities: ["Logo 3D interativo", "Catálogo", "Dark / light mode", "Projetos personalizados"],
+    liveUrl: "https://alvora-lab.vercel.app/", sourceUrl: "https://github.com/Kaiquemarques00/AlvoraLab",
+    visual: { treatment: "spatial", label: "DIGITAL → PHYSICAL → USE", kicker: "DIGITAL MANUFACTURING", src: "/projects/catalog/alvora-lab.png", alt: "Screenshot do deploy do Alvora Lab", fit: "contain", position: "center" },
   },
 ];
+
+const approvedPortfolioOrder = ["pao-do-pedro", "lamims", "ferreira-imoveis", "shop-co", "ruvro", "casa-aurora", "alvora-lab"] as const;
+
+export const flagshipProjects: readonly PortfolioProject[] = approvedPortfolioOrder.map(
+  (slug) => portfolioProjects.find((project) => project.slug === slug)!,
+);
 
 export const technologies = ["React", "Next.js", "TypeScript", "Node.js", "Three.js", "n8n", "OpenAI", "Vercel", "Google"] as const;
 

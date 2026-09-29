@@ -5,11 +5,13 @@ import test from "node:test";
 const content = fs.readFileSync(new URL("../src/content/site.ts", import.meta.url), "utf8");
 
 const expectedProjects = [
-  "Ruvro & Co",
+  "Pão do Pedro",
   "Lamim's Barbershop",
-  "FlowDesk",
-  "Atlas Finance AI",
+  "Ferreira Imóveis",
   "Shop.co",
+  "Ruvro & Co",
+  "Casa Aurora",
+  "Alvora Lab",
 ];
 
 for (const project of expectedProjects) {
@@ -20,4 +22,9 @@ for (const project of expectedProjects) {
 
 test("Lamim's production URL is configured", () => {
   assert.match(content, /https:\/\/lamim-s-barbershop\.vercel\.app\//);
+});
+
+test("catalog contains exactly the approved seven projects", () => {
+  assert.doesNotMatch(content, /FlowDesk|Atlas Finance AI|Crivo 3D/);
+  assert.match(content, /https:\/\/pao-do-pedro\.vercel\.app\//);
 });

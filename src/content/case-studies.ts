@@ -34,6 +34,47 @@ export type CaseStudy = {
 
 export const caseStudies: readonly CaseStudy[] = [
   {
+    slug: "pao-do-pedro",
+    eyebrow: "LOCAL BUSINESS / ARTISAN FOOD",
+    title: "Pão do Pedro",
+    subtitle: "Uma padaria artesanal apresentada como ritual, produto e lugar.",
+    intro:
+      "O Pão do Pedro transforma a presença digital de uma padaria em uma extensão da experiência física: ingredientes, fornadas e atmosfera aparecem antes do cardápio para criar vontade de visitar e pedir.",
+    challenge:
+      "Comunicar o cuidado artesanal e a personalidade do negócio sem cair em uma página genérica de restaurante, mantendo o caminho para cardápio, localização e contato simples.",
+    concept:
+      "BAKE → SHARE → RETURN. A narrativa parte do produto e da rotina da padaria, usando imagem, textura e ritmo editorial para aproximar descoberta e visita.",
+    result:
+      "Uma experiência gastronômica com storytelling de marca, cardápio editorial e caminhos diretos para conversão local, construída para funcionar como vitrine e convite.",
+    liveUrl: "https://pao-do-pedro.vercel.app/",
+    sourceUrl: "https://github.com/oluisvi/pao-do-pedro",
+    cover: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://pao-do-pedro.vercel.app/",
+    coverAlt: "Captura do site Pão do Pedro",
+    palette: [
+      { name: "Crust", value: "#6B3E24" },
+      { name: "Flour", value: "#F2E8D5" },
+      { name: "Charcoal", value: "#1E1A17" },
+      { name: "Butter", value: "#D9A441" },
+    ],
+    principles: [
+      { title: "Produto como história", text: "O pão e os ingredientes conduzem a narrativa antes de qualquer bloco institucional." },
+      { title: "Atmosfera com propósito", text: "Textura e imagem criam desejo sem esconder as informações práticas do negócio." },
+      { title: "Visita sem fricção", text: "Cardápio, localização e contato ficam próximos do momento de decisão." },
+    ],
+    process: [
+      { step: "01", title: "Encontrar a origem", text: "Ingredientes, processo e rotina artesanal formam o vocabulário da marca." },
+      { step: "02", title: "Construir o apetite", text: "A direção visual coloca textura e produto no centro da primeira impressão." },
+      { step: "03", title: "Organizar a escolha", text: "Cardápio e destaques são apresentados em uma leitura simples e convidativa." },
+      { step: "04", title: "Convidar para voltar", text: "Contato e presença local fecham a jornada sem transformar a experiência em um formulário frio." },
+    ],
+    stack: ["React", "TypeScript", "Vite", "CSS", "Direção editorial"],
+    gallery: [
+      { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://pao-do-pedro.vercel.app/", alt: "Home Pão do Pedro", caption: "Entrada editorial da experiência gastronômica." },
+    ],
+    sourceNote: "Case baseado no deploy e no repositório público do projeto Pão do Pedro.",
+    theme: { bg: "#1E1A17", surface: "#30251E", text: "#F2E8D5", muted: "#C4A98B", accent: "#D9A441", accentText: "#1E1A17" },
+  },
+  {
     slug: "crivo-3d",
     eyebrow: "BRAND SITE / IMMERSIVE 3D",
     title: "Crivo 3D",
@@ -174,7 +215,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "Espaços para a próxima parte da sua história. O produto é organizado como curadoria: perfis residenciais, atendimento pessoal e uma sequência Entender → Selecionar → Visitar → Negociar.",
     result:
       "Uma landing editorial com descoberta por perfil, narrativa de atendimento e conversão direta por WhatsApp. O CRECI e o posicionamento consultivo aparecem como prova, sem transformar o site em portal imobiliário.",
-    liveUrl: "https://ferreira-imoveis.vercel.app/",
+    liveUrl: "https://ferreiracorretordeimoveis.vercel.app/",
     sourceUrl: "https://github.com/oluisvi/Ferreira-Im-veis",
     cover: "/projects/ferreira-imoveis.webp",
     coverAlt: "Hero do projeto Ferreira Imóveis",
