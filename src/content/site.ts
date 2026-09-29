@@ -1,4 +1,4 @@
-import { Bot, Braces, ChartNoAxesCombined, Cuboid, Globe2, Search, Workflow } from "lucide-react";
+import { Bot, ChartNoAxesCombined, Cuboid, Globe2, Search } from "lucide-react"
 
 export const navigation = [
   { label: "Soluções", href: "#solucoes" },
@@ -19,10 +19,8 @@ export const services = [
   { index: "01", title: "Websites e experiências digitais", description: "Sites institucionais, landing pages, produtos web e experiências interativas com identidade, clareza e performance.", icon: Globe2, label: "WEB / EXPERIENCE" },
   { index: "02", title: "Presença digital e marca", description: "Sistemas visuais e presença digital coerentes para fazer a empresa parecer tão boa quanto o trabalho que entrega.", icon: ChartNoAxesCombined, label: "BRAND / PRESENCE" },
   { index: "03", title: "Google e SEO", description: "Fundação técnica, arquitetura de conteúdo e presença local para aumentar descoberta sem atalhos vazios.", icon: Search, label: "DISCOVERY / SEO" },
-  { index: "04", title: "Automações e integrações", description: "Workflows e rotinas conectadas para reduzir retrabalho e manter processos previsíveis.", icon: Workflow, label: "SYSTEMS / AUTOMATION" },
   { index: "05", title: "Inteligência artificial", description: "IA aplicada a atendimento, análise, organização e produtividade com contexto, revisão humana e propósito.", icon: Bot, label: "AI / OPERATIONS" },
   { index: "06", title: "Experiências interativas e 3D", description: "Interfaces espaciais e WebGL quando o formato melhora entendimento, desejo, narrativa ou conversão.", icon: Cuboid, label: "SPATIAL / INTERACTIVE" },
-  { index: "07", title: "Auditoria digital", description: "Leitura do cenário atual para priorizar problemas, oportunidades e próximos passos antes de escolher ferramentas.", icon: Braces, label: "AUDIT / STRATEGY" },
 ] as const;
 
 export const processSteps = [
