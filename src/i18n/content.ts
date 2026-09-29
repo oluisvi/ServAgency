@@ -6,10 +6,10 @@ const enServices = [
   ["Websites and digital experiences", "Corporate sites, landing pages, web products, and interactive experiences with identity, clarity, and performance."],
   ["Digital presence and brand", "Coherent visual systems and digital presence that make the company look as good as the work it delivers."],
   ["Google and SEO", "Technical foundations, content architecture, and local presence to increase discovery without empty shortcuts."],
-  ["Automation and integrations", "Connected workflows and routines that reduce rework and keep processes predictable."],
+  //["Automation and integrations", "Connected workflows and routines that reduce rework and keep processes predictable."],
   ["Artificial intelligence", "AI applied to service, analysis, organization, and productivity with context, human review, and purpose."],
   ["Interactive and 3D experiences", "Spatial interfaces and WebGL when the format improves understanding, desire, narrative, or conversion."],
-  ["Digital audit", "An assessment of the current landscape to prioritize problems, opportunities, and next steps before choosing tools."],
+  //["Digital audit", "An assessment of the current landscape to prioritize problems, opportunities, and next steps before choosing tools."],
 ] as const;
 const enProcess = [["Diagnosis", "We understand the business, audience, context, and what truly needs to change."], ["Strategy", "We define priorities, scope, and a direction proportional to the problem."], ["Creation", "We combine design, content, technology, and integrations into a coherent solution."], ["Launch", "We test, refine, and safely put the experience live."], ["Evolution", "We follow results, maintenance, and improvements whenever they make sense."]] as const;
 const enPrinciples = [["01", "Strategy before tools", "The problem defines the technology — never the other way around."], ["02", "Explainable decisions", "Scope, choices, and progress must make sense to those investing in the project."], ["03", "Close partnership", "Direct communication, shared responsibility, and no black boxes."]] as const;
