@@ -66,9 +66,9 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
   return (
     <main className="case-study" style={style}>
       <nav className="case-nav" aria-label="Navegação do projeto">
-        <a href="/#projetos" className="case-back">
+        <Link href="/#projetos" className="case-back">
           <ArrowLeft aria-hidden="true" /> Projetos
-        </a>
+        </Link>
         <span>ServAgency / Case Study</span>
         <div className="case-nav-actions">
           {project.liveUrl && (
@@ -204,6 +204,11 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
           {project.alternateLiveUrl && (
             <a href={project.alternateLiveUrl} target="_blank" rel="noopener noreferrer">
               {project.alternateLiveLabel ?? "Ver experiência alternativa"} <ArrowUpRight aria-hidden="true" />
+            </a>
+          )}
+          {project.sourceUrl && project.alternateLiveUrl && (
+            <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+              Repositório GitHub <ArrowUpRight aria-hidden="true" />
             </a>
           )}
         </div>
