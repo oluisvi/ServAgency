@@ -14,6 +14,8 @@ export type CaseStudy = {
   result: string;
   liveUrl?: string;
   sourceUrl?: string;
+  alternateLiveUrl?: string;
+  alternateLiveLabel?: string;
   cover: string;
   coverAlt: string;
   palette: readonly CasePaletteColor[];
@@ -73,6 +75,97 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     sourceNote: "Case baseado no deploy e no repositório público do projeto Pão do Pedro.",
     theme: { bg: "#1E1A17", surface: "#30251E", text: "#F2E8D5", muted: "#C4A98B", accent: "#D9A441", accentText: "#1E1A17" },
+  },
+  {
+    slug: "casa-miga",
+    eyebrow: "DEMO CONCEITUAL / CAFÉ + VIDEO EXPERIENCE",
+    title: "Casa Miga",
+    subtitle: "Um take de café servido. Duas formas de percorrer a manhã.",
+    intro:
+      "Casa Miga é uma padaria fictícia criada como demonstração de experiência digital. O vídeo de café servido permanece como cenário enquanto a página apresenta a marca e o menu; em outra versão, o mesmo take avança em conjunto com a rolagem.",
+    challenge:
+      "Explorar como uma vitrine digital para uma padaria e cafeteria poderia criar atmosfera sem esconder o conteúdo prático — e como um único vídeo poderia sustentar tanto uma página tradicional quanto uma narrativa controlada pelo scroll.",
+    concept:
+      "UM TAKE, DOIS RITMOS. No modo em loop, o filme fica fixo enquanto o conteúdo da página avança. No modo de scroll, a posição do vídeo acompanha a jornada por quatro capítulos construídos a partir do que o take realmente mostra: o café sendo servido e a mesa posta.",
+    result:
+      "Um protótipo responsivo com seis itens de menu, imagens de produto, carrossel com navegação por gesto, teclado e controles, além de duas rotas de narrativa audiovisual. A demonstração não representa uma cafeteria em operação e não atribui métricas comerciais ao projeto.",
+    liveUrl: "https://casa-miga.vercel.app/",
+    alternateLiveUrl: "https://casa-miga.vercel.app/scroll.html",
+    alternateLiveLabel: "Ver vídeo guiado pelo scroll",
+    sourceUrl: "https://github.com/oluisvi/casa-miga",
+    cover: "https://raw.githubusercontent.com/oluisvi/casa-miga/main/hero-still.png",
+    coverAlt: "Cena de café servido e croissant usada na demo conceitual Casa Miga",
+    palette: [
+      { name: "Creme", value: "#F5F0E7" },
+      { name: "Papel", value: "#EDE4D6" },
+      { name: "Café", value: "#2C2923" },
+      { name: "Cobre", value: "#C66C3B" },
+    ],
+    principles: [
+      { title: "Um take como fio narrativo", text: "A ação real do café sendo servido organiza a experiência e informa a cadência do texto." },
+      { title: "Duas leituras do mesmo filme", text: "O mesmo MP4 pode repetir como ambientação ou avançar com a rolagem para dar ritmo a capítulos." },
+      { title: "Catálogo tátil e acessível", text: "Seis itens com imagens autorais, snap horizontal, arraste, setas, teclado e sacola apenas simulada." },
+      { title: "Conteúdo demonstrativo explícito", text: "Marca, cardápio, preços e operação são identificados como fictícios; não há pedido ou reserva." },
+    ],
+    process: [
+      { step: "01", title: "Escolher o gesto", text: "O café entrando na xícara oferece uma ação clara e visualmente contínua para conduzir a história." },
+      { step: "02", title: "Construir a vitrine", text: "Uma página editorial conecta marca, menu e informações demonstrativas em torno do take em loop." },
+      { step: "03", title: "Ligar vídeo e rolagem", text: "A segunda rota mapeia o progresso da leitura ao tempo do mesmo arquivo de vídeo." },
+      { step: "04", title: "Preservar controle", text: "Controles de pausa, pôster e uma leitura estática dos capítulos cobrem preferências de movimento reduzido." },
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "MP4", "Google Flow (vídeo gerado)", "Vercel"],
+    gallery: [
+      { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://casa-miga.vercel.app/", alt: "Página principal demonstrativa da Casa Miga", caption: "Modo de vídeo em loop: o filme permanece ao fundo enquanto o conteúdo muda." },
+      { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://casa-miga.vercel.app/scroll.html", alt: "Experiência de vídeo guiada pelo scroll da Casa Miga", caption: "Modo narrativo: o take avança junto com os capítulos da página." },
+      { src: "https://raw.githubusercontent.com/oluisvi/casa-miga/main/hero-still.png", alt: "Imagem de abertura usada como pôster do vídeo da Casa Miga", caption: "Pôster de fallback do take usado nas duas versões." },
+    ],
+    sourceNote: "Projeto conceitual criado pela equipe da ServAgency para demonstrar experiências de vídeo para o nicho de café e padaria. Não é um trabalho de cliente nem apresenta resultados comerciais medidos.",
+    theme: { bg: "#27241F", surface: "#35291F", text: "#F5F0E7", muted: "#C5B39E", accent: "#C66C3B", accentText: "#FFFFFF" },
+  },
+  {
+    slug: "lume-music",
+    eyebrow: "DEMO CONCEITUAL / MUSICAL RETAIL + VIDEO EXPERIENCE",
+    title: "Lume Music",
+    subtitle: "Uma guitarra em cena. A vitrine encontra seu próprio ritmo.",
+    intro:
+      "Lume Music é uma loja de instrumentos fictícia criada como demonstração de experiência digital. Um take de guitarrista acompanha o percurso pelo catálogo em loop; no segundo modo, a rolagem avança pelo próprio vídeo e organiza a narrativa em capítulos.",
+    challenge:
+      "Explorar como uma vitrine digital de instrumentos poderia transmitir atmosfera sem interromper a descoberta dos produtos, usando um único take de performance tanto como fundo contínuo quanto como material narrativo controlado pelo scroll.",
+    concept:
+      "PLAY → EXPLORE → REPEAT. No modo em loop, o conteúdo da página muda sobre o mesmo vídeo de fundo. No modo narrativo, quatro estados acompanham o take do primeiro acorde ao fim da performance, conectando movimento visual e leitura.",
+    result:
+      "Um protótipo responsivo de varejo musical com catálogo de seis peças, fotografia de produto, carrossel com gesto, teclado e controles, sacola simulada e duas experiências de vídeo. Produtos, preços e interações são ilustrativos; nenhuma venda é processada.",
+    liveUrl: "https://lume-music-tan.vercel.app/",
+    alternateLiveUrl: "https://lume-music-tan.vercel.app/scroll.html",
+    alternateLiveLabel: "Ver vídeo guiado pelo scroll",
+    sourceUrl: "https://github.com/oluisvi/lume-music",
+    cover: "https://raw.githubusercontent.com/oluisvi/lume-music/main/hero-still.png",
+    coverAlt: "Cena de guitarrista usada na demo conceitual Lume Music",
+    palette: [
+      { name: "Carvão", value: "#191715" },
+      { name: "Papel", value: "#F5F1E9" },
+      { name: "Âmbar", value: "#D8944B" },
+      { name: "Verde-petróleo", value: "#2A5356" },
+    ],
+    principles: [
+      { title: "A performance conduz", text: "Texto e transições acompanham o único take de guitarrista em vez de prometer cenas que o vídeo não mostra." },
+      { title: "Ambiente ou narrativa", text: "Um único arquivo sustenta um pano de fundo em loop e um percurso audiovisual sincronizado ao scroll." },
+      { title: "Vitrine tátil sem falsa operação", text: "Seis peças com imagens autorais, interação por snap, gesto, teclado e botões; os preços e a sacola deixam claro que não há compra real." },
+    ],
+    process: [
+      { step: "01", title: "Definir o take central", text: "A performance de guitarra oferece um fio visual que mantém a identidade entre seções." },
+      { step: "02", title: "Traduzir a loja", text: "Uma direção editorial combina o vídeo com catálogo, manifesto e caminhos demonstrativos de navegação." },
+      { step: "03", title: "Sincronizar o scroll", text: "O progresso vertical seleciona capítulos e posiciona o playhead no mesmo vídeo." },
+      { step: "04", title: "Manter alternativas", text: "Pôster, controle de pausa, menu mobile e estado de movimento reduzido preservam acesso ao conteúdo." },
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "MP4", "Google Flow (vídeo gerado)", "Vercel"],
+    gallery: [
+      { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://lume-music-tan.vercel.app/", alt: "Página principal demonstrativa da Lume Music", caption: "Modo de vídeo em loop: o mesmo take fica fixo enquanto a pessoa explora a vitrine." },
+      { src: "https://image.thum.io/get/width/1600/crop/900/png/maxAge/24/wait/4/https://lume-music-tan.vercel.app/scroll.html", alt: "Experiência de vídeo guiada pelo scroll da Lume Music", caption: "Modo narrativo: o vídeo percorre a performance em sincronia com os capítulos." },
+      { src: "https://raw.githubusercontent.com/oluisvi/lume-music/main/hero-still.png", alt: "Imagem de abertura usada como pôster do vídeo Lume Music", caption: "Pôster de fallback do take de guitarra usado nas duas versões." },
+    ],
+    sourceNote: "Projeto conceitual criado pela equipe da ServAgency para demonstrar experiências de vídeo no nicho musical. Não é um trabalho de cliente nem apresenta resultados comerciais medidos.",
+    theme: { bg: "#191715", surface: "#26231F", text: "#F5F1E9", muted: "#B8AA96", accent: "#D8944B", accentText: "#191715" },
   },
   {
     slug: "crivo-3d",

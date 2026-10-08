@@ -201,6 +201,11 @@ export function CaseStudyView({ project }: CaseStudyViewProps) {
               Abrir experiência <ArrowUpRight aria-hidden="true" />
             </a>
           )}
+          {project.alternateLiveUrl && (
+            <a href={project.alternateLiveUrl} target="_blank" rel="noopener noreferrer">
+              {project.alternateLiveLabel ?? "Ver experiência alternativa"} <ArrowUpRight aria-hidden="true" />
+            </a>
+          )}
         </div>
       </section>
 

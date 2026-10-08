@@ -100,6 +100,20 @@ const portfolioProjects: readonly PortfolioProject[] = [
     visual: { treatment: "editorial", label: "BAKE → SHARE → RETURN", kicker: "ARTISAN FOOD EXPERIENCE", src: "/projects/catalog/pao-do-pedro-v2.png", alt: "Screenshot do deploy do Pão do Pedro", fit: "contain", position: "center" },
   },
   {
+    slug: "casa-miga", name: "Casa Miga", year: "2026", category: "Demo conceitual · café e padaria",
+    summary: "Padaria conceito com menu visual de seis itens, imagens autorais e um take de café em loop ou sincronizado ao scroll.",
+    capabilities: ["Direção editorial", "Vídeo em loop", "Narrativa guiada por scroll", "Menu interativo responsivo"],
+    liveUrl: "https://casa-miga.vercel.app/", sourceUrl: "https://github.com/oluisvi/casa-miga",
+    visual: { treatment: "editorial", label: "POUR → PAUSE → SHARE", kicker: "CONCEPT / VIDEO EXPERIENCE", src: "https://raw.githubusercontent.com/oluisvi/casa-miga/main/hero-still.png", alt: "Cena de café e croissant usada na demo conceitual Casa Miga", fit: "cover", position: "center" },
+  },
+  {
+    slug: "lume-music", name: "Lume Music", year: "2026", category: "Demo conceitual · varejo musical",
+    summary: "Varejo musical conceito com catálogo visual de seis produtos e um take de guitarra em loop ou sincronizado ao scroll.",
+    capabilities: ["Storytelling de produto", "Vídeo em loop", "Narrativa guiada por scroll", "Catálogo interativo responsivo"],
+    liveUrl: "https://lume-music-tan.vercel.app/", sourceUrl: "https://github.com/oluisvi/lume-music",
+    visual: { treatment: "commerce", label: "PLAY → EXPLORE → REPEAT", kicker: "CONCEPT / VIDEO COMMERCE", src: "https://raw.githubusercontent.com/oluisvi/lume-music/main/hero-still.png", alt: "Cena de guitarrista usada na demo conceitual Lume Music", fit: "cover", position: "center" },
+  },
+  {
     slug: "shop-co", name: "Shop.co", year: "2026", category: "E-commerce full-stack",
     summary: "Experiência de comércio digital com catálogo, carrinho, pagamentos e gestão de produtos, evoluída de estudo de interface para produto completo.",
     capabilities: ["Direção editorial", "Hero 3D", "Commerce backend", "Pagamentos"],
@@ -115,7 +129,7 @@ const portfolioProjects: readonly PortfolioProject[] = [
   },
 ];
 
-const approvedPortfolioOrder = ["pao-do-pedro", "lamims", "ferreira-imoveis", "shop-co", "ruvro", "casa-aurora", "alvora-lab"] as const;
+const approvedPortfolioOrder = ["pao-do-pedro", "casa-miga", "lume-music", "lamims", "ferreira-imoveis", "shop-co", "ruvro", "casa-aurora", "alvora-lab"] as const;
 
 export const flagshipProjects: readonly PortfolioProject[] = approvedPortfolioOrder.map(
   (slug) => portfolioProjects.find((project) => project.slug === slug)!,

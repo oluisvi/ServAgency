@@ -73,6 +73,13 @@ Every flagship project now has a local presentation route at `/projetos/[slug]`.
 
 For Alvora Lab and Casa Aurora, the case copy distinguishes public-product observation from undocumented internal creative rationale. It does not claim private design decisions that were not available in the supplied sources.
 
+## Concept demonstrations — 2026-10-08
+
+Casa Miga and Lume Music extend the featured portfolio with two internal concept demos for niches the agency has been exploring: café/bakery and musical retail. Each demonstrates one video in two modes: a persistent loop behind changing page content and a take synchronized to scroll. They are clearly labeled as fictional concept brands; their product data and operations are illustrative, and no client engagement or commercial result is implied.
+
+- **Casa Miga** — [loop experience](https://casa-miga.vercel.app/), [scroll experience](https://casa-miga.vercel.app/scroll.html), [case route](/projetos/casa-miga), [source repository](https://github.com/oluisvi/casa-miga).
+- **Lume Music** — [loop experience](https://lume-music-tan.vercel.app/), [scroll experience](https://lume-music-tan.vercel.app/scroll.html), [case route](/projetos/lume-music), [source repository](https://github.com/oluisvi/lume-music).
+
 ## Latest identity / interaction patch
 
 - Uses the supplied official `logo.svg` in the fixed header.
