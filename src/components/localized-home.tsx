@@ -22,9 +22,9 @@ export function LocalizedHome({ locale }: { locale: Locale }) {
       <Header locale={locale} copy={copy} />
       <main>
         <Hero copy={copy.hero} />
+        <Projects locale={locale} copy={copy} />
         <Outcomes locale={locale} copy={copy.outcomes} />
         <Services locale={locale} copy={copy.services} />
-        <Projects locale={locale} copy={copy} />
         <Process locale={locale} copy={copy.process} />
         <About locale={locale} copy={copy.about} />
         <FAQ locale={locale} copy={copy.faq} />

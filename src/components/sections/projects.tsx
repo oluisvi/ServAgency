@@ -6,6 +6,7 @@ import {
   ImageIcon,
   Sparkles,
 } from "lucide-react";
+import Link from "next/link";
 import { flagshipProjects, type PortfolioProject } from "@/content/site";
 import type { Locale } from "@/i18n/config";
 import type { SiteCopy } from "@/i18n/copy";
@@ -84,7 +85,7 @@ function ProjectArtwork({ project, index, copy }: { project: PortfolioProject; i
   );
 }
 
-export function Projects({ copy }: { locale: Locale; copy: SiteCopy }) {
+export function Projects({ locale, copy }: { locale: Locale; copy: SiteCopy }) {
   const total = String(flagshipProjects.length).padStart(2, "0");
 
   return (
@@ -97,6 +98,12 @@ export function Projects({ copy }: { locale: Locale; copy: SiteCopy }) {
           </div>
           <p>
             {copy.projects.body}
+            <span className="actions project-catalog-action">
+              <Link href="/projetos" data-carousel-interactive>
+                {locale === "en" ? "Browse all 40 experiences" : "Ver catálogo completo · 40 experiências"}
+                <ArrowUpRight aria-hidden="true" />
+              </Link>
+            </span>
           </p>
         </div>
 

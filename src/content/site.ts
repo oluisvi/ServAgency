@@ -1,11 +1,11 @@
 import { Bot, ChartNoAxesCombined, Cuboid, Globe2, Search } from "lucide-react"
 
 export const navigation = [
-  { label: "Soluções", href: "#solucoes" },
-  { label: "Projetos", href: "#projetos" },
-  { label: "Processo", href: "#processo" },
-  { label: "Studio", href: "#sobre" },
-  { label: "Contato", href: "#contato" },
+  { label: "Soluções", href: "/#solucoes" },
+  { label: "Projetos", href: "/projetos" },
+  { label: "Processo", href: "/#processo" },
+  { label: "Studio", href: "/#sobre" },
+  { label: "Contato", href: "/#contato" },
 ] as const;
 
 export const outcomes = [
